@@ -1,4 +1,4 @@
-# shanten-algo-collection
+# shanten-algorithm-collection
 
 シャンテン数計算アルゴリズム集
 
