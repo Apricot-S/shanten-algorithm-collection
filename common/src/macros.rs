@@ -1,5 +1,3 @@
-//! This module provides macros for testing shanten calculations.
-
 #[macro_export]
 macro_rules! shanten_test_case {
     ($calculator_type:ty, $hand:expr, $expected:expr) => {
@@ -14,18 +12,14 @@ macro_rules! shanten_tests {
         #[cfg(test)]
         mod tests {
             use super::*;
+            use $crate::TileCountsExt;
             use $crate::shanten_test_case;
 
             #[test]
             fn test_shanten_thirteen_orphans() {
                 shanten_test_case!(
                     $calculator_type,
-                    [
-                        2, 0, 0, 0, 0, 0, 0, 0, 1, // m
-                        1, 0, 0, 0, 0, 0, 0, 0, 1, // p
-                        1, 0, 0, 0, 0, 0, 0, 0, 1, // s
-                        1, 1, 1, 1, 1, 1, 1, // z
-                    ],
+                    TileCounts::from_code("119m19p19s1234567z"),
                     7
                 );
             }
