@@ -19,7 +19,7 @@ macro_rules! shanten_tests {
             fn test_shanten_thirteen_orphans() {
                 shanten_test_case!(
                     $calculator_type,
-                    TileCounts::from_code("119m19p19s1234567z"),
+                    TileCounts::from_code("11m19p19s1234567z"),
                     7
                 );
             }
@@ -28,12 +28,7 @@ macro_rules! shanten_tests {
             fn test_shanten_thirteen_wait_thirteen_orphans() {
                 shanten_test_case!(
                     $calculator_type,
-                    [
-                        1, 0, 0, 0, 0, 0, 0, 0, 1, // m
-                        1, 0, 0, 0, 0, 0, 0, 0, 1, // p
-                        1, 0, 0, 0, 0, 0, 0, 0, 1, // s
-                        1, 1, 1, 1, 1, 1, 1, // z
-                    ],
+                    TileCounts::from_code("19m19p19s1234567z"),
                     8
                 );
             }
@@ -42,12 +37,7 @@ macro_rules! shanten_tests {
             fn test_shanten_tenpai() {
                 shanten_test_case!(
                     $calculator_type,
-                    [
-                        1, 1, 1, 0, 0, 0, 0, 0, 0, // m
-                        0, 0, 0, 1, 1, 1, 0, 0, 0, // p
-                        0, 0, 0, 0, 0, 0, 1, 1, 1, // s
-                        2, 2, 0, 0, 0, 0, 0, // z
-                    ],
+                    TileCounts::from_code("123m456p789s1122z"),
                     0
                 );
             }
@@ -56,12 +46,7 @@ macro_rules! shanten_tests {
             fn test_shanten_tenpai_win() {
                 shanten_test_case!(
                     $calculator_type,
-                    [
-                        1, 1, 1, 0, 0, 0, 0, 0, 0, // m
-                        0, 0, 0, 1, 1, 1, 0, 0, 0, // p
-                        0, 0, 0, 0, 0, 0, 1, 1, 1, // s
-                        2, 3, 0, 0, 0, 0, 0, // z
-                    ],
+                    TileCounts::from_code("123m456p789s11222z"),
                     -1
                 );
             }

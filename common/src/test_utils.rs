@@ -54,6 +54,13 @@ mod tests {
     }
 
     #[test]
+    fn test_from_code_empty() {
+        let counts = TileCounts::from_code("");
+        let expected_counts: TileCounts = [0u8; 34];
+        assert_eq!(counts, expected_counts);
+    }
+
+    #[test]
     #[should_panic(expected = "no type specified before the tile number")]
     fn test_from_code_no_type() {
         TileCounts::from_code("123456");
