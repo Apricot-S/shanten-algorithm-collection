@@ -124,7 +124,7 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
     max
 }
 
-fn count_honor_num_blocks(honor_hand: &mut [TileCount]) -> NumBlocks {
+fn count_honor_num_blocks(honor_hand: &[TileCount]) -> NumBlocks {
     let mut num_meld = 0;
     let mut num_meld_cand = 0;
     let mut num_isolated = 0;
@@ -149,7 +149,7 @@ fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool) -> i8 {
     let num_blocks_m = count_suit_num_blocks(&mut hand[0..9], 0);
     let num_blocks_p = count_suit_num_blocks(&mut hand[9..18], 0);
     let num_blocks_s = count_suit_num_blocks(&mut hand[18..27], 0);
-    let z = count_honor_num_blocks(&mut hand[27..34]);
+    let z = count_honor_num_blocks(&hand[27..34]);
 
     let required_num_blocks = hand.iter().sum::<TileCount>() / 3;
     let num_call = (4 - required_num_blocks) as i8;
