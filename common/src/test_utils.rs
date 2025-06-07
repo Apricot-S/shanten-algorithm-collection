@@ -15,7 +15,7 @@ pub trait TileCountsExt {
     ///
     /// # Returns
     ///
-    /// * Returns the [TileCounts] struct representing the hand's tile counts.
+    /// The [TileCounts] struct representing the hand's tile counts.
     fn from_code(hand: &str) -> TileCounts;
 }
 
