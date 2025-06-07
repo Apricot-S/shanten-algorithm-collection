@@ -5,8 +5,6 @@ Shanten Number Calculation Algorithm Collection
 This project is a collection for implementing and comparing multiple algorithms to calculate the shanten number (the minimum number of tile replacements needed to reach a winning hand).  
 It provides a common interface and test macros to make it easy to implement and verify each algorithm.
 
-For details of each algorithm, please refer to the README of each subcrate.
-
 ## Module Overview
 
 - [`common`](common)  
@@ -18,8 +16,7 @@ For details of each algorithm, please refer to the README of each subcrate.
   Useful as a reference for implementation and test macro usage.
 
 - Other subcrates  
-  Contains various implementations of shanten number calculation algorithms.  
-  For details, see the README of each subcrate.
+  Contains various implementations of shanten number calculation algorithms.
 
 ## Usage
 
