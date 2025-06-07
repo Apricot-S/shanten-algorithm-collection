@@ -14,7 +14,7 @@ This subcrate implements the shanten number calculation algorithm devised by [Sa
   to  
     `13 - (number of meld) * 3 - (number of meld candidate) * 2 - (number of isolated tiles)`  
   to support cases such as shanten numbers for specific yaku and other cases where not all tiles in the hand are used.
-- After extracting meld from the hand, the algorithm uses properties of the count of tiles to determine the number of meld candidate, eliminating the need for explicit meld candidate decomposition.
+- After extracting meld from the hand, the algorithm uses properties of the count of tiles to determine the number of meld candidate, eliminating the need for explicit meld candidate extraction.
 - Since isolated tiles are not explicitly identified, the algorithm does not correctly calculate the shanten number for hands lacking sufficient isolated tiles.
   - For more details on hands lacking sufficient isolated tiles, see [ブロック分解方式向聴数計算アルゴリズムの精度の検証](https://zenn.dev/tomohxx/articles/aecace4e3a3bc1).
 
