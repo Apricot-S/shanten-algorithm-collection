@@ -22,6 +22,13 @@ It provides a common interface and test macros to make it easy to implement and 
 
 1. To add a new algorithm, create a directory as a subcrate and implement the `common::ShantenCalculator` trait.
 2. For testing, you can use the `common::shanten_tests!` macro to automatically generate standard test cases.
+3. To run the tests for your algorithm, execute the following command:
+
+    ```sh
+    cargo test --package your_algorithm
+    ```
+
+   Replace `your_algorithm` with the name of your subcrate.
 
 ### Example Implementation
 
