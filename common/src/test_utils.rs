@@ -4,7 +4,6 @@ use crate::types::TileCounts;
 ///
 /// This trait is intended for internal use in macros and test utilities.
 /// Algorithm implementers do not need to use this trait directly.
-
 pub trait TileCountsExt {
     /// Converts a Tenhou-style hand string into an array representing
     /// the counts of 34 types of tiles.
