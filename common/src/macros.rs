@@ -85,7 +85,7 @@ macro_rules! shanten_tests {
             }
 
             #[test]
-            fn test_shanten_tenpai_win() {
+            fn test_shanten_win() {
                 shanten_test_case!(
                     $calculator_type,
                     TileCounts::from_code("123m456p789s11222z"),
