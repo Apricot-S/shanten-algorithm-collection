@@ -180,7 +180,7 @@ impl ShantenCalculator for DecompKobayashi {
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
         let required_num_blocks = (hand.iter().sum::<TileCount>() / 3) as i8;
-        let mut hand_clone = hand.clone();
+        let mut hand_clone = *hand;
 
         // Calculate the shanten number without a pair
         let mut min = calculate_shanten_impl(&mut hand_clone, false, required_num_blocks);
