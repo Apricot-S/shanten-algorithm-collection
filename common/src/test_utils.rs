@@ -16,6 +16,9 @@ impl TileCountsExt for TileCounts {
             if let Some(&(_, idx)) = TILE_MAP.iter().find(|&&(t, _)| t == c) {
                 current_type = Some(idx);
             } else if let Some(d) = c.to_digit(10) {
+                if !(1..=9).contains(&d) {
+                    panic!("tile number must be between 1 and 9, got {}", d);
+                }
                 let base = current_type.expect("no type specified before the tile number");
                 let offset = d as usize - 1;
                 result[base + offset] += 1;
@@ -64,6 +67,13 @@ mod tests {
     #[should_panic(expected = "no type specified before the tile number")]
     fn test_from_code_no_type() {
         TileCounts::from_code("123456");
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_from_code_offset_out_of_range_number() {
+        // 0m does not exist
+        TileCounts::from_code("0m");
     }
 
     #[test]
