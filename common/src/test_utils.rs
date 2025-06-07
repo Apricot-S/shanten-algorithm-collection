@@ -1,8 +1,21 @@
 use crate::types::TileCounts;
 
+/// Extension trait for [TileCounts] to support conversion from Tenhou-style hand strings.
+///
+/// This trait is intended for internal use in macros and test utilities.
+/// Algorithm implementers do not need to use this trait directly.
+
 pub trait TileCountsExt {
     /// Converts a Tenhou-style hand string into an array representing
     /// the counts of 34 types of tiles.
+    ///
+    /// # Arguments
+    ///
+    /// * `hand` - A string representing the hand (e.g., "123m456p789s12344z")
+    ///
+    /// # Returns
+    ///
+    /// * Returns the [TileCounts] struct representing the hand's tile counts.
     fn from_code(hand: &str) -> TileCounts;
 }
 
