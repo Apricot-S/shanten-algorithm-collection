@@ -13,9 +13,11 @@ pub trait ShantenCalculator {
     /// Calculates the shanten number of a hand.
     ///
     /// # Arguments
+    ///
     /// * `hand` - Reference to a [TileCounts] struct representing the hand's tile counts
     ///
     /// # Returns
+    ///
     /// * Returns the shanten number as an integer.
     /// * Return `0` for tenpai (ready hand), and `-1` for a winning hand.
     fn calculate_shanten(&self, hand: &TileCounts) -> i8;

@@ -1,3 +1,15 @@
+/// Macro for a single shanten number calculation test case.
+///
+/// # Arguments
+///
+/// * `$calculator_type` - The type implementing `ShantenCalculator`
+/// * `$hand` - The hand to test (as a `TileCounts`)
+/// * `$expected` - The expected shanten number
+///
+/// # Note
+///
+/// This macro is exported for use in other macros, but users should not call it directly.
+/// Please use [`shanten_tests!`] to generate test cases.
 #[macro_export]
 macro_rules! shanten_test_case {
     ($calculator_type:ty, $hand:expr, $expected:expr) => {
@@ -6,6 +18,36 @@ macro_rules! shanten_test_case {
     };
 }
 
+/// Macro to generate a set of shanten number calculation tests for a calculator type.
+///
+/// This macro defines several typical test cases as unit tests.
+/// Call this macro at the crate root or in your implementation file to automatically
+/// generate tests for your `ShantenCalculator` implementation.
+/// (Do not wrap it in your own `mod tests`.)
+///
+/// # Arguments
+///
+/// * `$calculator_type` - The type implementing `ShantenCalculator`
+///
+/// # Example
+///
+/// ```
+/// use common::shanten_tests;
+/// use common::{ShantenCalculator, TileCounts};
+///
+/// struct Dummy {}
+///
+/// impl ShantenCalculator for Dummy {
+///     fn new() -> Self {
+///         Dummy {}
+///     }
+///     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
+///         0
+///     }
+/// }
+///
+/// shanten_tests!(Dummy);
+/// ```
 #[macro_export]
 macro_rules! shanten_tests {
     ($calculator_type:ty) => {
