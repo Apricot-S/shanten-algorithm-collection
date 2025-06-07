@@ -1,8 +1,8 @@
 /// Maximum number of identical tiles
-pub const MAX_TILE_COUNT: i8 = 4;
+pub const MAX_NUM_TILE: i8 = 4;
 
 /// Number of tile types
-pub const TILE_TYPE_COUNT: i8 = 34;
+pub const NUM_TILE_TYPE: i8 = 34;
 
 /// Minimum number of tiles in a hand
 pub const MIN_HAND_SIZE: i8 = 1;

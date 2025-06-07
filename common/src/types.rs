@@ -1,4 +1,4 @@
-use crate::constants::TILE_TYPE_COUNT;
+use crate::constants::NUM_TILE_TYPE;
 
 /// Count of tiles.
 pub type TileCount = u8;
@@ -23,4 +23,4 @@ pub type TileCount = u8;
 /// | Index | 27        | 28         | 29        | 30         | 31         | 32         | 33       |
 /// | ----- | --------- | ---------- | --------- | ---------- | ---------- | ---------- | -------- |
 /// | Tile  | East (1z) | South (2z) | West (3z) | North (4z) | White (5z) | Green (6z) | Red (7z) |
-pub type TileCounts = [TileCount; TILE_TYPE_COUNT as usize];
+pub type TileCounts = [TileCount; NUM_TILE_TYPE as usize];
