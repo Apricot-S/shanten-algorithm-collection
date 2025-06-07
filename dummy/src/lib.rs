@@ -5,14 +5,14 @@ struct Dummy {}
 
 impl ShantenCalculator for Dummy {
     fn new() -> Self {
-        Dummy {} // ダミー実装のため、特に初期化は行わない
+        Dummy {} // No special initialization for dummy implementation
     }
 
-    /// シャンテン数を計算するダミー実装
+    /// Dummy implementation for calculating shanten number
     fn calculate_shanten(&self, _hand: &TileCounts) -> i8 {
-        0 // ダミー実装
+        0 // Dummy implementation
     }
 }
 
-// マクロを使用してテストケースを定義
+// Generate test cases using macro
 shanten_tests!(Dummy);
