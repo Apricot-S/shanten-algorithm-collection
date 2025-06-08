@@ -22,22 +22,36 @@ macro_rules! shanten_benches {
             use test::Bencher;
             use $crate::{ShantenCalculator, TileCounts};
 
-            fn read_hand_indices<I: Iterator<Item = String>>(mut lines: I) -> Vec<TileCounts> {
-                let mut hands = Vec::new();
+            fn parse_hands<I: Iterator<Item = String>>(mut lines: I) -> Vec<TileCounts> {
+                const NUM_CASES: usize = 10_000;
+                let mut hands = Vec::with_capacity(NUM_CASES);
                 while let Some(line) = lines.next() {
                     let tokens: Vec<_> = line
                         .split_whitespace()
                         .filter_map(|s| s.parse::<usize>().ok())
                         .collect();
-                    if tokens.len() < 14 {
-                        continue;
+                    if tokens.len() != 14 {
+                        panic!(
+                            "invalid input line: expected 14 tokens, got {}: '{}'",
+                            tokens.len(),
+                            line
+                        );
                     }
                     let mut counts = [0u8; 34];
-                    for &tid in &tokens[0..14] {
+                    for &tid in &tokens {
                         counts[tid] += 1;
                     }
                     hands.push(counts);
                 }
+
+                if hands.len() != NUM_CASES {
+                    panic!(
+                        "invalid input file: expected {} lines, got {}",
+                        NUM_CASES,
+                        hands.len()
+                    );
+                }
+
                 hands
             }
 
@@ -45,7 +59,7 @@ macro_rules! shanten_benches {
                 let path = std::path::Path::new(filename);
                 let file = File::open(&path).expect(&format!("hands file not found: {:?}", path));
                 let lines = BufReader::new(file).lines().filter_map(Result::ok);
-                read_hand_indices(lines)
+                parse_hands(lines)
             }
 
             #[bench]
