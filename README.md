@@ -24,7 +24,7 @@ It outputs 10,000 cases each for four types of 14-tile hands (normal, half-flush
 An example implementation of a dummy shanten number calculation algorithm.
 Useful as a reference for implementation and test macro usage.
 
-### Other subcrates
+### [algorithms](algorithms)
 
 Contains various implementations of shanten number calculation algorithms.
 
@@ -33,7 +33,7 @@ Contains various implementations of shanten number calculation algorithms.
 1. To add a new algorithm, first create a directory as a subcrate using the following command:
 
     ```sh
-    cargo new --lib your_algorithm
+    cargo new --lib algorithms/your_algorithm
     ```
 
    Replace `your_algorithm` with the desired subcrate name.

@@ -6,5 +6,5 @@ members = [
     "dummy",
     "handgen",
 
-    "decomp_kobayashi",
+    "algorithms/decomp_kobayashi",
 ]
