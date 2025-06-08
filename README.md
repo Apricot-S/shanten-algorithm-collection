@@ -7,11 +7,11 @@ It provides a common interface and test macros to make it easy to implement and 
 
 ## Module Overview
 
-- [`common`](common)  
+- [common](common)  
   A common library for implementing shanten number calculation algorithms.  
   Provides traits, types, and test macros required for algorithm implementation.
 
-- [`dummy`](dummy)  
+- [dummy](dummy)  
   An example implementation of a dummy shanten number calculation algorithm.  
   Useful as a reference for implementation and test macro usage.
 
@@ -20,9 +20,17 @@ It provides a common interface and test macros to make it easy to implement and 
 
 ## Usage
 
-1. To add a new algorithm, create a directory as a subcrate and implement the `common::ShantenCalculator` trait.
-2. For testing, you can use the `common::shanten_tests!` macro to automatically generate standard test cases.
-3. To run the tests for your algorithm, execute the following command:
+1. To add a new algorithm, first create a directory as a subcrate using the following command:
+
+    ```sh
+    cargo new --lib your_algorithm
+    ```
+
+   Replace `your_algorithm` with the desired subcrate name.
+
+2. Next, implement the `common::ShantenCalculator` trait in your subcrate.
+3. For testing, you can use the `common::shanten_tests!` macro to automatically generate standard test cases.
+4. To run the tests for your algorithm, execute the following command:
 
     ```sh
     cargo test --package your_algorithm
