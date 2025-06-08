@@ -57,21 +57,25 @@ Contains various implementations of shanten number calculation algorithms.
 ### Example Implementation
 
 ```rust
-use common::shanten_tests;
+#![feature(test)]
+
+extern crate test;
+
 use common::{ShantenCalculator, TileCounts};
+use common::{shanten_benches, shanten_tests};
 
-struct MyAlgorithm {}
+struct YourAlgorithm {}
 
-impl ShantenCalculator for MyAlgorithm {
-    fn new() -> Self { MyAlgorithm {} }
+impl ShantenCalculator for YourAlgorithm {
+    fn new() -> Self { YourAlgorithm {} }
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
         // Algorithm implementation
         0
     }
 }
 
-// Automatically generate test cases
-shanten_tests!(MyAlgorithm);
+shanten_tests!(YourAlgorithm);
+shanten_benches!(YourAlgorithm);
 ```
 
 ## License
