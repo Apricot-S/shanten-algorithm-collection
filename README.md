@@ -10,11 +10,15 @@ For a detailed definition of the shanten number, please refer to [結局のと�
 ## Components
 
 - [common](common)  
-  A common library for implementing shanten number calculation algorithms.  
+  A common library for implementing shanten number calculation algorithms.
   Provides traits, types, and test macros required for algorithm implementation.
 
+- [handgen](handgen)  
+  A utility for generating random mahjong hands for benchmarking.
+  It outputs 10,000 cases each for four types of 14-tile hands (normal, half-flush, full-flush, thirteen-orphans) as text files, where each hand is represented as an array of 14 tile indices (0–33).
+
 - [dummy](dummy)  
-  An example implementation of a dummy shanten number calculation algorithm.  
+  An example implementation of a dummy shanten number calculation algorithm.
   Useful as a reference for implementation and test macro usage.
 
 - Other subcrates  

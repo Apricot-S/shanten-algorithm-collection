@@ -4,6 +4,7 @@ resolver = "3"
 members = [
     "common",
     "dummy",
+    "handgen",
 
     "decomp_kobayashi",
 ]
