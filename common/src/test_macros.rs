@@ -2,7 +2,7 @@
 ///
 /// # Arguments
 ///
-/// * `$calculator_type` - The type implementing `ShantenCalculator`
+/// * `$calculator_type` - A type that implements the `ShantenCalculator` trait
 /// * `$hand` - The hand to test (as a `TileCounts`)
 /// * `$expected` - The expected shanten number
 ///
@@ -22,7 +22,7 @@ macro_rules! shanten_test_case {
     };
 }
 
-/// Macro to generate a set of shanten number calculation tests for a calculator type.
+/// Macro to generate shanten number calculation tests for a specified `ShantenCalculator` type.
 ///
 /// This macro defines several typical test cases as unit tests.
 /// Call this macro at the crate root or in your implementation file to automatically
@@ -31,7 +31,7 @@ macro_rules! shanten_test_case {
 ///
 /// # Arguments
 ///
-/// * `$calculator_type` - The type implementing `ShantenCalculator`
+/// * `$calculator_type` - A type that implements the `ShantenCalculator` trait
 ///
 /// # Example
 ///
