@@ -25,7 +25,7 @@ fn generate_half_flush_hand(rng: &mut impl Rng) -> [u8; HAND_SIZE] {
     let color_start = [0, 9, 18].choose(rng).unwrap();
     let suits: [u8; 9 * 4] = std::array::from_fn(|i| (i / 4 + color_start) as u8);
     let honors: [u8; 7 * 4] = std::array::from_fn(|i| (i / 4 + 27) as u8);
-    let mut combined = suits.into_iter().chain(honors.into_iter());
+    let mut combined = suits.into_iter().chain(honors);
     let mut wall: [u8; 36 + 28] = std::array::from_fn(|_| combined.next().unwrap());
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
