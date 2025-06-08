@@ -29,7 +29,7 @@ impl TileCountsExt for TileCounts {
                 current_type = Some(idx);
             } else if let Some(d) = c.to_digit(10) {
                 if !(1..=9).contains(&d) {
-                    panic!("tile number must be between 1 and 9, got {}", d);
+                    panic!("tile number must be between 1 and 9, got {d}");
                 }
                 let base = current_type.expect("no type specified before the tile number");
                 let offset = d as usize - 1;
