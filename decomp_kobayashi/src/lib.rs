@@ -145,13 +145,13 @@ fn count_honor_num_blocks(honor_hand: &[TileCount]) -> NumBlocks {
     }
 }
 
-fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, required_num_blocks: i8) -> i8 {
+fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, required_num_meld: i8) -> i8 {
     let num_blocks_m = count_suit_num_blocks(&mut hand[0..9], 0);
     let num_blocks_p = count_suit_num_blocks(&mut hand[9..18], 0);
     let num_blocks_s = count_suit_num_blocks(&mut hand[18..27], 0);
     let z = count_honor_num_blocks(&hand[27..34]);
 
-    let num_call = 4 - required_num_blocks;
+    let num_call = 4 - required_num_meld;
     let mut min = 13;
 
     for m in [&num_blocks_m.a, &num_blocks_m.b] {
@@ -179,17 +179,17 @@ impl ShantenCalculator for DecompKobayashi {
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
-        let required_num_blocks = (hand.iter().sum::<TileCount>() / 3) as i8;
+        let required_num_meld = (hand.iter().sum::<TileCount>() / 3) as i8;
         let mut hand_clone = *hand;
 
         // Calculate the shanten number without a pair
-        let mut min = calculate_shanten_impl(&mut hand_clone, false, required_num_blocks);
+        let mut min = calculate_shanten_impl(&mut hand_clone, false, required_num_meld);
 
         // Remove a possible pair and calculate the shanten number with a pair
         for n in 0..NUM_TILE_TYPE {
             if hand_clone[n as usize] >= 2 {
                 hand_clone[n as usize] -= 2;
-                let temp = calculate_shanten_impl(&mut hand_clone, true, required_num_blocks);
+                let temp = calculate_shanten_impl(&mut hand_clone, true, required_num_meld);
                 hand_clone[n as usize] += 2;
                 min = min.min(temp);
             }
