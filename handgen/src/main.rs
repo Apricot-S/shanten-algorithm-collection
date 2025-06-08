@@ -75,10 +75,13 @@ fn main() -> std::io::Result<()> {
         non_simple_cases.push(generate_non_simple_hand(&mut rng));
     }
 
-    write_cases("hands_normal_10000.txt", &normal_cases)?;
-    write_cases("hands_half_flush_10000.txt", &honitsu_cases)?;
-    write_cases("hands_full_flush_10000.txt", &chinitsu_cases)?;
-    write_cases("hands_thirteen_orphans_10000.txt", &non_simple_cases)?;
+    write_cases("resources/hands_normal_10000.txt", &normal_cases)?;
+    write_cases("resources/hands_half_flush_10000.txt", &honitsu_cases)?;
+    write_cases("resources/hands_full_flush_10000.txt", &chinitsu_cases)?;
+    write_cases(
+        "resources/hands_thirteen_orphans_10000.txt",
+        &non_simple_cases,
+    )?;
 
     Ok(())
 }
