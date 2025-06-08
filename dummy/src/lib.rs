@@ -1,5 +1,9 @@
-use common::shanten_tests;
+#![feature(test)]
+
+extern crate test;
+
 use common::{ShantenCalculator, TileCounts};
+use common::{shanten_benches, shanten_tests};
 
 struct Dummy {}
 
@@ -16,3 +20,6 @@ impl ShantenCalculator for Dummy {
 
 // Generate test cases using macro
 shanten_tests!(Dummy);
+
+// Generate benchmarks using macro
+shanten_benches!(Dummy);

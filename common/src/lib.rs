@@ -17,6 +17,7 @@
 
 #![warn(missing_docs)]
 
+mod bench_macros;
 mod constants;
 mod test_macros;
 mod test_utils;

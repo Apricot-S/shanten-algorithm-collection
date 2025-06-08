@@ -1,5 +1,9 @@
-use common::shanten_tests;
+#![feature(test)]
+
+extern crate test;
+
 use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
+use common::{shanten_benches, shanten_tests};
 
 fn formula(mut num_meld: i8, mut num_meld_cand: i8, mut num_isolated: i8, has_pair: bool) -> i8 {
     let num_blocks = if has_pair { 4 } else { 5 };
@@ -200,3 +204,4 @@ impl ShantenCalculator for DecompKobayashi {
 }
 
 shanten_tests!(DecompKobayashi);
+shanten_benches!(DecompKobayashi);
