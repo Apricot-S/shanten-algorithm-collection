@@ -37,13 +37,19 @@ Contains various implementations of shanten number calculation algorithms.
     ```
 
    Replace `your_algorithm` with the desired subcrate name.
-
 2. Next, implement the `common::ShantenCalculator` trait in your subcrate.
 3. For testing, you can use the `common::shanten_tests!` macro to automatically generate standard test cases.
 4. To run the tests for your algorithm, execute the following command:
 
     ```sh
-    cargo test --package your_algorithm
+    cargo +nightly test --package your_algorithm
+    ```
+
+   Replace `your_algorithm` with the name of your subcrate.
+5. To run the benchmarks for your algorithm, execute the following command:
+
+    ```sh
+    cargo +nightly bench --package your_algorithm
     ```
 
    Replace `your_algorithm` with the name of your subcrate.
