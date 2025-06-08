@@ -18,7 +18,7 @@
 #![warn(missing_docs)]
 
 mod constants;
-mod macros;
+mod test_macros;
 mod test_utils;
 mod traits;
 mod types;
