@@ -5,6 +5,8 @@ Shanten Number Calculation Algorithm Collection
 This project is a collection for implementing and comparing multiple algorithms to calculate the shanten number (the minimum number of tile replacements needed to reach a winning hand).  
 It provides a common interface and test macros to make it easy to implement and verify each algorithm.
 
+For a detailed definition of the shanten number, please refer to [結局のところ，麻雀における向聴数とは数学的かつ構成的にどう定義されるのか？ #数学 - Qiita](https://qiita.com/Cryolite/items/40908d0bce2bac310717).
+
 ## Components
 
 - [common](common)  
