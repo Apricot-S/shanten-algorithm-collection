@@ -17,7 +17,7 @@ Provides traits, types, and test macros required for algorithm implementation.
 ### [handgen](handgen)
 
 A utility for generating random mahjong hands for benchmarking.
-It outputs 10,000 cases each for four types of 14-tile hands (normal, half-flush, full-flush, thirteen-orphans) as text files, where each hand is represented as an array of 14 tile indices (0–33).
+It outputs 10,000 cases each for four types of 14-tile hands (normal, half flush, full flush, thirteen orphans) as text files, where each hand is represented as an array of 14 tile indices (0–33).
 
 ### [dummy](dummy)
 
