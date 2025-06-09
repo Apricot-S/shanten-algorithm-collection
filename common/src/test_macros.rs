@@ -195,6 +195,48 @@ macro_rules! shanten_tests {
             fn test_shanten_4_honors_4() {
                 shanten_test_case!($calculator_type, "123m11p11112222z", 2);
             }
+
+            #[test]
+            fn test_shanten_lack_isolated_tile_13_4333() {
+                // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
+                shanten_test_case!($calculator_type, "1111222333444z", 1);
+            }
+
+            #[test]
+            fn test_shanten_lack_isolated_tile_13_4432i() {
+                // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
+                shanten_test_case!($calculator_type, "11m11112222333z", 2);
+            }
+
+            #[test]
+            fn test_shanten_lack_isolated_tile_13_4432ii() {
+                // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
+                shanten_test_case!($calculator_type, "23m11112222333z", 2);
+            }
+
+            #[test]
+            fn test_shanten_lack_isolated_tile_13_4441() {
+                // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
+                shanten_test_case!($calculator_type, "1111222233334z", 3);
+            }
+
+            #[test]
+            fn test_shanten_lack_isolated_tile_14_4433() {
+                // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
+                shanten_test_case!($calculator_type, "11112222333444z", 1);
+            }
+
+            #[test]
+            fn test_shanten_lack_isolated_tile_14_4442i() {
+                // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
+                shanten_test_case!($calculator_type, "11m111122223333z", 2);
+            }
+
+            #[test]
+            fn test_shanten_lack_isolated_tile_14_4442ii() {
+                // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
+                shanten_test_case!($calculator_type, "23m111122223333z", 2);
+            }
         }
     };
 }
