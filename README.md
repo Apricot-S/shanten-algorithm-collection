@@ -2,7 +2,7 @@
 
 Shanten Number Calculation Algorithm Collection
 
-This project is a collection for implementing and comparing multiple algorithms to calculate the shanten number (向聴数).  
+This project is a collection for implementing and comparing multiple algorithms to calculate the shanten number (向聴数).
 It provides a common interface and test macros to make it easy to implement and verify each algorithm.
 
 > [!IMPORTANT]
