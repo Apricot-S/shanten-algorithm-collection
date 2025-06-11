@@ -5,23 +5,22 @@ use rand::{Rng, SeedableRng};
 use std::fs::File;
 use std::io::{BufWriter, Write};
 
-const HAND_SIZE: usize = MAX_HAND_SIZE as usize;
-const NUM_WALL: usize = (NUM_TILE_TYPE as usize) * (MAX_NUM_TILE as usize);
+const NUM_WALL: usize = NUM_TILE_TYPE * MAX_NUM_TILE;
 const NUM_CASES: usize = 10_000;
 
-fn draw_tiles(wall: &[u8]) -> [u8; HAND_SIZE] {
-    let mut hand = [0u8; HAND_SIZE];
-    hand.copy_from_slice(&wall[..HAND_SIZE]);
+fn draw_tiles(wall: &[u8]) -> [u8; MAX_HAND_SIZE] {
+    let mut hand = [0u8; MAX_HAND_SIZE];
+    hand.copy_from_slice(&wall[..MAX_HAND_SIZE]);
     hand
 }
 
-fn generate_normal_hand(rng: &mut impl Rng) -> [u8; HAND_SIZE] {
+fn generate_normal_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
     let mut wall: [u8; NUM_WALL] = std::array::from_fn(|i| (i / 4) as u8);
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
 }
 
-fn generate_half_flush_hand(rng: &mut impl Rng) -> [u8; HAND_SIZE] {
+fn generate_half_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
     let color_start = [0, 9, 18].choose(rng).unwrap();
     let suits: [u8; 9 * 4] = std::array::from_fn(|i| (i / 4 + color_start) as u8);
     let honors: [u8; 7 * 4] = std::array::from_fn(|i| (i / 4 + 27) as u8);
@@ -31,21 +30,21 @@ fn generate_half_flush_hand(rng: &mut impl Rng) -> [u8; HAND_SIZE] {
     draw_tiles(wall.as_slice())
 }
 
-fn generate_full_flush_hand(rng: &mut impl Rng) -> [u8; HAND_SIZE] {
+fn generate_full_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
     let color_start = [0, 9, 18].choose(rng).unwrap();
     let mut wall: [u8; 9 * 4] = std::array::from_fn(|i| (i / 4 + color_start) as u8);
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
 }
 
-fn generate_non_simple_hand(rng: &mut impl Rng) -> [u8; HAND_SIZE] {
+fn generate_non_simple_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
     const NON_SIMPLES: [u8; 13] = [0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33];
     let mut wall: [u8; 13 * 4] = std::array::from_fn(|i| NON_SIMPLES[i % 13]);
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
 }
 
-fn write_cases(filename: &str, cases: &Vec<[u8; HAND_SIZE]>) -> std::io::Result<()> {
+fn write_cases(filename: &str, cases: &Vec<[u8; MAX_HAND_SIZE]>) -> std::io::Result<()> {
     let file = File::create(filename)?;
     let mut writer = BufWriter::new(file);
     for hand in cases {

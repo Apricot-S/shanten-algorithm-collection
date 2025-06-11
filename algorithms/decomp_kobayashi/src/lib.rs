@@ -193,10 +193,10 @@ impl ShantenCalculator for DecompKobayashi {
 
         // Remove a possible pair and calculate the shanten number with a pair
         for n in 0..NUM_TILE_TYPE {
-            if hand_clone[n as usize] >= 2 {
-                hand_clone[n as usize] -= 2;
+            if hand_clone[n] >= 2 {
+                hand_clone[n] -= 2;
                 let temp = calculate_shanten_impl(&mut hand_clone, true, num_call);
-                hand_clone[n as usize] += 2;
+                hand_clone[n] += 2;
                 min = min.min(temp);
             }
         }
