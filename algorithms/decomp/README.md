@@ -13,7 +13,7 @@
 
 Constraint:
 
-- The total number of melds and meld candidates must not exceed 4.
+- **(number of melds) + (number of meld candidates) <= 4**.
 
 Formula for shanten number:  
 **8 - (number of melds) * 2 - (number of meld candidates) - (number of pairs (0 or 1))**
