@@ -8,9 +8,9 @@
 
 - An improved version of the algorithm originally devised by [Ara](https://mahjong.ara.black/intro/selfintro.htm).
 - The formula for shanten number is changed from  
-    `8 - (number of meld) * 2 - (number of meld candidate)`  
+    `8 - (number of melds) * 2 - (number of meld candidates)`  
   to  
-    `13 - (number of meld) * 3 - (number of meld candidate) * 2 - (number of isolated tiles)`  
+    `13 - (number of melds) * 3 - (number of meld candidates) * 2 - (number of isolated tiles)`  
   to support cases such as shanten numbers for specific yaku and other cases where not all tiles in the hand are used.
 - After extracting meld from the hand, the algorithm uses properties of the count of tiles to determine the number of meld candidate, eliminating the need for explicit meld candidate extraction.
 - Since isolated tiles are not explicitly identified, the algorithm does not correctly calculate the shanten number for hands lacking sufficient isolated tiles.
