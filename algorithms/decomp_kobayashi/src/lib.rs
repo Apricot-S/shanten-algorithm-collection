@@ -5,6 +5,8 @@ extern crate test;
 use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
 use common::{shanten_benches, shanten_tests};
 
+const MAX_SHANTEN: i8 = 13;
+
 fn formula(mut num_meld: i8, mut num_meld_cand: i8, mut num_isolated: i8, has_pair: bool) -> i8 {
     let num_blocks = if has_pair { 4 } else { 5 };
     // Adjust for excess melds
@@ -25,7 +27,7 @@ fn formula(mut num_meld: i8, mut num_meld_cand: i8, mut num_isolated: i8, has_pa
     if has_pair {
         num_meld_cand += 1;
     }
-    13 - num_meld * 3 - num_meld_cand * 2 - num_isolated
+    MAX_SHANTEN - num_meld * 3 - num_meld_cand * 2 - num_isolated
 }
 
 struct NumBlocks {
@@ -156,7 +158,7 @@ fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, required_num_me
     let z = count_honor_num_blocks(&hand[27..34]);
 
     let num_call = 4 - required_num_meld;
-    let mut min = 13;
+    let mut min = MAX_SHANTEN;
 
     for m in [&num_blocks_m.a, &num_blocks_m.b] {
         for p in [&num_blocks_p.a, &num_blocks_p.b] {
