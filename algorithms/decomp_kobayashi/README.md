@@ -1,7 +1,5 @@
 # Block Decomposition - Kobayashi
 
-This subcrate implements the shanten number calculation algorithm devised by [Satoshi Kobayashi](https://github.com/kobalab).
-
 ## Devised by
 
 [Satoshi Kobayashi](https://github.com/kobalab)
