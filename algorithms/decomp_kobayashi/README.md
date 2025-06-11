@@ -11,7 +11,7 @@
 Constraint:
 
 - **(number of melds) + (number of meld candidates) <= 4**
-- **(number of melds) + (number of meld candidates) + (number of isolated tiles) <= 5 - (number of pairs (0 or 1))**
+- **(number of melds) + (number of meld candidates) + (number of pairs (0 or 1)) + (number of isolated tiles) <= 5**
 
 Formula for shanten number:  
 **13 - (number of melds) * 3 - (number of meld candidates) * 2 - (number of pairs (0 or 1)) * 2 - (number of isolated tiles)**
