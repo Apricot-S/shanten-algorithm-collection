@@ -103,21 +103,21 @@ fn cut_meld_cand(
                 && num_blocks.num_meld_cand == 1
                 && num_blocks.num_pair == 0)
         {
-            // 孤立牌不足パターン1: 孤立牌 -> 雀頭
+            // lack of isolated tiles pattern 1: isolated tile for pair
             cut_isolated_tile_for_pair(hand, original, num_blocks, min_shanten);
             return;
         } else if num_blocks.num_meld == 3
             && num_blocks.num_meld_cand == 0
             && num_blocks.num_pair == 1
         {
-            // 孤立牌不足パターン2: 孤立牌 -> 面子
+            // lack of isolated tiles pattern 2: isolated tile for meld
             cut_isolated_tile_for_meld(hand, original, num_blocks, min_shanten);
             return;
         } else if num_blocks.num_meld == 3
             && num_blocks.num_meld_cand == 0
             && num_blocks.num_pair == 0
         {
-            // 孤立牌不足パターン3: 孤立牌1 -> 雀頭, 孤立牌2 -> 面子
+            // lack of isolated tiles pattern 3: isolated tile 1 for pair, isolated tile 2 for meld
             cut_isolated_tile_for_pair_and_meld(hand, original, num_blocks, min_shanten);
             return;
         } else {
