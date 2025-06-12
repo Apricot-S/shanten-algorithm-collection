@@ -28,82 +28,82 @@ fn is_suit(index: usize) -> bool {
     index < 27
 }
 
-fn cut_meld(hand: &mut TileCounts, num_blocks: &mut NumBlocks, min_shanten: &mut i8, n: usize) {
-    if n >= NUM_TILE_TYPE {
+fn cut_meld(hand: &mut TileCounts, num_blocks: &mut NumBlocks, min_shanten: &mut i8, i: usize) {
+    if i >= NUM_TILE_TYPE {
         cut_meld_cand(hand, num_blocks, min_shanten, 0);
         return;
     }
 
     // triplet
-    if hand[n] >= 3 {
+    if hand[i] >= 3 {
         num_blocks.num_meld += 1;
-        hand[n] -= 3;
-        cut_meld(hand, num_blocks, min_shanten, n);
-        hand[n] += 3;
+        hand[i] -= 3;
+        cut_meld(hand, num_blocks, min_shanten, i);
+        hand[i] += 3;
         num_blocks.num_meld -= 1;
     }
 
     // sequence
-    if is_suit(n) && n % 9 < 7 && hand[n] > 0 && hand[n + 1] > 0 && hand[n + 2] > 0 {
+    if is_suit(i) && i % 9 < 7 && hand[i] > 0 && hand[i + 1] > 0 && hand[i + 2] > 0 {
         num_blocks.num_meld += 1;
-        hand[n] -= 1;
-        hand[n + 1] -= 1;
-        hand[n + 2] -= 1;
-        cut_meld(hand, num_blocks, min_shanten, n);
-        hand[n + 2] += 1;
-        hand[n + 1] += 1;
-        hand[n] += 1;
+        hand[i] -= 1;
+        hand[i + 1] -= 1;
+        hand[i + 2] -= 1;
+        cut_meld(hand, num_blocks, min_shanten, i);
+        hand[i + 2] += 1;
+        hand[i + 1] += 1;
+        hand[i] += 1;
         num_blocks.num_meld -= 1;
     }
 
-    cut_meld(hand, num_blocks, min_shanten, n + 1);
+    cut_meld(hand, num_blocks, min_shanten, i + 1);
 }
 
 fn cut_meld_cand(
     hand: &mut TileCounts,
     num_blocks: &mut NumBlocks,
     min_shanten: &mut i8,
-    n: usize,
+    i: usize,
 ) {
-    if n >= NUM_TILE_TYPE {
+    if i >= NUM_TILE_TYPE {
         *min_shanten = *min_shanten.min(&mut num_blocks.formula());
         return;
     }
 
     if num_blocks.get_num_blocks() < MAX_NUM_BLOCKS {
         // pair (triplet candidate)
-        if hand[n] >= 2 {
+        if hand[i] >= 2 {
             num_blocks.num_meld_cand += 1;
-            hand[n] -= 2;
-            cut_meld_cand(hand, num_blocks, min_shanten, n);
-            hand[n] += 2;
+            hand[i] -= 2;
+            cut_meld_cand(hand, num_blocks, min_shanten, i);
+            hand[i] += 2;
             num_blocks.num_meld_cand -= 1;
         }
 
         // edge joint or open joint
-        if is_suit(n) && n % 9 < 8 && hand[n] > 0 && hand[n + 1] > 0 {
+        if is_suit(i) && i % 9 < 8 && hand[i] > 0 && hand[i + 1] > 0 {
             num_blocks.num_meld_cand += 1;
-            hand[n] -= 1;
-            hand[n + 1] -= 1;
-            cut_meld_cand(hand, num_blocks, min_shanten, n);
-            hand[n + 1] += 1;
-            hand[n] += 1;
+            hand[i] -= 1;
+            hand[i + 1] -= 1;
+            cut_meld_cand(hand, num_blocks, min_shanten, i);
+            hand[i + 1] += 1;
+            hand[i] += 1;
             num_blocks.num_meld_cand -= 1;
         }
 
         // middle joint
-        if is_suit(n) && n % 9 < 7 && hand[n] > 0 && hand[n + 2] > 0 {
+        if is_suit(i) && i % 9 < 7 && hand[i] > 0 && hand[i + 2] > 0 {
             num_blocks.num_meld_cand += 1;
-            hand[n] -= 1;
-            hand[n + 2] -= 1;
-            cut_meld_cand(hand, num_blocks, min_shanten, n);
-            hand[n + 2] += 1;
-            hand[n] += 1;
+            hand[i] -= 1;
+            hand[i + 2] -= 1;
+            cut_meld_cand(hand, num_blocks, min_shanten, i);
+            hand[i + 2] += 1;
+            hand[i] += 1;
             num_blocks.num_meld_cand -= 1;
         }
     }
 
-    cut_meld_cand(hand, num_blocks, min_shanten, n + 1);
+    cut_meld_cand(hand, num_blocks, min_shanten, i + 1);
 }
 
 struct Decomp {}
@@ -126,12 +126,12 @@ impl ShantenCalculator for Decomp {
         let mut min_shanten = MAX_SHANTEN;
 
         // Remove a possible pair and calculate the shanten number with a pair
-        for n in 0..NUM_TILE_TYPE {
-            if hand_clone[n] >= 2 {
+        for i in 0..NUM_TILE_TYPE {
+            if hand_clone[i] >= 2 {
                 num_blocks.num_pair += 1;
-                hand_clone[n] -= 2;
+                hand_clone[i] -= 2;
                 cut_meld(&mut hand_clone, &mut num_blocks, &mut min_shanten, 0);
-                hand_clone[n] += 2;
+                hand_clone[i] += 2;
                 num_blocks.num_pair -= 1;
             }
         }
