@@ -83,7 +83,7 @@ fn cut_meld_cand(
 
     if num_blocks.get_num_blocks() < MAX_NUM_BLOCKS {
         // pair (triplet candidate)
-        if hand[i] >= 2 {
+        if hand[i] == 2 {
             num_blocks.num_meld_cand += 1;
             hand[i] -= 2;
             cut_meld_cand(hand, num_blocks, min_shanten, i, lower_bound);
