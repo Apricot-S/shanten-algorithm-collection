@@ -7,5 +7,7 @@ members = [
     "handgen",
 
     "algorithms/decomp",
+    "algorithms/decomp_pruned",
+    "algorithms/decomp_pruned_fixed",
     "algorithms/decomp_kobayashi",
 ]
