@@ -287,7 +287,7 @@ impl ShantenCalculator for DecompFixedPruned {
             &hand,
             &mut num_blocks,
             &mut min_shanten,
-            NUM_TILE_TYPE + 1,
+            NUM_TILE_TYPE,
             0,
         );
 
