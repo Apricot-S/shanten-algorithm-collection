@@ -18,7 +18,7 @@ Constraint:
 Formula for shanten number:  
 **8 - (number of melds) * 2 - (number of meld candidates) - (number of pairs (0 or 1))**
 
-- If there are calls, subtract **2 * (number of calls)**.
+- If there are calls, subtract **(number of calls) * 2**.
 
 ## Features
 

@@ -16,7 +16,7 @@ Constraint:
 Formula for shanten number:  
 **13 - (number of melds) * 3 - (number of meld candidates) * 2 - (number of pairs (0 or 1)) * 2 - (number of isolated tiles)**
 
-- If there are calls, subtract **3 * (number of calls)**.
+- If there are calls, subtract **(number of calls) * 3**.
 
 ## Features
 
