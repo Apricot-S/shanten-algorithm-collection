@@ -1,4 +1,4 @@
-# Block Decomposition - Pruned and Fixed
+# Block Decomposition - Fixed and Pruned
 
 ## Devised by
 

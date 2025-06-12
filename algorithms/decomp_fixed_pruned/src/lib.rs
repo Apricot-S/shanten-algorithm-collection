@@ -32,6 +32,10 @@ fn is_suit(index: usize) -> bool {
     index < 27
 }
 
+fn is_honor(index: usize) -> bool {
+    !is_suit(index)
+}
+
 fn cut_meld(hand: &mut TileCounts, num_blocks: &mut NumBlocks, min_shanten: &mut i8, n: usize) {
     if n >= NUM_TILE_TYPE {
         let lower_bound = num_blocks.calculate_lower_bound();
@@ -117,11 +121,11 @@ fn cut_meld_cand(
     cut_meld_cand(hand, num_blocks, min_shanten, n + 1, lower_bound);
 }
 
-struct DecompPrunedFixed {}
+struct DecompFixedPruned {}
 
-impl ShantenCalculator for DecompPrunedFixed {
+impl ShantenCalculator for DecompFixedPruned {
     fn new() -> Self {
-        DecompPrunedFixed {}
+        DecompFixedPruned {}
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
@@ -154,5 +158,5 @@ impl ShantenCalculator for DecompPrunedFixed {
     }
 }
 
-shanten_tests!(DecompPrunedFixed);
-shanten_benches!(DecompPrunedFixed);
+shanten_tests!(DecompFixedPruned);
+shanten_benches!(DecompFixedPruned);
