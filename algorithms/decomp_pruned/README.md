@@ -6,7 +6,7 @@
 
 > [!NOTE]
 > This implementation applies only part of tomohxx's original algorithm (specifically, the pruning optimization). The correction for miscalculations is not included, in order to isolate the effect of pruning.
-> The algorithm with all proposals applied is available in this repository as [decomp_pruned_fixed](decomp_pruned_fixed).
+> The algorithm with all proposals applied is available in this repository as [decomp_pruned_fixed](../decomp_pruned_fixed).
 
 ## Overview
 
