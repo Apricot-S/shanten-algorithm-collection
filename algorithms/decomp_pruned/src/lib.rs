@@ -39,6 +39,15 @@ fn cut_meld(hand: &mut TileCounts, num_blocks: &mut NumBlocks, min_shanten: &mut
         return;
     }
 
+    // triplet
+    if hand[n] >= 3 {
+        num_blocks.num_meld += 1;
+        hand[n] -= 3;
+        cut_meld(hand, num_blocks, min_shanten, n);
+        hand[n] += 3;
+        num_blocks.num_meld -= 1;
+    }
+
     // sequence
     if is_suit(n) && n % 9 < 7 && hand[n] > 0 && hand[n + 1] > 0 && hand[n + 2] > 0 {
         num_blocks.num_meld += 1;
@@ -49,15 +58,6 @@ fn cut_meld(hand: &mut TileCounts, num_blocks: &mut NumBlocks, min_shanten: &mut
         hand[n + 2] += 1;
         hand[n + 1] += 1;
         hand[n] += 1;
-        num_blocks.num_meld -= 1;
-    }
-
-    // triplet
-    if hand[n] >= 3 {
-        num_blocks.num_meld += 1;
-        hand[n] -= 3;
-        cut_meld(hand, num_blocks, min_shanten, n + 1);
-        hand[n] += 3;
         num_blocks.num_meld -= 1;
     }
 
