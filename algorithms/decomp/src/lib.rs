@@ -5,7 +5,7 @@ extern crate test;
 use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
 use common::{shanten_benches, shanten_tests};
 
-const MAX_BLOCKS: i8 = 4;
+const MAX_NUM_BLOCKS: i8 = 4;
 const MAX_SHANTEN: i8 = 8;
 
 struct NumBlocks {
@@ -70,7 +70,7 @@ fn cut_meld_cand(
         return;
     }
 
-    if num_blocks.get_num_blocks() < MAX_BLOCKS {
+    if num_blocks.get_num_blocks() < MAX_NUM_BLOCKS {
         // pair (triplet candidate)
         if hand[n] >= 2 {
             num_blocks.num_meld_cand += 1;
