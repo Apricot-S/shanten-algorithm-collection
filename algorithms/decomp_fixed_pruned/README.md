@@ -6,7 +6,16 @@
 
 ## Overview
 
-(TODO)
+1. Extract a pair (Note: also consider the pattern where no pair is extracted).
+2. Extract as many melds as possible.
+3. Extract as many meld candidates as possible.  
+   In this step, if the shanten number is less than or equal to **4 - (number of melds) - (number of pairs)**, further search for meld candidates is pruned.
+4. Calculate the shanten number:
+
+    - If the number of isolated tiles in the hand is lacking, add 1 to the shanten number.
+    - Store the value if it is lower than other combinations.
+
+5. Repeat for all possible combinations.
 
 Constraint:
 
