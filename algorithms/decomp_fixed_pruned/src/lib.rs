@@ -203,11 +203,13 @@ fn cut_isolated_tile_for_pair(
 ) {
     for i in 0..NUM_TILE_TYPE {
         if hand[i] > 0 && original[i] < 3 {
+            // enough isolated tiles
             *min_shanten = *min_shanten.min(&mut num_blocks.formula());
             return;
         }
     }
 
+    // lack of isolated tiles
     *min_shanten = *min_shanten.min(&mut (num_blocks.formula() + 1));
 }
 
@@ -219,11 +221,13 @@ fn cut_isolated_tile_for_meld(
 ) {
     for i in 0..NUM_TILE_TYPE {
         if (is_suit(i) && hand[i] > 0) || (is_honor(i) && hand[i] > 0 && original[i] < 3) {
+            // enough isolated tiles
             *min_shanten = *min_shanten.min(&mut num_blocks.formula());
             return;
         }
     }
 
+    // lack of isolated tiles
     *min_shanten = *min_shanten.min(&mut (num_blocks.formula() + 1));
 }
 
