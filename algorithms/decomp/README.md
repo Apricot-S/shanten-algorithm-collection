@@ -1,5 +1,9 @@
 # Block Decomposition
 
+## Devised by
+
+[麻雀C言語プログラム集](https://web.archive.org/web/20190616213620/http://cmj3.web.fc2.com/)
+
 ## Overview
 
 1. Extract a pair (Note: also consider the pattern where no pair is extracted).
