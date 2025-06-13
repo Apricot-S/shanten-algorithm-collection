@@ -121,7 +121,7 @@ fn cut_meld_cand(
             cut_isolated_tile_for_pair_and_meld(hand, original, num_blocks, min_shanten);
             return;
         } else {
-            // 孤立牌十分
+            // enough isolated tiles
             *min_shanten = *min_shanten.min(&mut num_blocks.formula());
             return;
         }
