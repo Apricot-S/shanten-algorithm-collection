@@ -274,7 +274,7 @@ impl ShantenCalculator for DecompFixedPruned {
                 hand_clone[i] -= 2;
                 cut_meld(
                     &mut hand_clone,
-                    &hand,
+                    hand,
                     &mut num_blocks,
                     &mut min_shanten,
                     i,
@@ -288,7 +288,7 @@ impl ShantenCalculator for DecompFixedPruned {
         // Calculate the shanten number without a pair
         cut_meld(
             &mut hand_clone,
-            &hand,
+            hand,
             &mut num_blocks,
             &mut min_shanten,
             NUM_TILE_TYPE,
