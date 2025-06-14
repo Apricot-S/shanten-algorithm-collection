@@ -6,7 +6,7 @@
 
 ## Overview
 
-1. Extract a pair.
+1. Extract a pair (also consider the pattern where no pair is extracted).
 2. Extract melds.
 3. Extract meld candidates.
 4. Calculate the shanten number.
