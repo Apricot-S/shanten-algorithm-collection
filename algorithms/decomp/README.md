@@ -26,7 +26,7 @@ Formula for shanten number:
 
 ## Features
 
-- Use backtracking to find all melds-meld candidates combinations for the hand.
+- Use backtracking to find all melds-meld candidates combinations.
 - Since isolated tiles are not explicitly identified, the algorithm does not correctly calculate the shanten number for hands lacking sufficient isolated tiles.
   - For more details on hands lacking sufficient isolated tiles, see [ブロック分解方式向聴数計算アルゴリズムの精度の検証](https://zenn.dev/tomohxx/articles/aecace4e3a3bc1).
 
