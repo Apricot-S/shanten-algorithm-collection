@@ -43,6 +43,18 @@ struct NumBlocksPattern {
     b: NumBlocks,
 }
 
+impl NumBlocks {
+    fn is_a_better_than(&self, other: &NumBlocks) -> bool {
+        self.num_isolated < other.num_isolated
+            || self.num_isolated == other.num_isolated && self.num_meld_cand < other.num_meld_cand
+    }
+
+    fn is_b_better_than(&self, other: &NumBlocks) -> bool {
+        self.num_meld > other.num_meld
+            || self.num_meld == other.num_meld && self.num_meld_cand > other.num_meld_cand
+    }
+}
+
 fn count_num_meld_cand(single_color_hand: &[TileCount]) -> NumBlocksPattern {
     let mut num_tiles = 0;
     let mut num_meld_cand = 0;
@@ -96,16 +108,12 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
 
         r.a.num_meld += 1;
         r.b.num_meld += 1;
-        if r.a.num_isolated < max.a.num_isolated
-            || r.a.num_isolated == max.a.num_isolated && r.a.num_meld_cand < max.a.num_meld_cand
-        {
+        if r.a.is_a_better_than(&max.a) {
             max.a = r.a
-        };
-        if r.b.num_meld > max.b.num_meld
-            || r.b.num_meld == max.b.num_meld && r.b.num_meld_cand > max.b.num_meld_cand
-        {
+        }
+        if r.b.is_b_better_than(&max.b) {
             max.b = r.b
-        };
+        }
     }
 
     if single_color_hand[n] >= 3 {
@@ -115,16 +123,12 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
 
         r.a.num_meld += 1;
         r.b.num_meld += 1;
-        if r.a.num_isolated < max.a.num_isolated
-            || r.a.num_isolated == max.a.num_isolated && r.a.num_meld_cand < max.a.num_meld_cand
-        {
+        if r.a.is_a_better_than(&max.a) {
             max.a = r.a
-        };
-        if r.b.num_meld > max.b.num_meld
-            || r.b.num_meld == max.b.num_meld && r.b.num_meld_cand > max.b.num_meld_cand
-        {
+        }
+        if r.b.is_b_better_than(&max.b) {
             max.b = r.b
-        };
+        }
     }
 
     max
