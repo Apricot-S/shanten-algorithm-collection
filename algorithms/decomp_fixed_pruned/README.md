@@ -29,6 +29,9 @@ Formula for shanten number:
 ## Features
 
 - An improved version of the algorithm originally devised by [麻雀C言語プログラム集](https://web.archive.org/web/20190616213620/http://cmj3.web.fc2.com/).
+- If the number of melds and meld candidates reaches the maximum allowed, the search is terminated at that point, avoiding unnecessary further exploration.
+- Applies a correction to the shanten number calculation when the hand lacks sufficient isolated tiles, enabling correct shanten number calculation in such cases.
+  - For more details on hands lacking sufficient isolated tiles, see [ブロック分解方式向聴数計算アルゴリズムの精度の検証](https://zenn.dev/tomohxx/articles/aecace4e3a3bc1).
 
 ## References
 
