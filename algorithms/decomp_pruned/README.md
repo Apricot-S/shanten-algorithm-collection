@@ -13,8 +13,10 @@
 1. Extract a pair.
 2. Extract melds.
 3. Extract meld candidates.  
-   In this step, if the shanten number is less than or equal to **4 - (number of melds) - (number of pairs)**, further search for meld candidates is pruned.
-4. Calculate the shanten number:
+
+    - If the shanten number is less than or equal to **4 - (number of melds) - (number of pairs)**, further search for meld candidates is pruned.
+
+4. Calculate the shanten number.
 
     - Store the value if it is lower than other combinations.
 

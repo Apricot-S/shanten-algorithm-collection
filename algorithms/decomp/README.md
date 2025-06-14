@@ -9,7 +9,7 @@
 1. Extract a pair.
 2. Extract melds.
 3. Extract meld candidates.
-4. Calculate the shanten number:
+4. Calculate the shanten number.
 
     - Store the value if it is lower than other combinations.
 
