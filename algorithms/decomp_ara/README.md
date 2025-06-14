@@ -4,6 +4,9 @@
 
 [Ara](https://mahjong.ara.black/intro/selfintro.htm)
 
+> [!NOTE]
+> This implementation applies only part of Ara's original algorithm. It does not include the removal of isolated tiles and the use of pre-calculated tables.
+
 ## Overview
 
 1. Extract a pair (also consider the pattern where no pair is extracted).
