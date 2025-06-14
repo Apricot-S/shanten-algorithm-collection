@@ -10,6 +10,7 @@
 2. Extract melds.
 3. Extract meld candidates.  
 
+    - A pair (triplet candidate) does not be extracted from the same tiles extracted in **1**.
     - If the shanten number is less than or equal to **4 - (number of melds) - (number of pairs)**, further search for meld candidates is pruned.
 
 4. Calculate the shanten number.
