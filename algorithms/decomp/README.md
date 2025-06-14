@@ -15,14 +15,15 @@
 
 5. Repeat for all possible combinations.
 
-Constraint:
+### Constraint
 
 - **(number of melds) + (number of meld candidates) <= 4**
 
-Formula for shanten number:  
+### Formula for shanten number
+
 **8 - (number of melds) * 2 - (number of meld candidates) - (number of pairs (0 or 1))**
 
-- If there are calls, subtract **(number of calls) * 2**.
+If there are calls, subtract **(number of calls) * 2**.
 
 ## Features
 
