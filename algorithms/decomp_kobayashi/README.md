@@ -6,7 +6,22 @@
 
 ## Overview
 
-(TODO)
+1. Extract a pair (also consider the pattern where no pair is extracted).
+2. Extract melds, meld candidates, and isolated tiles from honors.
+3. Extract melds, meld candidates, and isolated tiles from each suit:
+
+    - Search for combinations of A and B as follows:
+
+      - A: The combination that minimizes **(number of isolated tiles)**.
+        - If the **(number of isolated tiles)** are the same, choose the one with the less **(number of meld candidates)**.
+      - B: The combination that maximizes **(number of melds)**.
+        - If the **(number of melds)** are the same, choose the one with the greater **(number of meld candidates)**.
+
+4. Calculate the shanten number for all the combinations of A and B.
+
+    - Store the value if it is lower than other combinations.
+
+5. Repeat for all possible combinations.
 
 ### Constraint
 
