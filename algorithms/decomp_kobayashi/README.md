@@ -17,6 +17,8 @@
       - B: The combination that maximizes **(number of melds)**.
         - If the **(number of melds)** are the same, choose the one with the greater **(number of meld candidates)**.
 
+    - Actually, the meld candidates and isolated tiles are not extracted. Instead, the **(number of meld candidates)** and **(number of isolated tiles)** is calculated using the following formula.
+
 4. Calculate the shanten number for all the combinations of A and B.
 
     - Store the value if it is lower than other combinations.
@@ -27,6 +29,21 @@
 
 - **(number of melds) + (number of meld candidates) <= 4**
 - **(number of melds) + (number of meld candidates) + (number of pairs (0 or 1)) + (number of isolated tiles) <= 5**
+
+### Formula for extracting meld candidates and isolated tiles
+
+- **(number of meld candidates)** = sum of **(number of tiles in each meld candidates group) / 2**
+- **(number of isolated tiles)** = sum of **(number of tiles in each meld candidates group) mod 2**
+
+#### Definition of meld candidates group
+
+A meld candidates group is a sequence of tiles in a suit that are not separated by two or more empty tiles.
+In other words, for each suit, tiles are grouped together between positions where two consecutive tiles are both empty.
+Each group is then used to calculate the number of meld candidates and isolated tiles as above.
+
+Example:
+
+For the hand `2244589p`, there are two meld candidates groups: `22445p` and `89p`.
 
 ### Formula for shanten number
 
