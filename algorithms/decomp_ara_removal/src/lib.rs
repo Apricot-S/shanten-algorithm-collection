@@ -241,11 +241,11 @@ fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, num_call: i8) -
     min
 }
 
-struct DecompAra {}
+struct DecompAraRemoval {}
 
-impl ShantenCalculator for DecompAra {
+impl ShantenCalculator for DecompAraRemoval {
     fn new() -> Self {
-        DecompAra {}
+        DecompAraRemoval {}
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
@@ -270,5 +270,5 @@ impl ShantenCalculator for DecompAra {
     }
 }
 
-shanten_tests!(DecompAra);
-shanten_benches!(DecompAra);
+shanten_tests!(DecompAraRemoval);
+shanten_benches!(DecompAraRemoval);
