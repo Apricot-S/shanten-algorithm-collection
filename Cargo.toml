@@ -10,5 +10,6 @@ members = [
     "algorithms/decomp_pruned",
     "algorithms/decomp_fixed_pruned",
     "algorithms/decomp_ara",
+    "algorithms/decomp_ara_removal",
     "algorithms/decomp_kobayashi",
 ]
