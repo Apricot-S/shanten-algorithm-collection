@@ -11,18 +11,19 @@
 
 1. Extract a pair (also consider the pattern where no pair is extracted).
 2. Extract melds and meld candidates from honors.
-3. Extract melds and meld candidates from each suit:
+3. Remove isolated tiles from each suit.
+4. Extract melds and meld candidates from each suit:
 
     - Search for combinations of A and B as follows:
 
       - A: The combination that maximizes **(number of melds) * 2 + (number of meld candidates)**.
       - B: The combination that maximizes **(number of melds) * 10 + (number of meld candidates)**.
 
-4. Calculate the shanten number for all the combinations of A and B.
+5. Calculate the shanten number for all the combinations of A and B.
 
     - Store the value if it is lower than other combinations.
 
-5. Repeat for all possible combinations.
+6. Repeat for all possible combinations.
 
 ### Constraint
 
