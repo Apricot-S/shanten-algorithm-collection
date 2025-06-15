@@ -17,7 +17,7 @@
       - B: The combination that maximizes **(number of melds)**.
         - If the **(number of melds)** are the same, choose the one with the greater **(number of meld candidates)**.
 
-    - Actually, the meld candidates and isolated tiles are not extracted. Instead, the **(number of meld candidates)** and **(number of isolated tiles)** is calculated using the following formula.
+    - Actually, meld candidates and isolated tiles are not extracted. Instead, the **(number of meld candidates)** and the **(number of isolated tiles)** is calculated using the formulas below.
 
 4. Calculate the shanten number for all the combinations of A and B.
 
