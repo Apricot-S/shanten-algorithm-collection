@@ -67,7 +67,7 @@ impl PruningDfsYmatsux {
                         hand,
                         target,
                         num_left_meld - 1,
-                        min_meld_id,
+                        i,
                         upper_bound,
                     );
                     upper_bound = upper_bound.min(min_shanten);
