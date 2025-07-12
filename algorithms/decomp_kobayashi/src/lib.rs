@@ -120,7 +120,7 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
     // triplet
     if single_color_hand[n] >= 3 {
         single_color_hand[n] -= 3;
-        let mut r = count_suit_num_blocks(single_color_hand, n);
+        let mut r = count_suit_num_blocks(single_color_hand, n + 1);
         single_color_hand[n] += 3;
 
         r.a.num_meld += 1;
