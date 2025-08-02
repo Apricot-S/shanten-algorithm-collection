@@ -10,6 +10,8 @@ members = [
     "algorithms/decomp_ara",
     "algorithms/decomp_ara_removal",
     "algorithms/decomp_kobayashi",
+
+    "algorithms/my_algo",
 ]
 
 [workspace.package]
