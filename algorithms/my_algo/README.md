@@ -7,6 +7,7 @@ git clone https://github.com/Apricot-S/shanten-algorithm-collection.git -b for_e
 ```
 
 nightly 版の Rust が必要です
+
 入っていない場合は
 
 ```sh
