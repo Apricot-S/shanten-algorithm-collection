@@ -45,8 +45,8 @@ impl ShantenCalculator for MyAlgo {
         }
 
         // shuntsu
-        let min_shuntsu_id: Vec<usize> = (0..(9 * 3)).filter(|&n| n % 9 < 7).collect();
-        for (i, &n) in min_shuntsu_id.iter().enumerate() {
+        let min_shuntsu_ids: Vec<usize> = (0..(9 * 3)).filter(|&n| n % 9 < 7).collect();
+        for (i, &n) in min_shuntsu_ids.iter().enumerate() {
             mentsu_set[NUM_TILE_TYPE + i] = [n, n + 1, n + 2];
         }
 
