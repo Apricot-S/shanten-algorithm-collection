@@ -1,6 +1,5 @@
 [workspace]
 resolver = "3"
-
 members = [
     "common",
     "dummy",
@@ -13,3 +12,14 @@ members = [
     "algorithms/decomp_ara_removal",
     "algorithms/decomp_kobayashi",
 ]
+
+[workspace.package]
+description = "Shanten Number Calculation Algorithm Collection"
+version = "0.1.0"
+authors = ["Apricot S."]
+edition = "2024"
+license = "MIT-0"
+readme = "README.md"
+repository = "https://github.com/Apricot-S/shanten-algorithm-collection"
+keywords = ["mahjong", "riichi", "shanten"]
+categories = ["algorithms"]
