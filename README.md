@@ -91,4 +91,4 @@ shanten_benches!(YourAlgorithm);
 
 Copyright (c) Apricot S. All rights reserved.
 
-Licensed under the [MIT license](LICENSE).
+Licensed under the [MIT No Attribution license](LICENSE).
