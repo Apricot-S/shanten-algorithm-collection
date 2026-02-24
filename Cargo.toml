@@ -2,9 +2,8 @@
 resolver = "3"
 members = [
     "common",
-    "dummy",
     "handgen",
-
+    "algorithms/dummy",
     "algorithms/decomp",
     "algorithms/decomp_pruned",
     "algorithms/decomp_fixed_pruned",
