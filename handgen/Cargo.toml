@@ -12,4 +12,4 @@ categories.workspace = true
 
 [dependencies]
 common = { path = "../common" }
-rand = "0.9.1"
+rand = "0.10.0"
