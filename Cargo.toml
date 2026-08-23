@@ -12,6 +12,7 @@ members = [
     "algorithms/decomp_kobayashi",
     "algorithms/pruning_dfs_ymatsux",
     "algorithms/lib_xiangting",
+    "algorithms/lib_shanten_dp",
 ]
 
 [workspace.package]
