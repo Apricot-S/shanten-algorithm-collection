@@ -9,5 +9,9 @@ readme = "README.md"
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
 
 [dependencies]
