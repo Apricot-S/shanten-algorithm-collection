@@ -57,7 +57,7 @@ fn write_cases(filename: &str, cases: &Vec<[u8; MAX_HAND_SIZE]>) -> std::io::Res
             if i > 0 {
                 write!(writer, " ")?;
             }
-            write!(writer, "{tile}")?;
+            write!(writer, "{tile:>2}")?;
         }
         writeln!(writer)?;
     }
