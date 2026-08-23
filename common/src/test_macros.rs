@@ -3,6 +3,8 @@
 /// # Arguments
 ///
 /// * `$calculator_type` - A type that implements the `ShantenCalculator` trait
+/// * `known_failures` - An optional list of the known failing shared test IDs
+/// * `reason` - The reason attached to every ignored test in `known_failures`
 /// * `$hand` - The hand to test (as a `TileCounts`)
 /// * `$expected` - The expected shanten number
 ///
@@ -52,15 +54,53 @@ macro_rules! shanten_test_case {
 ///
 /// shanten_tests!(Dummy);
 /// ```
+///
+/// Historical implementations may explicitly declare the supported known-failure set. Exact
+/// implementations must use the single-argument form so every case is required to pass.
 #[macro_export]
 macro_rules! shanten_tests {
     ($calculator_type:ty) => {
         $crate::shanten_tests!(@generate $calculator_type, [], []);
     };
-    ($calculator_type:ty, known_failures = $reason:literal) => {
+    ($calculator_type:ty, known_failures = [
+        test_shanten_incomplete_hand_4_melds_without_a_pair,
+        test_shanten_waiting_for_the_5th_tile_1,
+        test_shanten_waiting_for_the_5th_tile_2,
+        test_shanten_waiting_for_the_5th_tile_3,
+        test_shanten_2_isolated_4_tiles_3,
+        test_shanten_2_isolated_4_tiles_5,
+        test_shanten_4_honors_1,
+        test_shanten_4_honors_2,
+        test_shanten_4_honors_3,
+        test_shanten_4_honors_4,
+        test_shanten_lack_isolated_tile_13_4333,
+        test_shanten_lack_isolated_tile_13_4432i,
+        test_shanten_lack_isolated_tile_13_4432ii,
+        test_shanten_lack_isolated_tile_13_4441,
+        test_shanten_lack_isolated_tile_14_4433,
+        test_shanten_lack_isolated_tile_14_4442i,
+        test_shanten_lack_isolated_tile_14_4442ii $(,)?
+    ], reason = $reason:literal) => {
         $crate::shanten_tests!(@generate $calculator_type, [#[ignore = $reason]], [#[ignore = $reason]]);
     };
-    ($calculator_type:ty, known_failures_except_incomplete_hand = $reason:literal) => {
+    ($calculator_type:ty, known_failures = [
+        test_shanten_waiting_for_the_5th_tile_1,
+        test_shanten_waiting_for_the_5th_tile_2,
+        test_shanten_waiting_for_the_5th_tile_3,
+        test_shanten_2_isolated_4_tiles_3,
+        test_shanten_2_isolated_4_tiles_5,
+        test_shanten_4_honors_1,
+        test_shanten_4_honors_2,
+        test_shanten_4_honors_3,
+        test_shanten_4_honors_4,
+        test_shanten_lack_isolated_tile_13_4333,
+        test_shanten_lack_isolated_tile_13_4432i,
+        test_shanten_lack_isolated_tile_13_4432ii,
+        test_shanten_lack_isolated_tile_13_4441,
+        test_shanten_lack_isolated_tile_14_4433,
+        test_shanten_lack_isolated_tile_14_4442i,
+        test_shanten_lack_isolated_tile_14_4442ii $(,)?
+    ], reason = $reason:literal) => {
         $crate::shanten_tests!(@generate $calculator_type, [#[ignore = $reason]], []);
     };
     (@generate $calculator_type:ty, [$($known_failure_attr:tt)*], [$($incomplete_hand_attr:tt)*]) => {
