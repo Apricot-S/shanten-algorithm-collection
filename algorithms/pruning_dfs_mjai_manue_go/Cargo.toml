@@ -1,0 +1,22 @@
+[package]
+name = "pruning_dfs_mjai_manue_go"
+description.workspace = true
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+readme = "README.md"
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+common = { path = "../../common" }
+
+[dev-dependencies]
+decomp_fixed_pruned = { path = "../decomp_fixed_pruned" }
+pruning_dfs_ymatsux = { path = "../pruning_dfs_ymatsux" }

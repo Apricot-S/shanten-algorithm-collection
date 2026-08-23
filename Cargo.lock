@@ -139,6 +139,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "pruning_dfs_mjai_manue_go"
+version = "0.1.0"
+dependencies = [
+ "common",
+ "decomp_fixed_pruned",
+ "pruning_dfs_ymatsux",
+]
+
+[[package]]
 name = "pruning_dfs_ymatsux"
 version = "0.1.0"
 dependencies = [
