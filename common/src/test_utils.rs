@@ -1,6 +1,6 @@
 use crate::types::TileCounts;
 
-/// Extension trait for [TileCounts] to support conversion from Tenhou-style hand strings.
+/// Extension trait for [`TileCounts`] to support conversion from Tenhou-style hand strings.
 ///
 /// This trait is intended for internal use in macros and test utilities.
 /// Algorithm implementers do not need to use this trait directly.
@@ -14,7 +14,7 @@ pub trait TileCountsExt {
     ///
     /// # Returns
     ///
-    /// The [TileCounts] struct representing the hand's tile counts.
+    /// The [`TileCounts`] array representing the hand's tile counts.
     fn from_code(hand: &str) -> TileCounts;
 }
 
@@ -28,11 +28,12 @@ impl TileCountsExt for TileCounts {
             if let Some(&(_, idx)) = TILE_MAP.iter().find(|&&(t, _)| t == c) {
                 current_type = Some(idx);
             } else if let Some(d) = c.to_digit(10) {
-                if !(1..=9).contains(&d) {
-                    panic!("tile number must be between 1 and 9, got {d}");
-                }
+                assert!(
+                    (1..=9).contains(&d),
+                    "tile number must be between 1 and 9, got {d}"
+                );
                 let base = current_type.expect("no type specified before the tile number");
-                let offset = d as usize - 1;
+                let offset = usize::try_from(d).expect("a decimal digit fits in usize") - 1;
                 result[base + offset] += 1;
             }
         }
@@ -82,14 +83,14 @@ mod tests {
     }
 
     #[test]
-    #[should_panic]
+    #[should_panic(expected = "tile number must be between 1 and 9")]
     fn test_from_code_offset_out_of_range_number() {
         // 0m does not exist
         TileCounts::from_code("0m");
     }
 
     #[test]
-    #[should_panic]
+    #[should_panic(expected = "index out of bounds")]
     fn test_from_code_offset_out_of_range_z() {
         // 8z does not exist
         TileCounts::from_code("8z");

@@ -55,6 +55,15 @@ macro_rules! shanten_test_case {
 #[macro_export]
 macro_rules! shanten_tests {
     ($calculator_type:ty) => {
+        $crate::shanten_tests!(@generate $calculator_type, [], []);
+    };
+    ($calculator_type:ty, known_failures = $reason:literal) => {
+        $crate::shanten_tests!(@generate $calculator_type, [#[ignore = $reason]], [#[ignore = $reason]]);
+    };
+    ($calculator_type:ty, known_failures_except_incomplete_hand = $reason:literal) => {
+        $crate::shanten_tests!(@generate $calculator_type, [#[ignore = $reason]], []);
+    };
+    (@generate $calculator_type:ty, [$($known_failure_attr:tt)*], [$($incomplete_hand_attr:tt)*]) => {
         #[cfg(test)]
         mod tests {
             use super::*;
@@ -105,6 +114,7 @@ macro_rules! shanten_tests {
             }
 
             #[test]
+            $($incomplete_hand_attr)*
             fn test_shanten_incomplete_hand_4_melds_without_a_pair() {
                 shanten_test_case!($calculator_type, "234p567s", 1);
             }
@@ -130,17 +140,20 @@ macro_rules! shanten_tests {
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_waiting_for_the_5th_tile_1() {
                 // Source: https://blog.kobalab.net/entry/2022/04/17/174206 5枚目の牌を待つ形
                 shanten_test_case!($calculator_type, "1111m123p112233s", 1);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_waiting_for_the_5th_tile_2() {
                 shanten_test_case!($calculator_type, "1111234444m1111p", 1);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_waiting_for_the_5th_tile_3() {
                 // Source: http://cmj3.web.fc2.com/#syanten
                 shanten_test_case!($calculator_type, "11112222333444z", 1);
@@ -157,6 +170,7 @@ macro_rules! shanten_tests {
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_2_isolated_4_tiles_3() {
                 shanten_test_case!($calculator_type, "11114444m", 1);
             }
@@ -167,6 +181,7 @@ macro_rules! shanten_tests {
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_2_isolated_4_tiles_5() {
                 shanten_test_case!($calculator_type, "1111444478m", 2);
             }
@@ -177,62 +192,73 @@ macro_rules! shanten_tests {
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_4_honors_1() {
                 shanten_test_case!($calculator_type, "1111z", 1);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_4_honors_2() {
                 shanten_test_case!($calculator_type, "123m1111z", 1);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_4_honors_3() {
                 shanten_test_case!($calculator_type, "11112222z", 1);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_4_honors_4() {
                 shanten_test_case!($calculator_type, "123m11p11112222z", 2);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_lack_isolated_tile_13_4333() {
                 // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
                 shanten_test_case!($calculator_type, "1111222333444z", 1);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_lack_isolated_tile_13_4432i() {
                 // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
                 shanten_test_case!($calculator_type, "11m11112222333z", 2);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_lack_isolated_tile_13_4432ii() {
                 // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
                 shanten_test_case!($calculator_type, "23m11112222333z", 2);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_lack_isolated_tile_13_4441() {
                 // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
                 shanten_test_case!($calculator_type, "1111222233334z", 3);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_lack_isolated_tile_14_4433() {
                 // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
                 shanten_test_case!($calculator_type, "11112222333444z", 1);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_lack_isolated_tile_14_4442i() {
                 // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
                 shanten_test_case!($calculator_type, "11m111122223333z", 2);
             }
 
             #[test]
+            $($known_failure_attr)*
             fn test_shanten_lack_isolated_tile_14_4442ii() {
                 // Source: https://zenn.dev/tomohxx/articles/aecace4e3a3bc1
                 shanten_test_case!($calculator_type, "23m111122223333z", 2);

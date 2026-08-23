@@ -1,9 +1,10 @@
+use std::fs::File;
+use std::io::{BufWriter, Write};
+
 use common::{MAX_HAND_SIZE, MAX_NUM_TILE, NUM_TILE_TYPE};
 use rand::rngs::StdRng;
 use rand::seq::{IndexedRandom, SliceRandom};
 use rand::{Rng, SeedableRng};
-use std::fs::File;
-use std::io::{BufWriter, Write};
 
 const NUM_WALL: usize = NUM_TILE_TYPE * MAX_NUM_TILE;
 const NUM_CASES: usize = 10_000;
@@ -15,15 +16,18 @@ fn draw_tiles(wall: &[u8]) -> [u8; MAX_HAND_SIZE] {
 }
 
 fn generate_normal_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
-    let mut wall: [u8; NUM_WALL] = std::array::from_fn(|i| (i / 4) as u8);
+    let mut wall: [u8; NUM_WALL] =
+        std::array::from_fn(|i| u8::try_from(i / 4).expect("tile ID fits in u8"));
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
 }
 
 fn generate_half_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
     let color_start = [0, 9, 18].choose(rng).unwrap();
-    let suits: [u8; 9 * 4] = std::array::from_fn(|i| (i / 4 + color_start) as u8);
-    let honors: [u8; 7 * 4] = std::array::from_fn(|i| (i / 4 + 27) as u8);
+    let suits: [u8; 9 * 4] =
+        std::array::from_fn(|i| u8::try_from(i / 4 + color_start).expect("tile ID fits in u8"));
+    let honors: [u8; 7 * 4] =
+        std::array::from_fn(|i| u8::try_from(i / 4 + 27).expect("tile ID fits in u8"));
     let mut combined = suits.into_iter().chain(honors);
     let mut wall: [u8; 36 + 28] = std::array::from_fn(|_| combined.next().unwrap());
     wall.shuffle(rng);
@@ -32,7 +36,8 @@ fn generate_half_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
 
 fn generate_full_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
     let color_start = [0, 9, 18].choose(rng).unwrap();
-    let mut wall: [u8; 9 * 4] = std::array::from_fn(|i| (i / 4 + color_start) as u8);
+    let mut wall: [u8; 9 * 4] =
+        std::array::from_fn(|i| u8::try_from(i / 4 + color_start).expect("tile ID fits in u8"));
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
 }

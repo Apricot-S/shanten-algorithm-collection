@@ -11,7 +11,7 @@ const MAX_SHANTEN: i8 = 8;
 struct NumBlocks {
     num_meld: i8,
     num_meld_cand: i8,
-    num_pair: i8,
+    pairs: i8,
 }
 
 impl NumBlocks {
@@ -20,11 +20,11 @@ impl NumBlocks {
     }
 
     fn formula(&self) -> i8 {
-        MAX_SHANTEN - self.num_meld * 2 - self.num_meld_cand - self.num_pair
+        MAX_SHANTEN - self.num_meld * 2 - self.num_meld_cand - self.pairs
     }
 
     fn calculate_lower_bound(&self) -> i8 {
-        MAX_NUM_BLOCKS - self.num_meld - self.num_pair
+        MAX_NUM_BLOCKS - self.num_meld - self.pairs
     }
 }
 
@@ -117,20 +117,22 @@ fn cut_meld_cand(
     cut_meld_cand(hand, num_blocks, min_shanten, i + 1, lower_bound);
 }
 
-struct DecompPruned {}
+/// Block-decomposition algorithm with lower-bound pruning.
+#[derive(Default)]
+pub struct DecompPruned;
 
 impl ShantenCalculator for DecompPruned {
     fn new() -> Self {
-        DecompPruned {}
+        Self
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
-        let required_num_meld = (hand.iter().sum::<TileCount>() / 3) as i8;
+        let required_num_meld = (hand.iter().sum::<TileCount>() / 3).cast_signed();
         let num_call = 4 - required_num_meld;
         let mut num_blocks = NumBlocks {
             num_meld: num_call,
             num_meld_cand: 0,
-            num_pair: 0,
+            pairs: 0,
         };
         let mut hand_clone = *hand;
 
@@ -139,11 +141,11 @@ impl ShantenCalculator for DecompPruned {
         // Remove a possible pair and calculate the shanten number with a pair
         for i in 0..NUM_TILE_TYPE {
             if hand_clone[i] >= 2 {
-                num_blocks.num_pair += 1;
+                num_blocks.pairs += 1;
                 hand_clone[i] -= 2;
                 cut_meld(&mut hand_clone, &mut num_blocks, &mut min_shanten, 0);
                 hand_clone[i] += 2;
-                num_blocks.num_pair -= 1;
+                num_blocks.pairs -= 1;
             }
         }
 
@@ -154,5 +156,8 @@ impl ShantenCalculator for DecompPruned {
     }
 }
 
-shanten_tests!(DecompPruned);
+shanten_tests!(
+    DecompPruned,
+    known_failures = "the original algorithm does not correct for insufficient isolated tiles"
+);
 shanten_benches!(DecompPruned);

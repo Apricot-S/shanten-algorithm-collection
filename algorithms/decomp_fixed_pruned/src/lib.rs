@@ -11,7 +11,7 @@ const MAX_SHANTEN: i8 = 8;
 struct NumBlocks {
     num_meld: i8,
     num_meld_cand: i8,
-    num_pair: i8,
+    pairs: i8,
 }
 
 impl NumBlocks {
@@ -20,11 +20,11 @@ impl NumBlocks {
     }
 
     fn formula(&self) -> i8 {
-        MAX_SHANTEN - self.num_meld * 2 - self.num_meld_cand - self.num_pair
+        MAX_SHANTEN - self.num_meld * 2 - self.num_meld_cand - self.pairs
     }
 
     fn calculate_lower_bound(&self) -> i8 {
-        MAX_NUM_BLOCKS - self.num_meld - self.num_pair
+        MAX_NUM_BLOCKS - self.num_meld - self.pairs
     }
 }
 
@@ -98,33 +98,26 @@ fn cut_meld_cand(
     }
 
     if i >= NUM_TILE_TYPE {
-        if (num_blocks.num_meld == 4 && num_blocks.num_meld_cand == 0 && num_blocks.num_pair == 0)
-            || (num_blocks.num_meld == 3
-                && num_blocks.num_meld_cand == 1
-                && num_blocks.num_pair == 0)
+        if (num_blocks.num_meld == 4 && num_blocks.num_meld_cand == 0 && num_blocks.pairs == 0)
+            || (num_blocks.num_meld == 3 && num_blocks.num_meld_cand == 1 && num_blocks.pairs == 0)
         {
             // lack of isolated tiles pattern 1: isolated tile for pair
             cut_isolated_tile_for_pair(hand, original, num_blocks, min_shanten);
             return;
-        } else if num_blocks.num_meld == 3
-            && num_blocks.num_meld_cand == 0
-            && num_blocks.num_pair == 1
+        } else if num_blocks.num_meld == 3 && num_blocks.num_meld_cand == 0 && num_blocks.pairs == 1
         {
             // lack of isolated tiles pattern 2: isolated tile for meld
             cut_isolated_tile_for_meld(hand, original, num_blocks, min_shanten);
             return;
-        } else if num_blocks.num_meld == 3
-            && num_blocks.num_meld_cand == 0
-            && num_blocks.num_pair == 0
+        } else if num_blocks.num_meld == 3 && num_blocks.num_meld_cand == 0 && num_blocks.pairs == 0
         {
             // lack of isolated tiles pattern 3: isolated tile 1 for pair, isolated tile 2 for meld
             cut_isolated_tile_for_pair_and_meld(hand, original, num_blocks, min_shanten);
             return;
-        } else {
-            // enough isolated tiles
-            *min_shanten = *min_shanten.min(&mut num_blocks.formula());
-            return;
         }
+        // enough isolated tiles
+        *min_shanten = *min_shanten.min(&mut num_blocks.formula());
+        return;
     }
 
     if num_blocks.get_num_blocks() < MAX_NUM_BLOCKS {
@@ -245,23 +238,25 @@ fn cut_isolated_tile_for_pair_and_meld(
         }
     }
 
-    *min_shanten = *min_shanten.min(&mut (num_blocks.formula() + if count >= 2 { 0 } else { 1 }));
+    *min_shanten = *min_shanten.min(&mut (num_blocks.formula() + i8::from(count < 2)));
 }
 
-struct DecompFixedPruned {}
+/// Corrected block-decomposition algorithm with lower-bound pruning.
+#[derive(Default)]
+pub struct DecompFixedPruned;
 
 impl ShantenCalculator for DecompFixedPruned {
     fn new() -> Self {
-        DecompFixedPruned {}
+        Self
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
-        let required_num_meld = (hand.iter().sum::<TileCount>() / 3) as i8;
+        let required_num_meld = (hand.iter().sum::<TileCount>() / 3).cast_signed();
         let num_call = 4 - required_num_meld;
         let mut num_blocks = NumBlocks {
             num_meld: num_call,
             num_meld_cand: 0,
-            num_pair: 0,
+            pairs: 0,
         };
         let mut hand_clone = *hand;
 
@@ -270,7 +265,7 @@ impl ShantenCalculator for DecompFixedPruned {
         // Remove a possible pair and calculate the shanten number with a pair
         for i in 0..NUM_TILE_TYPE {
             if hand_clone[i] >= 2 {
-                num_blocks.num_pair += 1;
+                num_blocks.pairs += 1;
                 hand_clone[i] -= 2;
                 cut_meld(
                     &mut hand_clone,
@@ -281,7 +276,7 @@ impl ShantenCalculator for DecompFixedPruned {
                     0,
                 );
                 hand_clone[i] += 2;
-                num_blocks.num_pair -= 1;
+                num_blocks.pairs -= 1;
             }
         }
 

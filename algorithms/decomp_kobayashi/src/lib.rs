@@ -33,7 +33,7 @@ fn formula(mut num_meld: i8, mut num_meld_cand: i8, mut num_isolated: i8, has_pa
 struct NumBlocks {
     num_meld: i8,
     num_meld_cand: i8,
-    num_isolated: i8,
+    isolated: i8,
 }
 
 struct NumBlocksPattern {
@@ -45,8 +45,8 @@ struct NumBlocksPattern {
 
 impl NumBlocks {
     fn is_a_better_than(&self, other: &NumBlocks) -> bool {
-        self.num_isolated < other.num_isolated
-            || self.num_isolated == other.num_isolated && self.num_meld_cand < other.num_meld_cand
+        self.isolated < other.isolated
+            || self.isolated == other.isolated && self.num_meld_cand < other.num_meld_cand
     }
 
     fn is_b_better_than(&self, other: &NumBlocks) -> bool {
@@ -61,7 +61,7 @@ fn count_num_meld_cand(single_color_hand: &[TileCount]) -> NumBlocksPattern {
     let mut num_isolated = 0;
 
     for i in 0..9 {
-        num_tiles += single_color_hand[i] as i8;
+        num_tiles += single_color_hand[i].cast_signed();
         if i < 7 && single_color_hand[i + 1] == 0 && single_color_hand[i + 2] == 0 {
             num_meld_cand += num_tiles / 2;
             num_isolated += num_tiles % 2;
@@ -76,12 +76,12 @@ fn count_num_meld_cand(single_color_hand: &[TileCount]) -> NumBlocksPattern {
         a: NumBlocks {
             num_meld: 0,
             num_meld_cand,
-            num_isolated,
+            isolated: num_isolated,
         },
         b: NumBlocks {
             num_meld: 0,
             num_meld_cand,
-            num_isolated,
+            isolated: num_isolated,
         },
     }
 }
@@ -110,10 +110,10 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
         r.a.num_meld += 1;
         r.b.num_meld += 1;
         if r.a.is_a_better_than(&max.a) {
-            max.a = r.a
+            max.a = r.a;
         }
         if r.b.is_b_better_than(&max.b) {
-            max.b = r.b
+            max.b = r.b;
         }
     }
 
@@ -126,10 +126,10 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
         r.a.num_meld += 1;
         r.b.num_meld += 1;
         if r.a.is_a_better_than(&max.a) {
-            max.a = r.a
+            max.a = r.a;
         }
         if r.b.is_b_better_than(&max.b) {
-            max.b = r.b
+            max.b = r.b;
         }
     }
 
@@ -153,7 +153,7 @@ fn count_honor_num_blocks(honor_hand: &[TileCount]) -> NumBlocks {
     NumBlocks {
         num_meld,
         num_meld_cand,
-        num_isolated,
+        isolated: num_isolated,
     }
 }
 
@@ -171,8 +171,7 @@ fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, num_call: i8) -
                 let num_meld = num_call + m.num_meld + p.num_meld + s.num_meld + z.num_meld;
                 let num_meld_cand =
                     m.num_meld_cand + p.num_meld_cand + s.num_meld_cand + z.num_meld_cand;
-                let num_isolated =
-                    m.num_isolated + p.num_isolated + s.num_isolated + z.num_isolated;
+                let num_isolated = m.isolated + p.isolated + s.isolated + z.isolated;
                 let shanten = formula(num_meld, num_meld_cand, num_isolated, has_pair);
                 min = min.min(shanten);
             }
@@ -182,15 +181,17 @@ fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, num_call: i8) -
     min
 }
 
-struct DecompKobayashi {}
+/// Kobayashi's block-decomposition algorithm.
+#[derive(Default)]
+pub struct DecompKobayashi;
 
 impl ShantenCalculator for DecompKobayashi {
     fn new() -> Self {
-        DecompKobayashi {}
+        Self
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
-        let required_num_meld = (hand.iter().sum::<TileCount>() / 3) as i8;
+        let required_num_meld = (hand.iter().sum::<TileCount>() / 3).cast_signed();
         let num_call = 4 - required_num_meld;
         let mut hand_clone = *hand;
 
@@ -211,5 +212,9 @@ impl ShantenCalculator for DecompKobayashi {
     }
 }
 
-shanten_tests!(DecompKobayashi);
+shanten_tests!(
+    DecompKobayashi,
+    known_failures_except_incomplete_hand =
+        "the original algorithm does not correct for insufficient isolated tiles"
+);
 shanten_benches!(DecompKobayashi);

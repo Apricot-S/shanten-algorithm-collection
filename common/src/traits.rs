@@ -14,7 +14,7 @@ pub trait ShantenCalculator {
     ///
     /// # Arguments
     ///
-    /// * `hand` - Reference to a [TileCounts] struct representing the hand's tile counts
+    /// * `hand` - Reference to a [`TileCounts`] array representing the hand's tile counts
     ///
     /// # Returns
     ///

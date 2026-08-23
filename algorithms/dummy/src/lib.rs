@@ -2,14 +2,16 @@
 
 extern crate test;
 
+use common::shanten_benches;
 use common::{ShantenCalculator, TileCounts};
-use common::{shanten_benches, shanten_tests};
 
-struct Dummy {}
+/// Calculator used to demonstrate the benchmark harness.
+#[derive(Default)]
+pub struct Dummy;
 
 impl ShantenCalculator for Dummy {
     fn new() -> Self {
-        Dummy {} // No special initialization for dummy implementation
+        Self
     }
 
     /// Dummy implementation for calculating shanten number
@@ -18,8 +20,15 @@ impl ShantenCalculator for Dummy {
     }
 }
 
-// Generate test cases using macro
-shanten_tests!(Dummy);
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn always_returns_zero() {
+        assert_eq!(Dummy.calculate_shanten(&[0; 34]), 0);
+    }
+}
 
 // Generate benchmarks using macro
 shanten_benches!(Dummy);

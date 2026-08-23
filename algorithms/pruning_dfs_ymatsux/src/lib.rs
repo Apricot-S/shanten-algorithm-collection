@@ -11,11 +11,15 @@ const NUM_MELD_TYPE: usize = NUM_TILE_TYPE + 7 * 3;
 type Meld = [usize; 3];
 
 fn add_meld(target: &mut TileCounts, meld: &Meld) {
-    meld.iter().for_each(|&tile| target[tile] += 1);
+    for &tile in meld {
+        target[tile] += 1;
+    }
 }
 
 fn remove_meld(target: &mut TileCounts, meld: &Meld) {
-    meld.iter().for_each(|&tile| target[tile] -= 1);
+    for &tile in meld {
+        target[tile] -= 1;
+    }
 }
 
 fn is_valid_hand(hand: &TileCounts) -> bool {
@@ -27,7 +31,8 @@ fn calculate_shanten_number(hand: &TileCounts, target: &TileCounts) -> i8 {
         .iter()
         .zip(hand)
         .map(|(&target_count, &hand_count)| target_count.saturating_sub(hand_count))
-        .sum::<u8>() as i8
+        .sum::<u8>()
+        .cast_signed()
         - 1
 }
 

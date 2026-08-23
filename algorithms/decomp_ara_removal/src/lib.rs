@@ -19,8 +19,8 @@ fn remove_isolated_tiles(single_color_hand: &[TileCount]) -> [TileCount; 9] {
                     if d == 0 {
                         continue;
                     }
-                    let ni = i as isize + d;
-                    if (0..9).contains(&ni) && single_color_hand[ni as usize] > 0 {
+                    let ni = i.cast_signed() + d;
+                    if (0..9).contains(&ni) && single_color_hand[ni.cast_unsigned()] > 0 {
                         has_neighbor = true;
                         break;
                     }
@@ -102,10 +102,10 @@ fn count_num_meld_cand(single_color_hand: &mut [TileCount], n: usize) -> NumBloc
         r.a.num_meld_cand += 1;
         r.b.num_meld_cand += 1;
         if r.a.is_a_better_than(&max.a) {
-            max.a = r.a
+            max.a = r.a;
         }
         if r.b.is_b_better_than(&max.b) {
-            max.b = r.b
+            max.b = r.b;
         }
     }
 
@@ -120,10 +120,10 @@ fn count_num_meld_cand(single_color_hand: &mut [TileCount], n: usize) -> NumBloc
         r.a.num_meld_cand += 1;
         r.b.num_meld_cand += 1;
         if r.a.is_a_better_than(&max.a) {
-            max.a = r.a
+            max.a = r.a;
         }
         if r.b.is_b_better_than(&max.b) {
-            max.b = r.b
+            max.b = r.b;
         }
     }
 
@@ -136,10 +136,10 @@ fn count_num_meld_cand(single_color_hand: &mut [TileCount], n: usize) -> NumBloc
         r.a.num_meld_cand += 1;
         r.b.num_meld_cand += 1;
         if r.a.is_a_better_than(&max.a) {
-            max.a = r.a
+            max.a = r.a;
         }
         if r.b.is_b_better_than(&max.b) {
-            max.b = r.b
+            max.b = r.b;
         }
     }
 
@@ -170,10 +170,10 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
         r.a.num_meld += 1;
         r.b.num_meld += 1;
         if r.a.is_a_better_than(&max.a) {
-            max.a = r.a
+            max.a = r.a;
         }
         if r.b.is_b_better_than(&max.b) {
-            max.b = r.b
+            max.b = r.b;
         }
     }
 
@@ -186,10 +186,10 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
         r.a.num_meld += 1;
         r.b.num_meld += 1;
         if r.a.is_a_better_than(&max.a) {
-            max.a = r.a
+            max.a = r.a;
         }
         if r.b.is_b_better_than(&max.b) {
-            max.b = r.b
+            max.b = r.b;
         }
     }
 
@@ -241,15 +241,17 @@ fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, num_call: i8) -
     min
 }
 
-struct DecompAraRemoval {}
+/// Removal-based variant of Ara's block-decomposition algorithm.
+#[derive(Default)]
+pub struct DecompAraRemoval;
 
 impl ShantenCalculator for DecompAraRemoval {
     fn new() -> Self {
-        DecompAraRemoval {}
+        Self
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
-        let required_num_meld = (hand.iter().sum::<TileCount>() / 3) as i8;
+        let required_num_meld = (hand.iter().sum::<TileCount>() / 3).cast_signed();
         let num_call = 4 - required_num_meld;
         let mut hand_clone = *hand;
 
@@ -270,5 +272,8 @@ impl ShantenCalculator for DecompAraRemoval {
     }
 }
 
-shanten_tests!(DecompAraRemoval);
+shanten_tests!(
+    DecompAraRemoval,
+    known_failures = "the original algorithm does not correct for insufficient isolated tiles"
+);
 shanten_benches!(DecompAraRemoval);

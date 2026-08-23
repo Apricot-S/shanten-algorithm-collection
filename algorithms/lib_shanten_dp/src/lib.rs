@@ -40,8 +40,9 @@ impl ShantenCalculator for ShantenDp {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use common::TileCountsExt;
+
+    use super::*;
 
     #[test]
     fn calculates_standard_hand() {
