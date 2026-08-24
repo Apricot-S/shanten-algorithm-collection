@@ -13,7 +13,7 @@ The workspace provides:
 - four fixed-seed, 10,000-hand benchmark datasets; and
 - adapters that expose selected third-party crates through the same benchmark harness.
 
-See [this constructive definition of shanten](https://qiita.com/Cryolite/items/40908d0bce2bac310717) for the terminology used by the project.
+This project uses the definition of the shanten number presented in [結局のところ，麻雀における向聴数とは数学的かつ構成的にどう定義されるのか？ #数学 - Qiita](https://qiita.com/Cryolite/items/40908d0bce2bac310717).
 
 ## Correctness and known limitations
 
