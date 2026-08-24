@@ -19,7 +19,7 @@
 ///
 /// impl ShantenCalculator for Dummy {
 ///     fn new() -> Self {
-///         Dummy {}
+///         Self {}
 ///     }
 ///     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
 ///         0
