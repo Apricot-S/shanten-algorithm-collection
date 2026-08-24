@@ -9,6 +9,10 @@ use rand::{Rng, SeedableRng};
 const NUM_WALL: usize = NUM_TILE_TYPE * MAX_NUM_TILE;
 const NUM_CASES: usize = 10_000;
 
+fn tile_id(id: usize) -> u8 {
+    u8::try_from(id).expect("tile ID fits in u8")
+}
+
 fn draw_tiles(wall: &[u8]) -> [u8; MAX_HAND_SIZE] {
     let mut hand = [0u8; MAX_HAND_SIZE];
     hand.copy_from_slice(&wall[..MAX_HAND_SIZE]);
@@ -16,18 +20,15 @@ fn draw_tiles(wall: &[u8]) -> [u8; MAX_HAND_SIZE] {
 }
 
 fn generate_normal_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
-    let mut wall: [u8; NUM_WALL] =
-        std::array::from_fn(|i| u8::try_from(i / 4).expect("tile ID fits in u8"));
+    let mut wall: [u8; NUM_WALL] = std::array::from_fn(|i| tile_id(i / 4));
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
 }
 
 fn generate_half_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
     let color_start = [0, 9, 18].choose(rng).unwrap();
-    let suits: [u8; 9 * 4] =
-        std::array::from_fn(|i| u8::try_from(i / 4 + color_start).expect("tile ID fits in u8"));
-    let honors: [u8; 7 * 4] =
-        std::array::from_fn(|i| u8::try_from(i / 4 + 27).expect("tile ID fits in u8"));
+    let suits: [u8; 9 * 4] = std::array::from_fn(|i| tile_id(i / 4 + color_start));
+    let honors: [u8; 7 * 4] = std::array::from_fn(|i| tile_id(i / 4 + 27));
     let mut combined = suits.into_iter().chain(honors);
     let mut wall: [u8; 36 + 28] = std::array::from_fn(|_| combined.next().unwrap());
     wall.shuffle(rng);
@@ -36,8 +37,7 @@ fn generate_half_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
 
 fn generate_full_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
     let color_start = [0, 9, 18].choose(rng).unwrap();
-    let mut wall: [u8; 9 * 4] =
-        std::array::from_fn(|i| u8::try_from(i / 4 + color_start).expect("tile ID fits in u8"));
+    let mut wall: [u8; 9 * 4] = std::array::from_fn(|i| tile_id(i / 4 + color_start));
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
 }
