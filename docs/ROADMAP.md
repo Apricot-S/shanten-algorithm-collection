@@ -23,7 +23,7 @@
   - [x] `make_tile_limits(false)`、`Mode::STANDARD`、2つのboolをfalseに設定した。
   - [x] `m = sum(hand) / 3` とし、代表手のsmoke testを追加した。
 - [x] 外部crate READMEの順序を「用途、upstream・固定版、license、設定、対象、validation、結果、コマンド」に統一した。
-- [x] 比較モードが同一でないことをルートREADMEと各adapter READMEに記載した。
+- [x] 比較モードが同一でないことを各adapter READMEに記載した。
 - [x] `Cargo.lock` と `THIRD-PARTY-NOTICES.md` に固定版とlicenseを記録した。
 
 受入条件:
@@ -94,9 +94,8 @@
 
 依存: P0–P3の比較対象と検証結果が確定していること。
 
-- [x] 「目的と対象範囲、比較表、正確性・制約、外部crate条件、実行方法、追加方法、license」の順に再構成した。
-- [x] 比較表に出典、方式、一般形限定、validation、正確性、外部依存を掲載した。
-- [x] 2つの枝刈りDFSの枝刈り、距離計算、面子一覧、Goal列挙の差を説明した。
+- [x] 「目的と対象範囲、正確性・制約、実行方法、追加方法、license」の順に再構成した。
+- [x] 比較表、DFSの実装詳細、外部crateの比較条件はルートREADMEに置かず、個別READMEへ集約した。
 - [x] ルートREADMEにpublish可否や外部利用方針を記載していない。
 - [x] プロジェクト構成用Mermaidを作成していない。
 - [x] アルゴリズム説明は疑似コードを基本とした。
