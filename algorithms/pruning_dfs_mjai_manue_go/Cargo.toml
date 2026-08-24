@@ -27,7 +27,3 @@ workspace = true
 
 [dependencies]
 common = { path = "../../common" }
-
-[dev-dependencies]
-decomp_fixed_pruned = { path = "../decomp_fixed_pruned" }
-pruning_dfs_ymatsux = { path = "../pruning_dfs_ymatsux" }

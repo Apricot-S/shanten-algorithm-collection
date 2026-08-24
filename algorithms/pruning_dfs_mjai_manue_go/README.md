@@ -32,14 +32,7 @@ The meld table is constructed at compile time and reused by every calculation. T
 
 ## Correctness
 
-The shared exactness cases cover four-identical-tile, fifth-tile-wait, and insufficient-isolated-tile regressions. An additional ignored differential test compares all 40,000 resource hands with the ymatsux pruning DFS and the corrected decomposition implementation.
-
-Run it explicitly with:
-
-```sh
-cargo +nightly test --release --package pruning_dfs_mjai_manue_go \
-  differential_tests::matches_exact_implementations_on_resources -- --ignored
-```
+The shared exactness cases cover four-identical-tile, fifth-tile-wait, and insufficient-isolated-tile regressions.
 
 ## License
 
