@@ -62,4 +62,4 @@ Algorithm ports should retain the source's search order, pruning behavior, and s
 
 Copyright (c) Apricot S. All rights reserved.
 
-Licensed under the [MIT No Attribution License](LICENSE). Third-party components remain under the licenses listed in [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).
+Licensed under the [MIT No Attribution license](LICENSE).
