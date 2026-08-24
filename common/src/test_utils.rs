@@ -1,3 +1,4 @@
+use crate::constants::NUM_TILE_TYPE;
 use crate::types::TileCounts;
 
 /// Extension trait for [`TileCounts`] to support conversion from Tenhou-style hand strings.
@@ -20,24 +21,31 @@ pub trait TileCountsExt {
 
 impl TileCountsExt for TileCounts {
     fn from_code(hand: &str) -> TileCounts {
-        const TILE_MAP: [(char, usize); 4] = [('m', 0), ('p', 9), ('s', 18), ('z', 27)];
-        let mut current_type: Option<usize> = None;
-        let mut result: TileCounts = [0u8; 34];
+        let mut suit_offset = None;
+        let mut counts: TileCounts = [0; NUM_TILE_TYPE];
 
-        for c in hand.chars().rev() {
-            if let Some(&(_, idx)) = TILE_MAP.iter().find(|&&(t, _)| t == c) {
-                current_type = Some(idx);
-            } else if let Some(d) = c.to_digit(10) {
-                assert!(
-                    (1..=9).contains(&d),
-                    "tile number must be between 1 and 9, got {d}"
-                );
-                let base = current_type.expect("no type specified before the tile number");
-                let offset = usize::try_from(d).expect("a decimal digit fits in usize") - 1;
-                result[base + offset] += 1;
+        for byte in hand.bytes().rev() {
+            match byte {
+                b'm' => suit_offset = Some(0),
+                b'p' => suit_offset = Some(9),
+                b's' => suit_offset = Some(18),
+                b'z' => suit_offset = Some(27),
+                b'0'..=b'9' => {
+                    let number = byte - b'0';
+
+                    assert!(
+                        (1..=9).contains(&number),
+                        "tile number must be between 1 and 9, got {number}"
+                    );
+                    let base = suit_offset.expect("no type specified before the tile number");
+                    let tile_index = base + usize::from(number - 1);
+                    counts[tile_index] += 1;
+                }
+                _ => {}
             }
         }
-        result
+
+        counts
     }
 }
 
