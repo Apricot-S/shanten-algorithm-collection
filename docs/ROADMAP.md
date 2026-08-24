@@ -39,7 +39,7 @@
 - [x] アルゴリズムcrateは `lib.rs` を維持し、calculator型を `pub` にした。
 - [x] 内部補助型・関数はprivateのまま維持した。
 - [x] `dummy` を共通正解テストから外し、常に0を返す専用テストへ変更した。
-- [x] `known_failures = [テストID], reason = "..."` で既知の不正解を明示し、厳密解の実装にはignoreを置かなかった。
+- [x] 名前付きprofileと `reason = "..."` で既知の不正解を明示し、厳密解の実装にはignoreを置かなかった。
 - [x] Rust warnings、Clippy `all`、Clippy `pedantic` をworkspace全体でdenyした。
 - [x] `allow` を追加せず、コード修正で警告を解消した。
 - [x] `rustfmt.toml` でunstable featuresと `StdExternalCrate` を設定した。

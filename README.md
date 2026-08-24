@@ -18,7 +18,7 @@ This project uses the definition of the shanten number presented in [結局の�
 
 The exact implementations call `shanten_tests!(Type)` and must pass every shared case without `#[ignore]`.
 
-The historical decomposition variants preserve their source algorithms. Their known failures are retained as named, reason-bearing ignored cases. They cover these test ID groups:
+The historical decomposition variants preserve their source algorithms. Their known failures are retained as reason-bearing ignored cases selected through named profiles. They cover these test ID groups:
 
 - `test_shanten_waiting_for_the_5th_tile_*`
 - selected `test_shanten_2_isolated_4_tiles_*` cases

@@ -29,52 +29,30 @@
 /// shanten_tests!(Dummy);
 /// ```
 ///
-/// Historical implementations may explicitly declare the supported known-failure set. Exact
-/// implementations must use the single-argument form so every case is required to pass.
+/// Historical implementations may select one of the supported known-failure profiles:
+///
+/// - `legacy_decomposition` ignores every known failure of the historical decomposition variants.
+/// - `legacy_decomposition_with_incomplete_hand_support` additionally requires the incomplete-hand
+///   case to pass.
+///
+/// Exact implementations must use the single-argument form so every case is required to pass.
 #[macro_export]
 macro_rules! shanten_tests {
     ($calculator_type:ty) => {
         $crate::shanten_tests!(@generate $calculator_type, [], []);
     };
-    ($calculator_type:ty, known_failures = [
-        test_shanten_incomplete_hand_4_melds_without_a_pair,
-        test_shanten_waiting_for_the_5th_tile_1,
-        test_shanten_waiting_for_the_5th_tile_2,
-        test_shanten_waiting_for_the_5th_tile_3,
-        test_shanten_2_isolated_4_tiles_3,
-        test_shanten_2_isolated_4_tiles_5,
-        test_shanten_4_honors_1,
-        test_shanten_4_honors_2,
-        test_shanten_4_honors_3,
-        test_shanten_4_honors_4,
-        test_shanten_lack_isolated_tile_13_4333,
-        test_shanten_lack_isolated_tile_13_4432i,
-        test_shanten_lack_isolated_tile_13_4432ii,
-        test_shanten_lack_isolated_tile_13_4441,
-        test_shanten_lack_isolated_tile_14_4433,
-        test_shanten_lack_isolated_tile_14_4442i,
-        test_shanten_lack_isolated_tile_14_4442ii $(,)?
-    ], reason = $reason:literal) => {
+    (
+        $calculator_type:ty,
+        profile = legacy_decomposition,
+        reason = $reason:literal $(,)?
+    ) => {
         $crate::shanten_tests!(@generate $calculator_type, [#[ignore = $reason]], [#[ignore = $reason]]);
     };
-    ($calculator_type:ty, known_failures = [
-        test_shanten_waiting_for_the_5th_tile_1,
-        test_shanten_waiting_for_the_5th_tile_2,
-        test_shanten_waiting_for_the_5th_tile_3,
-        test_shanten_2_isolated_4_tiles_3,
-        test_shanten_2_isolated_4_tiles_5,
-        test_shanten_4_honors_1,
-        test_shanten_4_honors_2,
-        test_shanten_4_honors_3,
-        test_shanten_4_honors_4,
-        test_shanten_lack_isolated_tile_13_4333,
-        test_shanten_lack_isolated_tile_13_4432i,
-        test_shanten_lack_isolated_tile_13_4432ii,
-        test_shanten_lack_isolated_tile_13_4441,
-        test_shanten_lack_isolated_tile_14_4433,
-        test_shanten_lack_isolated_tile_14_4442i,
-        test_shanten_lack_isolated_tile_14_4442ii $(,)?
-    ], reason = $reason:literal) => {
+    (
+        $calculator_type:ty,
+        profile = legacy_decomposition_with_incomplete_hand_support,
+        reason = $reason:literal $(,)?
+    ) => {
         $crate::shanten_tests!(@generate $calculator_type, [#[ignore = $reason]], []);
     };
     (@generate $calculator_type:ty, [$($known_failure_attr:tt)*], [$($incomplete_hand_attr:tt)*]) => {

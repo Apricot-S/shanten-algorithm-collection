@@ -214,24 +214,7 @@ impl ShantenCalculator for DecompKobayashi {
 
 shanten_tests!(
     DecompKobayashi,
-    known_failures = [
-        test_shanten_waiting_for_the_5th_tile_1,
-        test_shanten_waiting_for_the_5th_tile_2,
-        test_shanten_waiting_for_the_5th_tile_3,
-        test_shanten_2_isolated_4_tiles_3,
-        test_shanten_2_isolated_4_tiles_5,
-        test_shanten_4_honors_1,
-        test_shanten_4_honors_2,
-        test_shanten_4_honors_3,
-        test_shanten_4_honors_4,
-        test_shanten_lack_isolated_tile_13_4333,
-        test_shanten_lack_isolated_tile_13_4432i,
-        test_shanten_lack_isolated_tile_13_4432ii,
-        test_shanten_lack_isolated_tile_13_4441,
-        test_shanten_lack_isolated_tile_14_4433,
-        test_shanten_lack_isolated_tile_14_4442i,
-        test_shanten_lack_isolated_tile_14_4442ii,
-    ],
+    profile = legacy_decomposition_with_incomplete_hand_support,
     reason = "the original algorithm does not correct for insufficient isolated tiles"
 );
 shanten_benches!(DecompKobayashi);
