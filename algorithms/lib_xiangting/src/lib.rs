@@ -1,8 +1,4 @@
-#![feature(test)]
-
-extern crate test;
-
-use common::{ShantenCalculator, TileCounts, shanten_benches};
+use common::{ShantenCalculator, TileCounts};
 use xiangting::{PlayerCount, calculate_replacement_number};
 
 /// Benchmark adapter for the `xiangting` crate.
@@ -20,5 +16,3 @@ impl ShantenCalculator for Xiangting {
         i8::try_from(replacement_number).expect("replacement number must fit in i8") - 1
     }
 }
-
-shanten_benches!(Xiangting);

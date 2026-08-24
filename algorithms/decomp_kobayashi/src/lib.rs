@@ -1,9 +1,5 @@
-#![feature(test)]
-
-extern crate test;
-
 use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
-use common::{shanten_benches, shanten_tests};
+use common::shanten_tests;
 
 const MAX_SHANTEN: i8 = 13;
 
@@ -217,4 +213,3 @@ shanten_tests!(
     profile = legacy_decomposition_with_incomplete_hand_support,
     reason = "the original algorithm does not correct for insufficient isolated tiles"
 );
-shanten_benches!(DecompKobayashi);

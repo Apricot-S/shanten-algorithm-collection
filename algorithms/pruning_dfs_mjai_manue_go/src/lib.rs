@@ -1,9 +1,5 @@
-#![feature(test)]
-
-extern crate test;
-
 use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
-use common::{shanten_benches, shanten_tests};
+use common::shanten_tests;
 
 const MAX_SHANTEN: i8 = 8;
 const NUM_CHOW_TYPES: usize = 7 * 3;
@@ -143,7 +139,6 @@ impl ShantenCalculator for PruningDfsMjaiManueGo {
 }
 
 shanten_tests!(PruningDfsMjaiManueGo);
-shanten_benches!(PruningDfsMjaiManueGo);
 
 #[cfg(test)]
 mod differential_tests {

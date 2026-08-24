@@ -1,8 +1,4 @@
-#![feature(test)]
-
-extern crate test;
-
-use common::{ShantenCalculator, TileCount, TileCounts, shanten_benches};
+use common::{ShantenCalculator, TileCount, TileCounts};
 use shanten_dp::{Mode, calc_shanten, make_tile_limits};
 
 /// Benchmark adapter for the `shanten-dp` crate.
@@ -50,5 +46,3 @@ mod tests {
         assert_eq!(ShantenDp::default().calculate_shanten(&hand), 0);
     }
 }
-
-shanten_benches!(ShantenDp);

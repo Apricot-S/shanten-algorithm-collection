@@ -34,7 +34,7 @@ Replace `your_algorithm` with the package you are adding or modifying.
 ```sh
 cargo clippy --package your_algorithm --all-targets --all-features
 cargo test --package your_algorithm
-cargo bench --package your_algorithm
+cargo bench --package your_algorithm --features benchmark
 ```
 
 The benchmark groups are `normal`, `half_flush`, `full_flush`, and `thirteen_orphans`.
@@ -47,7 +47,9 @@ See [algorithms/dummy](algorithms/dummy) for a minimal reference implementation.
 2. Inherit workspace package fields and lints in its `Cargo.toml`.
 3. Expose the calculator type and implement `common::ShantenCalculator`; keep algorithm-specific helpers private.
 4. Add `shanten_tests!(YourCalculator)` when the implementation claims exactness.
-5. Add `shanten_benches!(YourCalculator)` to expose all four benchmark groups.
+5. Add a feature-gated `benches/shanten.rs` target that invokes
+   `shanten_benches!(YourCalculator)` to expose all four benchmark groups without
+   running them during ordinary tests.
 6. Document the origin, correctness, known constraints, and license in a crate README.
 7. Record third-party code or dependencies in `THIRD-PARTY-NOTICES.md` as appropriate.
 

@@ -11,6 +11,17 @@ keywords.workspace = true
 categories.workspace = true
 publish.workspace = true
 
+[features]
+benchmark = []
+
+[lib]
+bench = false
+
+[[bench]]
+name = "shanten"
+path = "benches/shanten.rs"
+required-features = ["benchmark"]
+
 [lints]
 workspace = true
 

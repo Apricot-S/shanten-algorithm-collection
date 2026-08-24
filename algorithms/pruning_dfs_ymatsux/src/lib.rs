@@ -1,9 +1,5 @@
-#![feature(test)]
-
-extern crate test;
-
 use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
-use common::{shanten_benches, shanten_tests};
+use common::shanten_tests;
 
 const MAX_SHANTEN: i8 = 8;
 const NUM_MELD_TYPE: usize = NUM_TILE_TYPE + 7 * 3;
@@ -108,4 +104,3 @@ impl ShantenCalculator for PruningDfsYmatsux {
 }
 
 shanten_tests!(PruningDfsYmatsux);
-shanten_benches!(PruningDfsYmatsux);
