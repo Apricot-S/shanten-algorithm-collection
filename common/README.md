@@ -114,10 +114,9 @@ shanten_benches!(MyCalculator);
 ```
 
 The generated harness reads the datasets from the workspace's `resources` directory.
-Algorithm crates in `algorithms/` can run their suites with:
+Algorithm crates in `algorithms/` can run their benchmarks with:
 
 ```sh
-cargo test --package my_algorithm
 cargo +nightly bench --package my_algorithm --features benchmark
 ```
 
