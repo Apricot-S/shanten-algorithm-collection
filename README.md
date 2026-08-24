@@ -38,6 +38,8 @@ cargo bench --package your_algorithm --features benchmark
 ```
 
 The benchmark groups are `normal`, `half_flush`, `full_flush`, and `thirteen_orphans`.
+Each reported benchmark iteration processes 10,000 hands, so divide the reported
+duration by 10,000 to obtain the average calculation time per hand.
 
 ## Adding an implementation
 
