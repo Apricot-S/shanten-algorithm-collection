@@ -9,23 +9,25 @@ use rand::{Rng, SeedableRng};
 const NUM_WALL: usize = NUM_TILE_TYPE * MAX_NUM_TILE;
 const NUM_CASES: usize = 10_000;
 
+type Hand = [u8; MAX_HAND_SIZE];
+
 fn tile_id(id: usize) -> u8 {
     u8::try_from(id).expect("tile ID fits in u8")
 }
 
-fn draw_tiles(wall: &[u8]) -> [u8; MAX_HAND_SIZE] {
+fn draw_tiles(wall: &[u8]) -> Hand {
     let mut hand = [0u8; MAX_HAND_SIZE];
     hand.copy_from_slice(&wall[..MAX_HAND_SIZE]);
     hand
 }
 
-fn generate_normal_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
+fn generate_normal_hand(rng: &mut impl Rng) -> Hand {
     let mut wall: [u8; NUM_WALL] = std::array::from_fn(|i| tile_id(i / 4));
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
 }
 
-fn generate_half_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
+fn generate_half_flush_hand(rng: &mut impl Rng) -> Hand {
     let color_start = [0, 9, 18].choose(rng).unwrap();
     let suits: [u8; 9 * 4] = std::array::from_fn(|i| tile_id(i / 4 + color_start));
     let honors: [u8; 7 * 4] = std::array::from_fn(|i| tile_id(i / 4 + 27));
@@ -35,21 +37,21 @@ fn generate_half_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
     draw_tiles(wall.as_slice())
 }
 
-fn generate_full_flush_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
+fn generate_full_flush_hand(rng: &mut impl Rng) -> Hand {
     let color_start = [0, 9, 18].choose(rng).unwrap();
     let mut wall: [u8; 9 * 4] = std::array::from_fn(|i| tile_id(i / 4 + color_start));
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
 }
 
-fn generate_non_simple_hand(rng: &mut impl Rng) -> [u8; MAX_HAND_SIZE] {
+fn generate_non_simple_hand(rng: &mut impl Rng) -> Hand {
     const NON_SIMPLES: [u8; 13] = [0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33];
     let mut wall: [u8; 13 * 4] = std::array::from_fn(|i| NON_SIMPLES[i % 13]);
     wall.shuffle(rng);
     draw_tiles(wall.as_slice())
 }
 
-fn write_cases(filename: &str, cases: &Vec<[u8; MAX_HAND_SIZE]>) -> std::io::Result<()> {
+fn write_cases(filename: &str, cases: &Vec<Hand>) -> std::io::Result<()> {
     let file = File::create(filename)?;
     let mut writer = BufWriter::new(file);
     for hand in cases {
