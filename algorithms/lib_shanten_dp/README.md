@@ -30,7 +30,7 @@ Argument validation is disabled with `check_hand = false`.
 
 ## Result meaning
 
-The adapter returns the upstream general-form shanten number directly. Its smoke test checks tile-count conversion and the result for a representative standard hand.
+The adapter returns the upstream general-form shanten number directly and runs the shared correctness suite.
 
 ## Commands
 

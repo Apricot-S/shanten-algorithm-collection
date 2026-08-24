@@ -34,15 +34,4 @@ impl ShantenCalculator for ShantenDp {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use common::TileCountsExt;
-
-    use super::*;
-
-    #[test]
-    fn calculates_standard_hand() {
-        let hand = TileCounts::from_code("123m456p789s1122z");
-        assert_eq!(ShantenDp::default().calculate_shanten(&hand), 0);
-    }
-}
+common::shanten_tests!(ShantenDp);
