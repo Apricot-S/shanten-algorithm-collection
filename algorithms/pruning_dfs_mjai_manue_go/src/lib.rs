@@ -1,5 +1,4 @@
 use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
-use common::shanten_tests;
 
 const MAX_SHANTEN: i8 = 8;
 const NUM_CHOW_TYPES: usize = 7 * 3;
@@ -138,7 +137,7 @@ impl ShantenCalculator for PruningDfsMjaiManueGo {
     }
 }
 
-shanten_tests!(PruningDfsMjaiManueGo);
+common::shanten_tests!(PruningDfsMjaiManueGo);
 
 #[cfg(test)]
 mod differential_tests {

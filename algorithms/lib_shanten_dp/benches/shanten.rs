@@ -2,7 +2,6 @@
 
 extern crate test;
 
-use common::shanten_benches;
 use lib_shanten_dp::ShantenDp;
 
-shanten_benches!(ShantenDp);
+common::shanten_benches!(ShantenDp);

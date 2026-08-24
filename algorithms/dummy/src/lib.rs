@@ -14,3 +14,6 @@ impl ShantenCalculator for Dummy {
         0 // Dummy implementation
     }
 }
+
+// Generate the shared correctness tests for an actual implementation.
+// common::shanten_tests!(Dummy);

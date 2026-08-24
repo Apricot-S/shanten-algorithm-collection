@@ -16,7 +16,7 @@ This project uses the definition of the shanten number presented in [結局の�
 
 ## Correctness and known limitations
 
-The exact implementations call `shanten_tests!(Type)` and must pass every shared case without `#[ignore]`.
+The exact implementations call `common::shanten_tests!(Type)` and must pass every shared case without `#[ignore]`.
 
 The historical decomposition variants preserve their source algorithms. Their known failures are retained as reason-bearing ignored cases selected through named profiles. They cover these test ID groups:
 
@@ -46,8 +46,8 @@ See [algorithms/dummy](algorithms/dummy) for a minimal reference implementation.
 1. Create a library crate under `algorithms/` and add it to the workspace members.
 2. Inherit workspace package fields and lints in its `Cargo.toml`.
 3. Expose the calculator type and implement `common::ShantenCalculator`; keep algorithm-specific helpers private.
-4. Add `shanten_tests!(YourCalculator)` when the implementation claims exactness.
-5. Use `shanten_benches!(YourCalculator)` to expose all four benchmark groups.
+4. Add `common::shanten_tests!(YourCalculator)` when the implementation claims exactness.
+5. Use `common::shanten_benches!(YourCalculator)` to expose all four benchmark groups.
 6. Document the origin, correctness, known constraints, and license in a crate README.
 7. Record third-party code or dependencies in `THIRD-PARTY-NOTICES.md` as appropriate.
 

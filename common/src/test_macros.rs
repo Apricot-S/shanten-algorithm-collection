@@ -12,7 +12,6 @@
 /// # Example
 ///
 /// ```
-/// use common::shanten_tests;
 /// use common::{ShantenCalculator, TileCounts};
 ///
 /// struct Dummy {}
@@ -26,7 +25,7 @@
 ///     }
 /// }
 ///
-/// shanten_tests!(Dummy);
+/// common::shanten_tests!(Dummy);
 /// ```
 ///
 /// Historical implementations may select one of the supported known-failure profiles:

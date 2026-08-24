@@ -1,5 +1,4 @@
 use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
-use common::shanten_tests;
 
 const MAX_SHANTEN: i8 = 8;
 const NUM_MELD_TYPE: usize = NUM_TILE_TYPE + 7 * 3;
@@ -103,4 +102,4 @@ impl ShantenCalculator for PruningDfsYmatsux {
     }
 }
 
-shanten_tests!(PruningDfsYmatsux);
+common::shanten_tests!(PruningDfsYmatsux);

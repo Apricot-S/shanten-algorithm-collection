@@ -23,9 +23,7 @@
 /// ```
 /// #![feature(test)]
 /// extern crate test;
-/// use common::shanten_benches;
-///
-/// shanten_benches!(YourAlgorithm);
+/// common::shanten_benches!(YourAlgorithm);
 /// ```
 ///
 /// # Notes

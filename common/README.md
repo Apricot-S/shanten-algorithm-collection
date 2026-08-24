@@ -29,7 +29,7 @@ Implement `ShantenCalculator` and invoke the test macro at the crate root. A ret
 value of `0` means tenpai, and `-1` means a complete hand.
 
 ```rust
-use common::{ShantenCalculator, TileCounts, shanten_tests};
+use common::{ShantenCalculator, TileCounts};
 
 pub struct MyCalculator;
 
@@ -44,7 +44,7 @@ impl ShantenCalculator for MyCalculator {
     }
 }
 
-shanten_tests!(MyCalculator);
+common::shanten_tests!(MyCalculator);
 ```
 
 An exact implementation should use the single-argument form shown above so that all
@@ -54,7 +54,7 @@ Historical decomposition algorithms with documented limitations can select a
 known-failure profile instead:
 
 ```rust
-shanten_tests!(
+common::shanten_tests!(
     MyCalculator,
     profile = legacy_decomposition,
     reason = "preserves the known limitations of the original algorithm",
@@ -107,10 +107,9 @@ Place the harness in `benches/shanten.rs`:
 
 extern crate test;
 
-use common::shanten_benches;
 use my_algorithm::MyCalculator;
 
-shanten_benches!(MyCalculator);
+common::shanten_benches!(MyCalculator);
 ```
 
 The generated harness reads the datasets from the workspace's `resources` directory.

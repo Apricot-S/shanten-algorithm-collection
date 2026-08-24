@@ -2,7 +2,6 @@
 
 extern crate test;
 
-use common::shanten_benches;
 use decomp_fixed_pruned::DecompFixedPruned;
 
-shanten_benches!(DecompFixedPruned);
+common::shanten_benches!(DecompFixedPruned);

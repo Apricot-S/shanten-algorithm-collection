@@ -1,5 +1,4 @@
 use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
-use common::shanten_tests;
 
 const MAX_SHANTEN: i8 = 8;
 
@@ -268,7 +267,7 @@ impl ShantenCalculator for DecompAraRemoval {
     }
 }
 
-shanten_tests!(
+common::shanten_tests!(
     DecompAraRemoval,
     profile = legacy_decomposition,
     reason = "the original algorithm does not correct for insufficient isolated tiles"

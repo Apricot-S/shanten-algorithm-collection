@@ -1,5 +1,4 @@
 use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
-use common::shanten_tests;
 
 const MAX_NUM_BLOCKS: i8 = 4;
 const MAX_SHANTEN: i8 = 8;
@@ -290,4 +289,4 @@ impl ShantenCalculator for DecompFixedPruned {
     }
 }
 
-shanten_tests!(DecompFixedPruned);
+common::shanten_tests!(DecompFixedPruned);
