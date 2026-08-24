@@ -30,18 +30,12 @@ The historical decomposition variants preserve their source algorithms. Their kn
 
 ## Tests and benchmarks
 
-The pinned nightly toolchain is selected automatically.
+Replace `your_algorithm` with the package you are adding or modifying.
 
 ```sh
-cargo fmt --all -- --check
-cargo clippy --workspace --all-targets --all-features
-cargo test --workspace
-```
-
-Run the four shared benchmarks for one implementation with:
-
-```sh
-cargo bench --package pruning_dfs_ymatsux
+cargo clippy --package your_algorithm --all-targets --all-features
+cargo test --package your_algorithm
+cargo bench --package your_algorithm
 ```
 
 The benchmark groups are `normal`, `half_flush`, `full_flush`, and `thirteen_orphans`.
