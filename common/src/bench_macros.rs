@@ -85,48 +85,34 @@ macro_rules! shanten_benches {
                 parse_hands(lines)
             }
 
-            #[bench]
-            fn bench_shanten_normal_10000(b: &mut Bencher) {
+            fn bench_hands(b: &mut Bencher, filename: &str) {
                 let calculator = <$calculator_type as $crate::ShantenCalculator>::new();
-                let hands = load_hands("../../resources/hands_normal_10000.txt");
+                let hands = load_hands(filename);
                 b.iter(|| {
                     for hand in &hands {
                         _ = $crate::ShantenCalculator::calculate_shanten(&calculator, hand);
                     }
                 });
+            }
+
+            #[bench]
+            fn bench_shanten_normal_10000(b: &mut Bencher) {
+                bench_hands(b, "../../resources/hands_normal_10000.txt");
             }
 
             #[bench]
             fn bench_shanten_half_flush_10000(b: &mut Bencher) {
-                let calculator = <$calculator_type as $crate::ShantenCalculator>::new();
-                let hands = load_hands("../../resources/hands_half_flush_10000.txt");
-                b.iter(|| {
-                    for hand in &hands {
-                        _ = $crate::ShantenCalculator::calculate_shanten(&calculator, hand);
-                    }
-                });
+                bench_hands(b, "../../resources/hands_half_flush_10000.txt");
             }
 
             #[bench]
             fn bench_shanten_full_flush_10000(b: &mut Bencher) {
-                let calculator = <$calculator_type as $crate::ShantenCalculator>::new();
-                let hands = load_hands("../../resources/hands_full_flush_10000.txt");
-                b.iter(|| {
-                    for hand in &hands {
-                        _ = $crate::ShantenCalculator::calculate_shanten(&calculator, hand);
-                    }
-                });
+                bench_hands(b, "../../resources/hands_full_flush_10000.txt");
             }
 
             #[bench]
             fn bench_shanten_thirteen_orphans_10000(b: &mut Bencher) {
-                let calculator = <$calculator_type as $crate::ShantenCalculator>::new();
-                let hands = load_hands("../../resources/hands_thirteen_orphans_10000.txt");
-                b.iter(|| {
-                    for hand in &hands {
-                        _ = $crate::ShantenCalculator::calculate_shanten(&calculator, hand);
-                    }
-                });
+                bench_hands(b, "../../resources/hands_thirteen_orphans_10000.txt");
             }
         }
     };
