@@ -32,7 +32,7 @@ fn generate_half_flush_hand(rng: &mut impl Rng) -> Hand {
     let suits: [u8; 9 * 4] = std::array::from_fn(|i| tile_id(i / 4 + color_start));
     let honors: [u8; 7 * 4] = std::array::from_fn(|i| tile_id(i / 4 + 27));
     let mut combined = suits.into_iter().chain(honors);
-    let mut wall: [u8; 36 + 28] = combined.try_into().unwrap();
+    let mut wall: [u8; 36 + 28] = std::array::from_fn(|_| combined.next().unwrap());
     wall.shuffle(rng);
     draw_tiles(&wall)
 }
