@@ -84,8 +84,23 @@ The benchmark macro generates one benchmark for each fixed-seed, 10,000-hand dat
 - full-flush hands
 - Thirteen Orphans-oriented hands
 
-It uses Rust's unstable `test` crate, so the consuming algorithm crate must enable the
-feature and benchmarks must run on nightly Rust:
+It uses Rust's unstable `test` crate. Keep the benchmark in a feature-gated benchmark
+target so that neither `cargo test` nor `cargo test --all-targets` executes it:
+
+```toml
+[features]
+benchmark = []
+
+[lib]
+bench = false
+
+[[bench]]
+name = "shanten"
+path = "benches/shanten.rs"
+required-features = ["benchmark"]
+```
+
+Place the harness in `benches/shanten.rs`:
 
 ```rust
 #![feature(test)]
@@ -93,6 +108,7 @@ feature and benchmarks must run on nightly Rust:
 extern crate test;
 
 use common::shanten_benches;
+use my_algorithm::MyCalculator;
 
 shanten_benches!(MyCalculator);
 ```
@@ -102,7 +118,7 @@ Algorithm crates in `algorithms/` can run their suites with:
 
 ```sh
 cargo test --package my_algorithm
-cargo +nightly bench --package my_algorithm
+cargo +nightly bench --package my_algorithm --features benchmark
 ```
 
 See [`algorithms/dummy`](../algorithms/dummy) for the smallest integration example and

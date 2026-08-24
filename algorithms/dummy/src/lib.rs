@@ -1,8 +1,3 @@
-#![feature(test)]
-
-extern crate test;
-
-use common::shanten_benches;
 use common::{ShantenCalculator, TileCounts};
 
 /// Calculator used to demonstrate the benchmark harness.
@@ -19,6 +14,3 @@ impl ShantenCalculator for Dummy {
         0 // Dummy implementation
     }
 }
-
-// Generate benchmarks using macro
-shanten_benches!(Dummy);
