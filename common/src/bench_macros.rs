@@ -37,7 +37,7 @@
 macro_rules! shanten_benches {
     ($calculator_type:ty) => {
         #[cfg(test)]
-        mod benches {
+        mod shanten_benches {
             use std::fs::File;
             use std::io::{BufRead, BufReader};
 
