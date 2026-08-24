@@ -20,10 +20,10 @@ The exact implementations call `shanten_tests!(Type)` and must pass every shared
 
 The historical decomposition variants preserve their source algorithms. Their known failures are retained as named, reason-bearing ignored cases. They cover these test ID groups:
 
-- `test_shanten_waiting_for_the_5th_tile_*`;
-- selected `test_shanten_2_isolated_4_tiles_*` cases;
-- `test_shanten_4_honors_*`; and
-- `test_shanten_lack_isolated_tile_*`.
+- `test_shanten_waiting_for_the_5th_tile_*`
+- selected `test_shanten_2_isolated_4_tiles_*` cases
+- `test_shanten_4_honors_*`
+- `test_shanten_lack_isolated_tile_*`
 
 `decomp`, `decomp_pruned`, `decomp_ara`, and `decomp_ara_removal` also ignore `test_shanten_incomplete_hand_4_melds_without_a_pair`; `decomp_kobayashi` passes that case.
 
