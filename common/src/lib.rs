@@ -1,3 +1,5 @@
+#![warn(missing_docs)]
+
 //! Common library for shanten number calculation algorithm implementations.
 //!
 //! This crate provides common traits, types, macros, and utilities for implementing and testing
@@ -14,8 +16,6 @@
 //! use the [`shanten_tests!`] macro for testing.
 //! Internal utilities such as [`TileCountsExt`] are used by macros and
 //! do not need to be called directly.
-
-#![warn(missing_docs)]
 
 mod bench_macros;
 mod constants;
