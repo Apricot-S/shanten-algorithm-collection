@@ -1,8 +1,8 @@
 # shanten-algorithm-collection
 
-A Rust workspace for testing and benchmarking algorithms that calculate the riichi-mahjong shanten number.
+A Rust workspace for testing and benchmarking algorithms that calculate the shanten number (向聴数).
 
-The shared correctness suite targets the general hand form: up to four melds and one pair. Seven Pairs and Thirteen Orphans are outside that scope.
+The shared correctness suite targets the general hand form: up to four melds and one pair. Seven Pairs (Chiitoitsu, 七対子) and Thirteen Orphans (Kokushi Musou, 国士無双) are outside that scope.
 
 ## Scope
 
