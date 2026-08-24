@@ -8,10 +8,9 @@ The shared correctness suite targets the general hand form: up to four melds and
 
 The workspace provides:
 
-- a shared `ShantenCalculator` interface;
-- 33 named correctness cases, including four-identical-tile and insufficient-isolated-tile regressions;
-- four fixed-seed, 10,000-hand benchmark datasets; and
-- adapters that expose selected third-party crates through the same benchmark harness.
+- a shared `ShantenCalculator` interface
+- correctness tests covering corner cases such as hands with insufficient isolated tiles
+- four fixed-seed, 10,000-hand benchmark datasets
 
 This project uses the definition of the shanten number presented in [結局のところ，麻雀における向聴数とは数学的かつ構成的にどう定義されるのか？ #数学 - Qiita](https://qiita.com/Cryolite/items/40908d0bce2bac310717).
 
