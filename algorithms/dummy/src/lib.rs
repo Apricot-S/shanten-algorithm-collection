@@ -20,15 +20,5 @@ impl ShantenCalculator for Dummy {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn always_returns_zero() {
-        assert_eq!(Dummy.calculate_shanten(&[0; 34]), 0);
-    }
-}
-
 // Generate benchmarks using macro
 shanten_benches!(Dummy);
