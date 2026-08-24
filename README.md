@@ -48,6 +48,8 @@ The benchmark groups are `normal`, `half_flush`, `full_flush`, and `thirteen_orp
 
 ## Adding an implementation
 
+See [algorithms/dummy](algorithms/dummy) for a minimal reference implementation.
+
 1. Create a library crate under `algorithms/` and add it to the workspace members.
 2. Inherit workspace package fields and lints in its `Cargo.toml`.
 3. Expose the calculator type and implement `common::ShantenCalculator`; keep algorithm-specific helpers private.
