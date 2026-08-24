@@ -30,18 +30,13 @@ impl TileCountsExt for TileCounts {
                 b'p' => suit_offset = Some(9),
                 b's' => suit_offset = Some(18),
                 b'z' => suit_offset = Some(27),
-                b'0'..=b'9' => {
+                b'1'..=b'9' => {
                     let number = byte - b'0';
-
-                    assert!(
-                        (1..=9).contains(&number),
-                        "tile number must be between 1 and 9, got {number}"
-                    );
                     let base = suit_offset.expect("no type specified before the tile number");
                     let tile_index = base + usize::from(number - 1);
                     counts[tile_index] += 1;
                 }
-                _ => {}
+                _ => panic!("invalid character in hand: {byte:?}"),
             }
         }
 
@@ -91,10 +86,16 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "tile number must be between 1 and 9")]
+    #[should_panic(expected = "invalid character in hand")]
     fn test_from_code_offset_out_of_range_number() {
         // 0m does not exist
         TileCounts::from_code("0m");
+    }
+
+    #[test]
+    #[should_panic(expected = "invalid character in hand")]
+    fn test_from_code_invalid_character() {
+        TileCounts::from_code("123x");
     }
 
     #[test]
