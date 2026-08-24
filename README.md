@@ -47,9 +47,7 @@ See [algorithms/dummy](algorithms/dummy) for a minimal reference implementation.
 2. Inherit workspace package fields and lints in its `Cargo.toml`.
 3. Expose the calculator type and implement `common::ShantenCalculator`; keep algorithm-specific helpers private.
 4. Add `shanten_tests!(YourCalculator)` when the implementation claims exactness.
-5. Add a feature-gated `benches/shanten.rs` target that invokes
-   `shanten_benches!(YourCalculator)` to expose all four benchmark groups without
-   running them during ordinary tests.
+5. Use `shanten_benches!(YourCalculator)` to expose all four benchmark groups.
 6. Document the origin, correctness, known constraints, and license in a crate README.
 7. Record third-party code or dependencies in `THIRD-PARTY-NOTICES.md` as appropriate.
 
