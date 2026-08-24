@@ -25,7 +25,7 @@ The historical decomposition variants preserve their source algorithms. Their kn
 - `test_shanten_4_honors_*`; and
 - `test_shanten_lack_isolated_tile_*`.
 
-`decomp`, `decomp_pruned`, `decomp_ara`, and `decomp_ara_removal` also ignore `test_shanten_incomplete_hand_4_melds_without_a_pair`; `decomp_kobayashi` passes that case. The `dummy` crate is not part of the correctness comparison and only tests that it always returns zero.
+`decomp`, `decomp_pruned`, `decomp_ara`, and `decomp_ara_removal` also ignore `test_shanten_incomplete_hand_4_melds_without_a_pair`; `decomp_kobayashi` passes that case.
 
 ## Tests and benchmarks
 
