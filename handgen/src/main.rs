@@ -51,7 +51,7 @@ fn generate_non_simple_hand(rng: &mut impl Rng) -> Hand {
     draw_tiles(&wall)
 }
 
-fn write_cases(filename: &str, cases: &Vec<Hand>) -> std::io::Result<()> {
+fn write_cases(filename: &str, cases: &[Hand]) -> std::io::Result<()> {
     let file = File::create(filename)?;
     let mut writer = BufWriter::new(file);
     for hand in cases {
