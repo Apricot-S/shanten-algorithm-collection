@@ -53,10 +53,8 @@ The benchmark groups are `normal`, `half_flush`, `full_flush`, and `thirteen_orp
 3. Expose the calculator type and implement `common::ShantenCalculator`; keep algorithm-specific helpers private.
 4. Add `shanten_tests!(YourCalculator)` when the implementation claims exactness.
 5. Add `shanten_benches!(YourCalculator)` to expose all four benchmark groups.
-6. Document the origin, pseudocode, pruning rules, correctness, constraints, and license in an English crate README.
+6. Document the origin, correctness, known constraints, and license in a crate README.
 7. Record third-party code or dependencies in `THIRD-PARTY-NOTICES.md` and `Cargo.lock` as appropriate.
-
-Algorithm ports should retain the source's search order, pruning behavior, and state representation unless a documented bug fix requires a change.
 
 ## License
 
