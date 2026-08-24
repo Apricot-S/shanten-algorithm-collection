@@ -90,7 +90,10 @@ macro_rules! shanten_benches {
                 let hands = load_hands(filename);
                 b.iter(|| {
                     for hand in &hands {
-                        _ = $crate::ShantenCalculator::calculate_shanten(&calculator, hand);
+                        std::hint::black_box($crate::ShantenCalculator::calculate_shanten(
+                            &calculator,
+                            hand,
+                        ));
                     }
                 });
             }
