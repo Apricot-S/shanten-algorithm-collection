@@ -3,6 +3,7 @@ resolver = "3"
 members = [
     "common",
     "handgen",
+
     "algorithms/dummy",
     "algorithms/decomp",
     "algorithms/decomp_pruned",
@@ -11,9 +12,10 @@ members = [
     "algorithms/decomp_ara_removal",
     "algorithms/decomp_kobayashi",
     "algorithms/pruning_dfs_ymatsux",
+    "algorithms/pruning_dfs_mjai_manue_go",
+
     "algorithms/lib_xiangting",
     "algorithms/lib_shanten_dp",
-    "algorithms/pruning_dfs_mjai_manue_go",
 ]
 
 [workspace.package]
