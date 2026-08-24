@@ -44,7 +44,7 @@ Run the four shared benchmarks for one implementation with:
 cargo bench --package pruning_dfs_ymatsux
 ```
 
-The benchmark groups are `normal`, `half_flush`, `full_flush`, and `thirteen_orphans`. The last dataset is still evaluated as a general-form hand by general-only implementations.
+The benchmark groups are `normal`, `half_flush`, `full_flush`, and `thirteen_orphans`.
 
 ## Adding an implementation
 
