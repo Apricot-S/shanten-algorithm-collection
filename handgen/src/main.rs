@@ -24,7 +24,7 @@ fn draw_tiles(wall: &[u8]) -> Hand {
 fn generate_normal_hand(rng: &mut impl Rng) -> Hand {
     let mut wall: [u8; NUM_WALL] = std::array::from_fn(|i| tile_id(i / 4));
     wall.shuffle(rng);
-    draw_tiles(wall.as_slice())
+    draw_tiles(&wall)
 }
 
 fn generate_half_flush_hand(rng: &mut impl Rng) -> Hand {
@@ -34,21 +34,21 @@ fn generate_half_flush_hand(rng: &mut impl Rng) -> Hand {
     let mut combined = suits.into_iter().chain(honors);
     let mut wall: [u8; 36 + 28] = combined.try_into().unwrap();
     wall.shuffle(rng);
-    draw_tiles(wall.as_slice())
+    draw_tiles(&wall)
 }
 
 fn generate_full_flush_hand(rng: &mut impl Rng) -> Hand {
     let color_start = [0, 9, 18].choose(rng).unwrap();
     let mut wall: [u8; 9 * 4] = std::array::from_fn(|i| tile_id(i / 4 + color_start));
     wall.shuffle(rng);
-    draw_tiles(wall.as_slice())
+    draw_tiles(&wall)
 }
 
 fn generate_non_simple_hand(rng: &mut impl Rng) -> Hand {
     const NON_SIMPLES: [u8; 13] = [0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33];
     let mut wall: [u8; 13 * 4] = std::array::from_fn(|i| NON_SIMPLES[i % 13]);
     wall.shuffle(rng);
-    draw_tiles(wall.as_slice())
+    draw_tiles(&wall)
 }
 
 fn write_cases(filename: &str, cases: &Vec<Hand>) -> std::io::Result<()> {
