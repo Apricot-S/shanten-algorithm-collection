@@ -57,7 +57,7 @@ macro_rules! shanten_tests {
     };
     (@generate $calculator_type:ty, [$($known_failure_attr:tt)*], [$($incomplete_hand_attr:tt)*]) => {
         #[cfg(test)]
-        mod tests {
+        mod shanten_tests {
             use super::*;
 
             fn assert_shanten(hand: &str, expected: i8) {
