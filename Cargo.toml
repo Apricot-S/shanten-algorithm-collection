@@ -14,8 +14,8 @@ members = [
     "algorithms/pruning_dfs_ymatsux",
     "algorithms/pruning_dfs_mjai_manue_go",
 
-    "algorithms/lib_shanten_dp",
-    "algorithms/lib_xiangting",
+    "adapters/shanten_dp",
+    "adapters/xiangting",
 ]
 
 [workspace.package]

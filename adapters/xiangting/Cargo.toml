@@ -1,5 +1,5 @@
 [package]
-name = "lib_xiangting"
+name = "sac_xiangting"
 description.workspace = true
 version.workspace = true
 authors.workspace = true

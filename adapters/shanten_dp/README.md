@@ -35,6 +35,6 @@ The adapter returns the upstream general-form shanten number directly and runs t
 ## Commands
 
 ```sh
-cargo test --package lib_shanten_dp
-cargo bench --package lib_shanten_dp
+cargo test --package sac_shanten_dp
+cargo bench --package sac_shanten_dp --features benchmark
 ```

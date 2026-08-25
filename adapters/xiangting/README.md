@@ -33,6 +33,6 @@ The upstream replacement number is converted to the conventional shanten number 
 ## Commands
 
 ```sh
-cargo test --package lib_xiangting
-cargo bench --package lib_xiangting
+cargo test --package sac_xiangting
+cargo bench --package sac_xiangting --features benchmark
 ```

@@ -2,6 +2,6 @@
 
 extern crate test;
 
-use lib_xiangting::Xiangting;
+use sac_xiangting::Xiangting;
 
 common::shanten_benches!(Xiangting);

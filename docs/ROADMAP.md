@@ -18,7 +18,7 @@
 - [x] `test/xiangting` の比較アダプタを、DFSとの重複差分を除いて統合した。
   - [x] `xiangting = 6.0.1` を固定した。
   - [x] 一般形・七対子・国士の最小値とvalidationを含む条件を明記した。
-- [x] `lib_shanten_dp` を追加した。
+- [x] `sac_shanten_dp` を追加した。
   - [x] `shanten-dp = 0.3.2` を固定した。
   - [x] `make_tile_limits(false)`、`Mode::STANDARD`、2つのboolをfalseに設定した。
   - [x] `m = sum(hand) / 3` とし、代表手のsmoke testを追加した。

@@ -1,5 +1,5 @@
 [package]
-name = "lib_shanten_dp"
+name = "sac_shanten_dp"
 description.workspace = true
 version.workspace = true
 authors.workspace = true
