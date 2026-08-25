@@ -46,8 +46,8 @@ duration by 10,000 to obtain the average calculation time per hand.
 See [algorithms/dummy](algorithms/dummy) for a minimal reference implementation.
 
 Implementations maintained or ported in this repository belong under `algorithms/`.
-Thin compatibility crates for comparing upstream Rust crates belong under `adapters/`;
-their package names use the `sac_` prefix to distinguish them from the upstream crates.
+Adapters for upstream Rust crates belong under `adapters/`. Their package names use
+the `sac_` prefix to distinguish them from the upstream crates.
 
 1. Create a library crate under `algorithms/` and add it to the workspace members.
 2. Inherit workspace package fields and lints in its `Cargo.toml`.
