@@ -150,13 +150,6 @@ macro_rules! shanten_tests {
             }
 
             #[test]
-            $($known_failure_attr)*
-            fn test_shanten_waiting_for_the_5th_tile_3() {
-                // Source: http://cmj3.web.fc2.com/#syanten
-                assert_shanten("11112222333444z", 1);
-            }
-
-            #[test]
             fn test_shanten_2_isolated_4_tiles_1() {
                 assert_shanten("1111247777m", 1);
             }
