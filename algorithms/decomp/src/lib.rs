@@ -102,7 +102,6 @@ fn cut_meld_cand(
 }
 
 /// Basic block-decomposition algorithm.
-#[derive(Default)]
 pub struct Decomp;
 
 impl ShantenCalculator for Decomp {

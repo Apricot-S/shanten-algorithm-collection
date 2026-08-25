@@ -113,7 +113,6 @@ fn cut_meld_cand(
 }
 
 /// Block-decomposition algorithm with lower-bound pruning.
-#[derive(Default)]
 pub struct DecompPruned;
 
 impl ShantenCalculator for DecompPruned {

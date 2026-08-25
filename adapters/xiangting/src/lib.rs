@@ -2,7 +2,6 @@ use common::{ShantenCalculator, TileCounts};
 use xiangting::{PlayerCount, calculate_replacement_number};
 
 /// Benchmark adapter for the `xiangting` crate.
-#[derive(Default)]
 pub struct Xiangting;
 
 impl ShantenCalculator for Xiangting {

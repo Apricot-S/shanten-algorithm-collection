@@ -237,7 +237,6 @@ fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, num_call: i8) -
 }
 
 /// Removal-based variant of Ara's block-decomposition algorithm.
-#[derive(Default)]
 pub struct DecompAraRemoval;
 
 impl ShantenCalculator for DecompAraRemoval {

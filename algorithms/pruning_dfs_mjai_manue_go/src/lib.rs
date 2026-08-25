@@ -28,7 +28,6 @@ const fn make_melds() -> [Meld; NUM_MELD_TYPES] {
 const MELDS: [Meld; NUM_MELD_TYPES] = make_melds();
 
 /// Shanten-only derivative of the pruning DFS in `mjai-manue-go`.
-#[derive(Default)]
 pub struct PruningDfsMjaiManueGo;
 
 impl PruningDfsMjaiManueGo {

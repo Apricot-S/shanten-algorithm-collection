@@ -1,7 +1,6 @@
 use common::{ShantenCalculator, TileCounts};
 
 /// Calculator used to demonstrate the benchmark harness.
-#[derive(Default)]
 pub struct Dummy;
 
 impl ShantenCalculator for Dummy {

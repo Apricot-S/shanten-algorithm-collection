@@ -177,7 +177,6 @@ fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, num_call: i8) -
 }
 
 /// Kobayashi's block-decomposition algorithm.
-#[derive(Default)]
 pub struct DecompKobayashi;
 
 impl ShantenCalculator for DecompKobayashi {

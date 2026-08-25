@@ -237,7 +237,6 @@ fn cut_isolated_tile_for_pair_and_meld(
 }
 
 /// Corrected block-decomposition algorithm with lower-bound pruning.
-#[derive(Default)]
 pub struct DecompFixedPruned;
 
 impl ShantenCalculator for DecompFixedPruned {
