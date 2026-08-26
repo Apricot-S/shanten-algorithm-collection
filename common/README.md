@@ -1,4 +1,4 @@
-# Common
+# common
 
 This crate contains the reusable API and harness implementation used by the algorithm crates.
 It does not calculate shanten numbers itself.
