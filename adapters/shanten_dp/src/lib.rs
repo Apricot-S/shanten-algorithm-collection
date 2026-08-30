@@ -6,17 +6,11 @@ pub struct ShantenDp {
     tile_limits: [u8; 35],
 }
 
-impl Default for ShantenDp {
-    fn default() -> Self {
+impl ShantenCalculator for ShantenDp {
+    fn new() -> Self {
         Self {
             tile_limits: make_tile_limits(false),
         }
-    }
-}
-
-impl ShantenCalculator for ShantenDp {
-    fn new() -> Self {
-        Self::default()
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {

@@ -76,23 +76,19 @@ impl PruningDfsYmatsux {
     }
 }
 
-impl Default for PruningDfsYmatsux {
-    fn default() -> Self {
+impl ShantenCalculator for PruningDfsYmatsux {
+    fn new() -> Self {
         let mut melds = [[0; 3]; NUM_MELD_TYPE];
         for (i, meld) in melds.iter_mut().take(NUM_TILE_TYPE).enumerate() {
             *meld = [i, i, i];
         }
+
         let sequence_starts = (0..27).filter(|tile| tile % 9 < 7);
         for (meld, tile) in melds.iter_mut().skip(NUM_TILE_TYPE).zip(sequence_starts) {
             *meld = [tile, tile + 1, tile + 2];
         }
-        Self { melds }
-    }
-}
 
-impl ShantenCalculator for PruningDfsYmatsux {
-    fn new() -> Self {
-        Self::default()
+        Self { melds }
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
