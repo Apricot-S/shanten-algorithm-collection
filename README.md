@@ -52,7 +52,8 @@ Adapters for upstream Rust crates belong under `adapters/`. Their package names 
 3. Expose the calculator type and implement `common::ShantenCalculator`; keep algorithm-specific helpers private.
 4. Add `common::shanten_tests!(YourCalculator)` when the implementation claims exactness.
 5. Use `common::shanten_benches!(YourCalculator)` to expose all four benchmark groups.
-6. Document the origin, correctness, known constraints, and license in a crate README.
+6. Use the [algorithm README template](algorithms/README_TEMPLATE.md) to document the
+   core idea, correctness, complexity, known constraints, origin, and license.
 7. Record third-party code or dependencies in `THIRD-PARTY-NOTICES.md` as appropriate.
 
 ## License
