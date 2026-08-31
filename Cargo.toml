@@ -12,6 +12,7 @@ members = [
     "algorithms/decomp_ara_removal",
     "algorithms/decomp_kobayashi",
     "algorithms/pruning_dfs_ymatsux",
+    "algorithms/pruning_dfs_ymatsux_improved",
     "algorithms/pruning_dfs_mjai_manue_go",
 
     "adapters/shanten_dp",

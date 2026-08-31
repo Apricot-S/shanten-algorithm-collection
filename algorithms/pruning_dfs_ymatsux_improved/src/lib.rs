@@ -31,54 +31,52 @@ fn calculate_shanten_number(hand: &TileCounts, target: &TileCounts) -> i8 {
         - 1
 }
 
-/// Pruning DFS devised by Yoshitake Matsumoto (ymatsux).
-pub struct PruningDfsYmatsux {
+/// ymatsux pruning DFS with the latest upper bound applied to sibling branches.
+pub struct PruningDfsYmatsuxImproved {
     melds: [Meld; NUM_MELD_TYPE],
 }
 
-impl PruningDfsYmatsux {
+impl PruningDfsYmatsuxImproved {
     fn calculate_shanten_impl(
         &self,
         hand: &TileCounts,
         target: &mut TileCounts,
         num_left_meld: u8,
         min_meld_id: usize,
-        entry_upper_bound: i8,
+        mut upper_bound: i8,
     ) -> i8 {
-        let mut min_shanten = entry_upper_bound;
-
         if num_left_meld == 0 {
             for i in 0..NUM_TILE_TYPE {
                 target[i] += 2;
                 if is_valid_hand(target) {
-                    min_shanten = min_shanten.min(calculate_shanten_number(hand, target));
+                    upper_bound = upper_bound.min(calculate_shanten_number(hand, target));
                 }
                 target[i] -= 2;
             }
-            return min_shanten;
+            return upper_bound;
         }
 
         for i in min_meld_id..NUM_MELD_TYPE {
             add_meld(target, &self.melds[i]);
             if is_valid_hand(target) {
                 let lower_bound = calculate_shanten_number(hand, target);
-                if lower_bound < entry_upper_bound {
-                    min_shanten = min_shanten.min(self.calculate_shanten_impl(
+                if lower_bound < upper_bound {
+                    upper_bound = upper_bound.min(self.calculate_shanten_impl(
                         hand,
                         target,
                         num_left_meld - 1,
                         i,
-                        min_shanten,
+                        upper_bound,
                     ));
                 }
             }
             remove_meld(target, &self.melds[i]);
         }
-        min_shanten
+        upper_bound
     }
 }
 
-impl ShantenCalculator for PruningDfsYmatsux {
+impl ShantenCalculator for PruningDfsYmatsuxImproved {
     fn new() -> Self {
         let mut melds = [[0; 3]; NUM_MELD_TYPE];
 
@@ -101,4 +99,4 @@ impl ShantenCalculator for PruningDfsYmatsux {
     }
 }
 
-common::shanten_tests!(PruningDfsYmatsux);
+common::shanten_tests!(PruningDfsYmatsuxImproved);

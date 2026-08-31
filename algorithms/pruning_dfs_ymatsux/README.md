@@ -1,20 +1,19 @@
 # Pruning DFS — ymatsux
 
-This algorithm calculates the general-form shanten number by searching complete
-winning-hand targets. It avoids most of the exhaustive search by pruning a partial
-target as soon as its distance from the input hand cannot improve the best result
-found so far.
+This algorithm searches complete winning-hand targets. It avoids most of the
+exhaustive search by pruning a partial target as soon as its distance from the input
+hand cannot improve the upper bound supplied to that search call.
 
 ## Core idea
 
-A general-form winning hand consists of a fixed number of melds and one pair. The
-algorithm constructs every such target from the empty hand, then measures how many
-tiles would have to be added to the input hand to reach it.
+The algorithm constructs complete targets from the empty hand, then measures how
+many tiles would have to be added to the input hand to reach each target.
 
 Adding a meld or pair to a partial target can never reduce this distance. The
 distance of a partial target is therefore a lower bound for all of its descendants.
-Once that bound reaches the best complete-target distance already found, the entire
-branch can be discarded.
+Once that bound reaches the upper bound supplied to the current search call, the
+entire branch can be discarded. A better result found while visiting its children
+is passed as the upper bound of deeper calls.
 
 ## State and invariants
 
@@ -23,7 +22,8 @@ The depth-first search carries:
 - `target`, a 34-element tile-count vector for the partial winning hand;
 - `num_left_meld`, the number of melds still to add;
 - `min_meld_id`, the first meld allowed at the current node;
-- `upper_bound`, the lowest shanten number found so far.
+- `entry_upper_bound`, the upper bound supplied when entering the current call;
+- `min_shanten`, the lowest shanten number found while executing that call.
 
 There are 55 meld types: 34 triplets and 21 sequences. Meld IDs are selected in
 nondecreasing order, so each multiset of melds is visited once regardless of the
@@ -43,29 +43,31 @@ melds, the search tries each of the 34 possible pairs and updates the upper boun
 calculate(hand):
     target = empty tile-count vector
     melds_left = floor(sum(hand) / 3)
-    return search(target, melds_left, first_meld = 0, upper_bound = 8)
+    return search(target, melds_left, first_meld = 0, entry_upper_bound = 8)
 
-search(target, melds_left, first_meld, upper_bound):
+search(target, melds_left, first_meld, entry_upper_bound):
+    min_shanten = entry_upper_bound
+
     if melds_left == 0:
         for each tile type:
             add its pair to target
             if target contains at most four copies of every tile:
-                upper_bound = min(upper_bound, distance(hand, target) - 1)
+                min_shanten = min(min_shanten, distance(hand, target) - 1)
             remove the pair
-        return upper_bound
+        return min_shanten
 
     for each meld with ID at least first_meld:
         add the meld to target
-        if target is legal and distance(hand, target) - 1 < upper_bound:
-            upper_bound = search(
+        if target is legal and distance(hand, target) - 1 < entry_upper_bound:
+            min_shanten = min(min_shanten, search(
                 target,
                 melds_left - 1,
                 first_meld = meld.id,
-                upper_bound,
-            )
+                entry_upper_bound = min_shanten,
+            ))
         remove the meld
 
-    return upper_bound
+    return min_shanten
 ```
 
 ### Shanten formula
@@ -79,7 +81,7 @@ D(h, g) - 1 = sum(max(g[tile] - h[tile], 0)) - 1.
 
 Only missing target tiles contribute to `D`: tiles in the input hand that are not
 used by the target can be discarded during the corresponding tile exchanges. The
-minimum value over all legal targets is the general-form shanten number.
+minimum value over all legal targets is returned.
 
 The same expression applied to a partial target is the lower bound used for
 pruning.
@@ -88,8 +90,8 @@ pruning.
 
 Every legal meld is present in the 55-entry table, every legal pair is tried at the
 leaf, and nondecreasing meld IDs enumerate every meld multiset. Consequently, every
-legal general-form winning target with the required number of melds is represented
-by at least one visited leaf.
+legal target with the required number of melds is represented by at least one
+visited leaf.
 
 Conversely, a leaf consists only of legal melds and one pair, and the four-copy
 check rejects targets that cannot be a physical mahjong hand. Its distance is
@@ -98,8 +100,9 @@ the definition of shanten.
 
 Extending a partial target can only preserve or increase each positive tile-count
 deficit. Its distance cannot decrease, so a branch whose lower bound is at least
-the current upper bound cannot contain a better result. Pruning such a branch does
-not change the minimum.
+the upper bound supplied to the current call cannot contain a better result than
+was already known when that call began. Pruning such a branch does not change the
+minimum.
 
 ## Complexity
 
@@ -129,14 +132,14 @@ that calculator instance.
 
 The implementation updates the target vector in place when entering and leaving a
 branch. It recalculates the distance by scanning all 34 tile counts at each visited
-candidate. The upper bound is tightened immediately after any better leaf and is
-then reused while examining the remaining siblings.
+candidate. As in the Java source, sibling branches are checked against the bound
+supplied on entry to the current call. The best result found so far is passed to
+recursive calls, where it becomes the next call's entry bound.
 
 ## Correctness and limitations
 
 - Exactness: invokes the shared exactness suite without a known-failure profile or
   ignored cases.
-- Known incorrect cases: none within the workspace's general-form scope.
 - Performance limitation: the search does not memoize repeated tile-count targets
   and rescans all 34 counts for each legality and distance check.
 
@@ -148,17 +151,11 @@ then reused while examining the remaining siblings.
 
 ### Differences from the source
 
-- This crate calculates only the general form. The Java source takes the minimum
-  over the general form and Seven Pairs.
 - The number of melds is derived from the input tile count instead of always being
-  four, allowing the shared representation to account for open melds and shorter
-  hands.
-- The current best result is used to prune later siblings at the same depth. The
-  source compares those siblings with the bound supplied on entry to that call.
+  four.
 - The Java collections and utility classes are replaced by fixed-size Rust arrays;
   the target-search method itself is preserved.
 
 ## License
 
-The original MjaiClients source declares the New BSD License and names Yoshitake
-Matsumoto as its author.
+The original MjaiClients source declares the New BSD License and names Yoshitake Matsumoto as its author.

@@ -4,6 +4,10 @@
 Copy this file to `algorithms/<crate>/README.md`, replace every placeholder, remove
 instruction comments, and delete optional sections that do not apply.
 
+Do not repeat workspace-wide assumptions such as the hand-form scope, input
+representation, return-value convention, or validation policy. Document only facts
+that distinguish this algorithm or its implementation.
+
 Replace this introduction with a short summary of what the algorithm computes and
 the idea that distinguishes it from the other implementations. A reader should be
 able to decide whether to continue from this paragraph alone.
@@ -50,8 +54,8 @@ calculate(hand):
 
 <!--
 Give the exact formula used to turn the algorithm state into a shanten number.
-Define every variable and cover adjustments for open melds or incomplete hands.
-Remove this subsection if the value follows directly from the algorithm above.
+Define every variable and explain any algorithm-specific adjustments. Remove this
+subsection if the value follows directly from the algorithm above.
 -->
 
 ## Why it works
@@ -89,13 +93,12 @@ Do not turn this section into an inventory of files or functions.
 
 <!--
 State whether the implementation passes the shared exactness suite without ignored
-cases. List unsupported inputs and known incorrect cases precisely. For a retained
-historical limitation, name the `shanten_tests!` profile and explain why preserving
-the behavior is useful.
+cases. List only algorithm-specific limitations and known incorrect cases. For a
+retained historical limitation, name the `shanten_tests!` profile and explain why
+preserving the behavior is useful.
 -->
 
 - Exactness: <!-- exact, or intentionally limited -->
-- Unsupported cases: <!-- write "None within the stated scope" when applicable -->
 - Known incorrect cases: <!-- include a hand and expected/actual values when useful -->
 
 ## Origin and references
