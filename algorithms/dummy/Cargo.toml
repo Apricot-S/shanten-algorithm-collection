@@ -26,4 +26,4 @@ required-features = ["benchmark"]
 workspace = true
 
 [dependencies]
-common = { path = "../../common" }
+common.workspace = true

@@ -26,5 +26,5 @@ required-features = ["benchmark"]
 workspace = true
 
 [dependencies]
-common = { path = "../../common" }
+common.workspace = true
 xiangting = "=6.0.1"
