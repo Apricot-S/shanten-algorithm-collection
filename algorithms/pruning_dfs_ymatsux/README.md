@@ -126,7 +126,7 @@ space for the target vector and recursion stack and performs no heap allocation.
 
 ## Implementation notes
 
-`PruningDfsYmatsux::new` constructs the 34 triplets followed by the 21 sequences
+The calculator constructor builds the 34 triplets followed by the 21 sequences
 once. The resulting fixed-size table is reused for every calculation performed by
 that calculator instance.
 
