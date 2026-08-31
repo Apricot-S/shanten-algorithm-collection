@@ -92,13 +92,14 @@ Do not turn this section into an inventory of files or functions.
 ## Correctness and limitations
 
 <!--
-State whether the implementation passes the shared exactness suite without ignored
-cases. List only algorithm-specific limitations and known incorrect cases. For a
-retained historical limitation, name the `shanten_tests!` profile and explain why
-preserving the behavior is useful.
+State the theoretical exactness claim and whether the implementation passes the
+shared exactness suite without ignored cases. Keep the detailed justification in
+"Why it works." List only algorithm-specific limitations and known incorrect
+cases. For a retained historical limitation, name the `shanten_tests!` profile and
+explain why preserving the behavior is useful.
 -->
 
-- Exactness: <!-- exact, or intentionally limited -->
+- Exactness: <!-- theoretical claim and shared-test result -->
 - Known incorrect cases: <!-- include a hand and expected/actual values when useful -->
 
 ## Origin and references

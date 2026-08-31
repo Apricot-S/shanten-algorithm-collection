@@ -72,19 +72,24 @@ search(target, melds_left, first_meld, entry_upper_bound):
 
 ### Shanten formula
 
-For an input hand `h` and a complete target `g`, the shanten number associated with
-that target is
+For an input hand `h` and a complete target `g`, define the missing-tile distance
+as
 
 ```text
-D(h, g) - 1 = sum(max(g[tile] - h[tile], 0)) - 1.
+D(h, g) = sum(max(g[tile] - h[tile], 0)).
+```
+
+The shanten number associated with that target is
+
+```text
+S(h, g) = D(h, g) - 1.
 ```
 
 Only missing target tiles contribute to `D`: tiles in the input hand that are not
 used by the target can be discarded during the corresponding tile exchanges. The
-minimum value over all legal targets is returned.
+minimum value of `S(h, g)` over all legal targets is returned.
 
-The same expression applied to a partial target is the lower bound used for
-pruning.
+For a partial target `g`, `D(h, g) - 1` is the lower bound used for pruning.
 
 ## Why it works
 
@@ -132,14 +137,15 @@ that calculator instance.
 
 The implementation updates the target vector in place when entering and leaving a
 branch. It recalculates the distance by scanning all 34 tile counts at each visited
-candidate. As in the Java source, sibling branches are checked against the bound
-supplied on entry to the current call. The best result found so far is passed to
-recursive calls, where it becomes the next call's entry bound.
+candidate. Sibling branches are checked against the bound supplied on entry to the
+current call. The best result found so far is passed to recursive calls, where it
+becomes the next call's entry bound.
 
 ## Correctness and limitations
 
-- Exactness: invokes the shared exactness suite without a known-failure profile or
-  ignored cases.
+- Exactness: theoretically exact because target enumeration is complete and pruning
+  preserves the minimum; passes the shared exactness suite without a known-failure
+  profile or ignored cases.
 - Performance limitation: the search does not memoize repeated tile-count targets
   and rescans all 34 counts for each legality and distance check.
 
