@@ -70,24 +70,21 @@ search(target, melds_left, first_meld, upper_bound):
 
 ### Shanten formula
 
-For an input hand `h` and any partial or complete target `g`, define the
-missing-tile distance as
+For an input hand $h$ and any partial or complete target $g$, let $h_t$ and $g_t$ be
+the counts of tile type $t$. Define
 
-```text
-D(h, g) = sum(max(g[tile] - h[tile], 0)).
+```math
+\begin{aligned}
+D(h, g) &= \sum_{t=0}^{33} \max(g_t - h_t, 0), \\
+S(h, g) &= D(h, g) - 1
+\end{aligned}
 ```
 
-Define the target score as
+Only missing target tiles contribute to $D(h, g)$: tiles in the input hand that are
+not used by the target can be discarded during the corresponding tile exchanges.
 
-```text
-S(h, g) = D(h, g) - 1.
-```
-
-Only missing target tiles contribute to `D`: tiles in the input hand that are not
-used by the target can be discarded during the corresponding tile exchanges.
-
-For a complete target, `S(h, g)` is its shanten candidate, and the minimum over all
-legal complete targets is returned. For a partial target, `S(h, g)` is a lower bound
+For a complete target, $S(h, g)$ is its shanten candidate, and the minimum over all
+legal complete targets is returned. For a partial target, $S(h, g)$ is a lower bound
 for every complete target descended from it.
 
 ## Why it works
@@ -103,26 +100,31 @@ therefore the number of additions required to reach a legal target, minus one by
 the definition of shanten.
 
 Extending a partial target can only preserve or increase each positive tile-count
-deficit. Neither `D(h, g)` nor `S(h, g)` can decrease, so a branch whose score is at
+deficit. Neither $D(h, g)$ nor $S(h, g)$ can decrease, so a branch whose score is at
 least the current upper bound cannot contain a better result. Pruning such a branch
 does not change the minimum.
 
 Compared with the source-aligned implementation, suppose an earlier sibling
-improves the upper bound from `b_old` to `b_new`. A later sibling whose lower bound
-is at least `b_new` cannot improve it, so rejecting that sibling immediately is
-equivalent to entering it with `b_new` and rejecting its children there.
+improves the upper bound from $b_{\mathrm{old}}$ to $b_{\mathrm{new}}$. A later
+sibling whose lower bound is at least $b_{\mathrm{new}}$ cannot improve it, so
+rejecting that sibling immediately is equivalent to entering it with
+$b_{\mathrm{new}}$ and rejecting its children there.
 
 ## Complexity
 
-Let `M = 55` be the number of meld types, `P = 34` the number of pair types, `T = 34`
-the number of tile types, and `k <= 4` the required number of melds. Without
-pruning, the search has `binomial(M + d - 1, d)` nodes at depth `d` and tries all
-`P` pairs at depth `k`. Since legality and distance checks scan `T` tile counts, the
+Let $M = 55$ be the number of meld types, $P = 34$ be the number of pair types,
+$T = 34$ be the number of tile types, and $k \leq 4$ be the required number of melds.
+Without pruning, the search has $\binom{M+d-1}{d}$ nodes at depth $d$ and tries all
+$P$ pairs at depth $k$. Since legality and distance checks scan $T$ tile counts, the
 worst-case time is
 
-```text
-O(T * (sum(d = 1..k, binomial(M + d - 1, d))
-       + P * binomial(M + k - 1, k))).
+```math
+O\left(
+    T\left(
+        \sum_{d=1}^{k} \binom{M+d-1}{d}
+        + P\binom{M+k-1}{k}
+    \right)
+\right)
 ```
 
 All of these parameters are bounded by the fixed mahjong tile universe. In
@@ -133,8 +135,8 @@ The updated-bound pruning does not change the worst-case complexity, but it can
 avoid one level of unproductive work after an earlier sibling tightens the upper
 bound.
 
-The implementation defines the `O(M)` meld table as a compile-time constant. Each
-calculation uses `O(T + k)` auxiliary space for the target vector and recursion
+The implementation defines the $O(M)$ meld table as a compile-time constant. Each
+calculation uses $O(T + k)$ auxiliary space for the target vector and recursion
 stack and performs no heap allocation.
 
 ## Implementation notes

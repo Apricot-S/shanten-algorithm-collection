@@ -56,6 +56,9 @@ calculate(hand):
 Give the exact formula used to turn the algorithm state into a shanten number.
 Define every variable and explain any algorithm-specific adjustments. Remove this
 subsection if the value follows directly from the algorithm above.
+
+Use GitHub's `math` fenced block for standalone equations and inline math delimiters
+for mathematical variables in prose. Keep programming identifiers in code spans.
 -->
 
 ## Why it works
