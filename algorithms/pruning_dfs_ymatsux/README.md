@@ -126,14 +126,14 @@ All of these parameters are bounded by the fixed mahjong tile universe. In
 practice, the four-copy check and distance-bound pruning remove most candidate
 subtrees.
 
-The calculator stores `O(M)` meld data. Each calculation uses `O(T + k)` auxiliary
-space for the target vector and recursion stack and performs no heap allocation.
+The implementation defines the `O(M)` meld table as a compile-time constant. Each
+calculation uses `O(T + k)` auxiliary space for the target vector and recursion
+stack and performs no heap allocation.
 
 ## Implementation notes
 
-The calculator constructor builds the 34 triplets followed by the 21 sequences
-once. The resulting fixed-size table is reused for every calculation performed by
-that calculator instance.
+The 34 triplets followed by the 21 sequences are defined as a compile-time constant
+table. No meld-table construction occurs when a calculator is created.
 
 The implementation updates the target vector in place when entering and leaving a
 branch. It recalculates the distance by scanning all 34 tile counts at each visited
@@ -159,8 +159,8 @@ becomes the next call's entry bound.
 
 - The number of melds is derived from the input tile count instead of always being
   four.
-- The Java collections and utility classes are replaced by fixed-size Rust arrays;
-  the target-search method itself is preserved.
+- The Java collections and utility classes are replaced by a compile-time,
+  fixed-size Rust table; the target-search method itself is preserved.
 
 ## License
 
