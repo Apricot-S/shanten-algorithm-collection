@@ -11,8 +11,8 @@ The algorithm constructs complete targets from the empty hand, then measures how
 many tiles would have to be added to the input hand to reach each target.
 
 Adding a meld or pair to a partial target can never reduce this distance. The
-distance of a partial target is therefore a lower bound for all of its descendants.
-Once that bound reaches the current upper bound, the entire branch can be
+score of a partial target is therefore a lower bound for all of its descendants.
+Once that score reaches the current upper bound, the entire branch can be
 discarded. A better result found while visiting a child becomes the upper bound for
 the remaining siblings immediately.
 
@@ -50,13 +50,13 @@ search(target, melds_left, first_meld, upper_bound):
         for each tile type:
             add its pair to target
             if target contains at most four copies of every tile:
-                upper_bound = min(upper_bound, distance(hand, target) - 1)
+                upper_bound = min(upper_bound, S(hand, target))
             remove the pair
         return upper_bound
 
     for each meld with ID at least first_meld:
         add the meld to target
-        if target is legal and distance(hand, target) - 1 < upper_bound:
+        if target is legal and S(hand, target) < upper_bound:
             upper_bound = min(upper_bound, search(
                 target,
                 melds_left - 1,
@@ -70,24 +70,25 @@ search(target, melds_left, first_meld, upper_bound):
 
 ### Shanten formula
 
-For an input hand `h` and a complete target `g`, define the missing-tile distance
-as
+For an input hand `h` and any partial or complete target `g`, define the
+missing-tile distance as
 
 ```text
 D(h, g) = sum(max(g[tile] - h[tile], 0)).
 ```
 
-The shanten number associated with that target is
+Define the target score as
 
 ```text
 S(h, g) = D(h, g) - 1.
 ```
 
 Only missing target tiles contribute to `D`: tiles in the input hand that are not
-used by the target can be discarded during the corresponding tile exchanges. The
-minimum value of `S(h, g)` over all legal targets is returned.
+used by the target can be discarded during the corresponding tile exchanges.
 
-For a partial target `g`, `D(h, g) - 1` is the lower bound used for pruning.
+For a complete target, `S(h, g)` is its shanten candidate, and the minimum over all
+legal complete targets is returned. For a partial target, `S(h, g)` is a lower bound
+for every complete target descended from it.
 
 ## Why it works
 
@@ -102,9 +103,9 @@ therefore the number of additions required to reach a legal target, minus one by
 the definition of shanten.
 
 Extending a partial target can only preserve or increase each positive tile-count
-deficit. Its distance cannot decrease, so a branch whose lower bound is at least
-the current upper bound cannot contain a better result. Pruning such a branch does
-not change the minimum.
+deficit. Neither `D(h, g)` nor `S(h, g)` can decrease, so a branch whose score is at
+least the current upper bound cannot contain a better result. Pruning such a branch
+does not change the minimum.
 
 Compared with the source-aligned implementation, suppose an earlier sibling
 improves the upper bound from `b_old` to `b_new`. A later sibling whose lower bound
