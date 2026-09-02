@@ -45,7 +45,7 @@ melds, it tries each possible pair and updates the upper bound.
 ```text
 calculate(hand):
     target = empty tile-count vector
-    melds_left = min(floor(sum(hand) / 3), 4)
+    melds_left = floor(sum(hand) / 3)
     return search(
         hand,
         target,
