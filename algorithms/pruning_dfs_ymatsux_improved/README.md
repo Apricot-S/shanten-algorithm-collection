@@ -21,7 +21,7 @@ the remaining siblings immediately.
 The depth-first search carries:
 
 - `target`, a 34-element tile-count vector for the partial winning hand;
-- `num_left_meld`, the number of melds still to add;
+- `melds_left`, the number of melds still to add;
 - `min_meld_id`, the first meld allowed at the current node;
 - `upper_bound`, the lowest shanten number found so far.
 

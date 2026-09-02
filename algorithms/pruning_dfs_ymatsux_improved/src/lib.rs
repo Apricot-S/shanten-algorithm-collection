@@ -61,11 +61,11 @@ impl PruningDfsYmatsuxImproved {
     fn calculate_shanten_impl(
         hand: &TileCounts,
         target: &mut TileCounts,
-        num_left_meld: u8,
+        melds_left: u8,
         min_meld_id: usize,
         mut upper_bound: i8,
     ) -> i8 {
-        if num_left_meld == 0 {
+        if melds_left == 0 {
             for i in 0..NUM_TILE_TYPES {
                 target[i] += 2;
                 if is_valid_hand(target) {
@@ -84,7 +84,7 @@ impl PruningDfsYmatsuxImproved {
                     upper_bound = upper_bound.min(Self::calculate_shanten_impl(
                         hand,
                         target,
-                        num_left_meld - 1,
+                        melds_left - 1,
                         i,
                         upper_bound,
                     ));
@@ -103,8 +103,8 @@ impl ShantenCalculator for PruningDfsYmatsuxImproved {
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
         let mut target = [0; NUM_TILE_TYPES];
-        let num_left_meld = hand.iter().sum::<TileCount>() / 3;
-        Self::calculate_shanten_impl(hand, &mut target, num_left_meld, 0, MAX_SHANTEN)
+        let melds_left = hand.iter().sum::<TileCount>() / 3;
+        Self::calculate_shanten_impl(hand, &mut target, melds_left, 0, MAX_SHANTEN)
     }
 }
 

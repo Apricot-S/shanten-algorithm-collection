@@ -20,7 +20,7 @@ is passed as the upper bound of deeper calls.
 The depth-first search carries:
 
 - `target`, a 34-element tile-count vector for the partial winning hand;
-- `num_left_meld`, the number of melds still to add;
+- `melds_left`, the number of melds still to add;
 - `min_meld_id`, the first meld allowed at the current node;
 - `entry_upper_bound`, the upper bound supplied when entering the current call;
 - `min_shanten`, the lowest shanten number found while executing that call.
