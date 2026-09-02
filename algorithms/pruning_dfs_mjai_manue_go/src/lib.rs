@@ -88,8 +88,12 @@ impl PruningDfsMjaiManueGo {
             }
         }
 
-        for meld_id in min_meld_id.max(NUM_TILE_TYPES)..NUM_MELD_TYPES {
-            let [first, second, third] = MELDS[meld_id];
+        for (meld_id, meld) in MELDS
+            .iter()
+            .enumerate()
+            .skip(min_meld_id.max(NUM_TILE_TYPES))
+        {
+            let [first, second, third] = *meld;
             if target[first] >= 4 || target[second] >= 4 || target[third] >= 4 {
                 continue;
             }
