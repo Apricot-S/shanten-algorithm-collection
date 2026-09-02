@@ -104,6 +104,7 @@ impl ShantenCalculator for PruningDfsYmatsuxImproved {
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
         let mut target = [0; NUM_TILE_TYPES];
         let melds_left = hand.iter().sum::<TileCount>() / 3;
+        debug_assert!(melds_left <= 4);
         Self::calculate_shanten_impl(hand, &mut target, melds_left, 0, MAX_SHANTEN)
     }
 }

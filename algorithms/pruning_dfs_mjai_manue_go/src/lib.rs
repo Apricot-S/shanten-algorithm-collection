@@ -126,15 +126,10 @@ impl ShantenCalculator for PruningDfsMjaiManueGo {
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
-        let melds_left = (hand.iter().sum::<TileCount>() / 3).min(4);
-        Self::search(
-            hand,
-            &mut [0; NUM_TILE_TYPES],
-            -1,
-            melds_left,
-            0,
-            MAX_SHANTEN,
-        )
+        let mut target = [0; NUM_TILE_TYPES];
+        let melds_left = hand.iter().sum::<TileCount>() / 3;
+        debug_assert!(melds_left <= 4);
+        Self::search(hand, &mut target, -1, melds_left, 0, MAX_SHANTEN)
     }
 }
 
