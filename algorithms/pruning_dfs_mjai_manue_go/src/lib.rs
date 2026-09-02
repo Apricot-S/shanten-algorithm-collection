@@ -6,26 +6,28 @@ const NUM_MELD_TYPES: usize = NUM_TILE_TYPE + NUM_CHOW_TYPES;
 
 type Meld = [usize; 3];
 
-const fn make_melds() -> [Meld; NUM_MELD_TYPES] {
-    let mut melds = [[0; 3]; NUM_MELD_TYPES];
+const fn create_melds() -> [Meld; NUM_MELD_TYPES] {
+    let mut melds = [[0; 3]; NUM_MELD_TYPE];
+    let mut meld_id = 0;
+
+    while meld_id < NUM_TILE_TYPE {
+        melds[meld_id] = [meld_id, meld_id, meld_id];
+        meld_id += 1;
+    }
+
     let mut tile = 0;
-    while tile < NUM_TILE_TYPE {
-        melds[tile] = [tile, tile, tile];
+    while tile < 27 {
+        if tile % 9 < 7 {
+            melds[meld_id] = [tile, tile + 1, tile + 2];
+            meld_id += 1;
+        }
         tile += 1;
     }
 
-    let mut chow_id = 0;
-    while chow_id < NUM_CHOW_TYPES {
-        let suit = chow_id / 7;
-        let rank = chow_id % 7;
-        let start = suit * 9 + rank;
-        melds[NUM_TILE_TYPE + chow_id] = [start, start + 1, start + 2];
-        chow_id += 1;
-    }
     melds
 }
 
-const MELDS: [Meld; NUM_MELD_TYPES] = make_melds();
+const MELDS: [Meld; NUM_MELD_TYPES] = create_melds();
 
 /// Shanten-only derivative of the pruning DFS in `mjai-manue-go`.
 pub struct PruningDfsMjaiManueGo;
