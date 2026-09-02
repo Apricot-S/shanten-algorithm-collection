@@ -1,8 +1,8 @@
 use common::{NUM_TILE_TYPES, ShantenCalculator, TileCount, TileCounts};
 
 const MAX_SHANTEN: i8 = 8;
-const NUM_CHOW_TYPES: usize = 7 * 3;
-const NUM_MELD_TYPES: usize = NUM_TILE_TYPES + NUM_CHOW_TYPES;
+const NUM_SEQUENCE_TYPES: usize = 7 * 3;
+const NUM_MELD_TYPES: usize = NUM_TILE_TYPES + NUM_SEQUENCE_TYPES;
 
 type Meld = [usize; 3];
 
@@ -89,9 +89,9 @@ impl PruningDfsMjaiManueGo {
             }
         }
 
-        let first_chow = min_meld_id.saturating_sub(NUM_TILE_TYPES);
-        for chow_id in first_chow..NUM_CHOW_TYPES {
-            let meld_id = NUM_TILE_TYPES + chow_id;
+        let first_sequence = min_meld_id.saturating_sub(NUM_TILE_TYPES);
+        for sequence_id in first_sequence..NUM_SEQUENCE_TYPES {
+            let meld_id = NUM_TILE_TYPES + sequence_id;
             let [first, second, third] = MELDS[meld_id];
             if target[first] >= 4 || target[second] >= 4 || target[third] >= 4 {
                 continue;
