@@ -72,14 +72,14 @@ search(hand, target, current_shanten, melds_left, first_meld, upper_bound):
         new_shanten = current_shanten + distance
         if distance < 3 and new_shanten < upper_bound:
             add the triplet to target
-            upper_bound = min(upper_bound, search(
+            upper_bound = search(
                 hand,
                 target,
                 new_shanten,
                 melds_left - 1,
                 first_meld = triplet.id + 1,
                 upper_bound,
-            ))
+            )
             remove the triplet
 
     for each sequence with ID at least first_meld:
@@ -88,14 +88,14 @@ search(hand, target, current_shanten, melds_left, first_meld, upper_bound):
         new_shanten = current_shanten + distance
         if distance < 3 and new_shanten < upper_bound:
             add the sequence to target
-            upper_bound = min(upper_bound, search(
+            upper_bound = search(
                 hand,
                 target,
                 new_shanten,
                 melds_left - 1,
                 first_meld = sequence.id,
                 upper_bound,
-            ))
+            )
             remove the sequence
 
     return upper_bound
