@@ -11,7 +11,7 @@ It does not calculate shanten numbers itself.
 - `TileCountsExt::from_code` converts a Tenhou-style hand string into `TileCounts`.
 - `shanten_tests!` generates the shared correctness tests.
 - `shanten_benches!` generates benchmarks for the four bundled datasets.
-- `NUM_TILE_TYPE`, `MAX_NUM_TILE`, `MIN_HAND_SIZE`, and `MAX_HAND_SIZE` describe
+- `NUM_TILE_TYPES`, `MAX_NUM_TILE`, `MIN_HAND_SIZE`, and `MAX_HAND_SIZE` describe
   the common representation limits.
 
 `TileCounts` uses the standard 34-tile ordering:

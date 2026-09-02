@@ -1,4 +1,4 @@
-use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
+use common::{NUM_TILE_TYPES, ShantenCalculator, TileCount, TileCounts};
 
 const MAX_SHANTEN: i8 = 8;
 
@@ -253,7 +253,7 @@ impl ShantenCalculator for DecompAraRemoval {
         let mut min = calculate_shanten_impl(&mut hand_clone, false, num_call);
 
         // Remove a possible pair and calculate the shanten number with a pair
-        for i in 0..NUM_TILE_TYPE {
+        for i in 0..NUM_TILE_TYPES {
             if hand_clone[i] >= 2 {
                 hand_clone[i] -= 2;
                 let temp = calculate_shanten_impl(&mut hand_clone, true, num_call);

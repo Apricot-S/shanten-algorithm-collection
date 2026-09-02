@@ -1,4 +1,4 @@
-use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
+use common::{NUM_TILE_TYPES, ShantenCalculator, TileCount, TileCounts};
 
 const MAX_NUM_BLOCKS: i8 = 4;
 const MAX_SHANTEN: i8 = 8;
@@ -24,7 +24,7 @@ fn is_suit(index: usize) -> bool {
 }
 
 fn cut_meld(hand: &mut TileCounts, num_blocks: &mut NumBlocks, min_shanten: &mut i8, i: usize) {
-    if i >= NUM_TILE_TYPE {
+    if i >= NUM_TILE_TYPES {
         cut_meld_cand(hand, num_blocks, min_shanten, 0);
         return;
     }
@@ -60,7 +60,7 @@ fn cut_meld_cand(
     min_shanten: &mut i8,
     i: usize,
 ) {
-    if i >= NUM_TILE_TYPE {
+    if i >= NUM_TILE_TYPES {
         *min_shanten = *min_shanten.min(&mut num_blocks.formula());
         return;
     }
@@ -122,7 +122,7 @@ impl ShantenCalculator for Decomp {
         let mut min_shanten = MAX_SHANTEN;
 
         // Remove a possible pair and calculate the shanten number with a pair
-        for i in 0..NUM_TILE_TYPE {
+        for i in 0..NUM_TILE_TYPES {
             if hand_clone[i] >= 2 {
                 num_blocks.pairs += 1;
                 hand_clone[i] -= 2;

@@ -1,4 +1,4 @@
-use crate::constants::NUM_TILE_TYPE;
+use crate::constants::NUM_TILE_TYPES;
 use crate::types::TileCounts;
 
 /// Extension trait for [`TileCounts`] to support conversion from Tenhou-style hand strings.
@@ -22,7 +22,7 @@ pub trait TileCountsExt {
 impl TileCountsExt for TileCounts {
     fn from_code(hand: &str) -> TileCounts {
         let mut suit_offset = None;
-        let mut counts: TileCounts = [0; NUM_TILE_TYPE];
+        let mut counts: TileCounts = [0; NUM_TILE_TYPES];
 
         for byte in hand.bytes().rev() {
             match byte {

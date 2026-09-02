@@ -1,4 +1,4 @@
-use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
+use common::{NUM_TILE_TYPES, ShantenCalculator, TileCount, TileCounts};
 
 const MAX_NUM_BLOCKS: i8 = 4;
 const MAX_SHANTEN: i8 = 8;
@@ -39,7 +39,7 @@ fn cut_meld(
     pair_index: usize,
     i: usize,
 ) {
-    if i >= NUM_TILE_TYPE {
+    if i >= NUM_TILE_TYPES {
         let lower_bound = num_blocks.calculate_lower_bound();
         cut_meld_cand(
             hand,
@@ -92,7 +92,7 @@ fn cut_meld_cand(
         return;
     }
 
-    if i >= NUM_TILE_TYPE {
+    if i >= NUM_TILE_TYPES {
         if (num_blocks.num_meld == 4 && num_blocks.num_meld_cand == 0 && num_blocks.pairs == 0)
             || (num_blocks.num_meld == 3 && num_blocks.num_meld_cand == 1 && num_blocks.pairs == 0)
         {
@@ -189,7 +189,7 @@ fn cut_isolated_tile_for_pair(
     num_blocks: &NumBlocks,
     min_shanten: &mut i8,
 ) {
-    for i in 0..NUM_TILE_TYPE {
+    for i in 0..NUM_TILE_TYPES {
         if hand[i] > 0 && original[i] < 3 {
             // enough isolated tiles
             *min_shanten = *min_shanten.min(&mut num_blocks.formula());
@@ -207,7 +207,7 @@ fn cut_isolated_tile_for_meld(
     num_blocks: &NumBlocks,
     min_shanten: &mut i8,
 ) {
-    for i in 0..NUM_TILE_TYPE {
+    for i in 0..NUM_TILE_TYPES {
         if (is_suit(i) && hand[i] > 0) || (is_honor(i) && hand[i] > 0 && original[i] < 3) {
             // enough isolated tiles
             *min_shanten = *min_shanten.min(&mut num_blocks.formula());
@@ -227,7 +227,7 @@ fn cut_isolated_tile_for_pair_and_meld(
 ) {
     let mut count = 0i8;
 
-    for i in 0..NUM_TILE_TYPE {
+    for i in 0..NUM_TILE_TYPES {
         if (is_suit(i) && hand[i] > 0) || (is_honor(i) && hand[i] > 0 && original[i] < 3) {
             count += 1;
         }
@@ -257,7 +257,7 @@ impl ShantenCalculator for DecompFixedPruned {
         let mut min_shanten = MAX_SHANTEN;
 
         // Remove a possible pair and calculate the shanten number with a pair
-        for i in 0..NUM_TILE_TYPE {
+        for i in 0..NUM_TILE_TYPES {
             if hand_clone[i] >= 2 {
                 num_blocks.pairs += 1;
                 hand_clone[i] -= 2;
@@ -280,7 +280,7 @@ impl ShantenCalculator for DecompFixedPruned {
             hand,
             &mut num_blocks,
             &mut min_shanten,
-            NUM_TILE_TYPE,
+            NUM_TILE_TYPES,
             0,
         );
 

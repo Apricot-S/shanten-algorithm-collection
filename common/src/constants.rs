@@ -2,7 +2,7 @@
 pub const MAX_NUM_TILE: usize = 4;
 
 /// Number of tile types
-pub const NUM_TILE_TYPE: usize = 34;
+pub const NUM_TILE_TYPES: usize = 34;
 
 /// Minimum number of tiles in a hand
 pub const MIN_HAND_SIZE: usize = 1;

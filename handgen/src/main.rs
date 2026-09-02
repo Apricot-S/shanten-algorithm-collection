@@ -1,12 +1,12 @@
 use std::fs::File;
 use std::io::{BufWriter, Write};
 
-use common::{MAX_HAND_SIZE, MAX_NUM_TILE, NUM_TILE_TYPE};
+use common::{MAX_HAND_SIZE, MAX_NUM_TILE, NUM_TILE_TYPES};
 use rand::rngs::StdRng;
 use rand::seq::{IndexedRandom, SliceRandom};
 use rand::{Rng, SeedableRng};
 
-const NUM_WALL: usize = NUM_TILE_TYPE * MAX_NUM_TILE;
+const NUM_WALL: usize = NUM_TILE_TYPES * MAX_NUM_TILE;
 const NUM_CASES: usize = 10_000;
 
 type Hand = [u8; MAX_HAND_SIZE];

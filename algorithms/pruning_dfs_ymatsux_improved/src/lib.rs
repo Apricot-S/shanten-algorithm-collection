@@ -1,15 +1,15 @@
-use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
+use common::{NUM_TILE_TYPES, ShantenCalculator, TileCount, TileCounts};
 
 const MAX_SHANTEN: i8 = 8;
-const NUM_MELD_TYPE: usize = NUM_TILE_TYPE + 7 * 3;
+const NUM_MELD_TYPES: usize = NUM_TILE_TYPES + 7 * 3;
 
 type Meld = [usize; 3];
 
-const fn create_melds() -> [Meld; NUM_MELD_TYPE] {
-    let mut melds = [[0; 3]; NUM_MELD_TYPE];
+const fn create_melds() -> [Meld; NUM_MELD_TYPES] {
+    let mut melds = [[0; 3]; NUM_MELD_TYPES];
     let mut meld_id = 0;
 
-    while meld_id < NUM_TILE_TYPE {
+    while meld_id < NUM_TILE_TYPES {
         melds[meld_id] = [meld_id, meld_id, meld_id];
         meld_id += 1;
     }
@@ -26,7 +26,7 @@ const fn create_melds() -> [Meld; NUM_MELD_TYPE] {
     melds
 }
 
-const MELDS: [Meld; NUM_MELD_TYPE] = create_melds();
+const MELDS: [Meld; NUM_MELD_TYPES] = create_melds();
 
 fn add_meld(target: &mut TileCounts, meld_id: usize) {
     for &tile in &MELDS[meld_id] {
@@ -66,7 +66,7 @@ impl PruningDfsYmatsuxImproved {
         mut upper_bound: i8,
     ) -> i8 {
         if num_left_meld == 0 {
-            for i in 0..NUM_TILE_TYPE {
+            for i in 0..NUM_TILE_TYPES {
                 target[i] += 2;
                 if is_valid_hand(target) {
                     upper_bound = upper_bound.min(calculate_shanten_number(hand, target));
@@ -76,7 +76,7 @@ impl PruningDfsYmatsuxImproved {
             return upper_bound;
         }
 
-        for i in min_meld_id..NUM_MELD_TYPE {
+        for i in min_meld_id..NUM_MELD_TYPES {
             add_meld(target, i);
             if is_valid_hand(target) {
                 let lower_bound = calculate_shanten_number(hand, target);
@@ -102,7 +102,7 @@ impl ShantenCalculator for PruningDfsYmatsuxImproved {
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
-        let mut target = [0; NUM_TILE_TYPE];
+        let mut target = [0; NUM_TILE_TYPES];
         let num_left_meld = hand.iter().sum::<TileCount>() / 3;
         Self::calculate_shanten_impl(hand, &mut target, num_left_meld, 0, MAX_SHANTEN)
     }

@@ -1,16 +1,16 @@
-use common::{NUM_TILE_TYPE, ShantenCalculator, TileCount, TileCounts};
+use common::{NUM_TILE_TYPES, ShantenCalculator, TileCount, TileCounts};
 
 const MAX_SHANTEN: i8 = 8;
 const NUM_CHOW_TYPES: usize = 7 * 3;
-const NUM_MELD_TYPES: usize = NUM_TILE_TYPE + NUM_CHOW_TYPES;
+const NUM_MELD_TYPES: usize = NUM_TILE_TYPES + NUM_CHOW_TYPES;
 
 type Meld = [usize; 3];
 
 const fn create_melds() -> [Meld; NUM_MELD_TYPES] {
-    let mut melds = [[0; 3]; NUM_MELD_TYPE];
+    let mut melds = [[0; 3]; NUM_MELD_TYPES];
     let mut meld_id = 0;
 
-    while meld_id < NUM_TILE_TYPE {
+    while meld_id < NUM_TILE_TYPES {
         melds[meld_id] = [meld_id, meld_id, meld_id];
         meld_id += 1;
     }
@@ -42,7 +42,7 @@ impl PruningDfsMjaiManueGo {
         mut upper_bound: i8,
     ) -> i8 {
         if melds_left == 0 {
-            for tile in 0..NUM_TILE_TYPE {
+            for tile in 0..NUM_TILE_TYPES {
                 if target[tile] > 2 {
                     continue;
                 }
@@ -57,7 +57,7 @@ impl PruningDfsMjaiManueGo {
         for (meld_id, meld) in MELDS
             .iter()
             .enumerate()
-            .take(NUM_TILE_TYPE)
+            .take(NUM_TILE_TYPES)
             .skip(min_meld_id)
         {
             let tile = meld[0];
@@ -86,9 +86,9 @@ impl PruningDfsMjaiManueGo {
             }
         }
 
-        let first_chow = min_meld_id.saturating_sub(NUM_TILE_TYPE);
+        let first_chow = min_meld_id.saturating_sub(NUM_TILE_TYPES);
         for chow_id in first_chow..NUM_CHOW_TYPES {
-            let meld_id = NUM_TILE_TYPE + chow_id;
+            let meld_id = NUM_TILE_TYPES + chow_id;
             let [first, second, third] = MELDS[meld_id];
             if target[first] >= 4 || target[second] >= 4 || target[third] >= 4 {
                 continue;
@@ -129,7 +129,7 @@ impl ShantenCalculator for PruningDfsMjaiManueGo {
         let melds_left = (hand.iter().sum::<TileCount>() / 3).min(4);
         Self::search(
             hand,
-            &mut [0; NUM_TILE_TYPE],
+            &mut [0; NUM_TILE_TYPES],
             -1,
             melds_left,
             0,
