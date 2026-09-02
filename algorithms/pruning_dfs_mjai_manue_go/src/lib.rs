@@ -1,8 +1,7 @@
 use common::{NUM_TILE_TYPES, ShantenCalculator, TileCount, TileCounts};
 
 const MAX_SHANTEN: i8 = 8;
-const NUM_SEQUENCE_TYPES: usize = 7 * 3;
-const NUM_MELD_TYPES: usize = NUM_TILE_TYPES + NUM_SEQUENCE_TYPES;
+const NUM_MELD_TYPES: usize = NUM_TILE_TYPES + 7 * 3;
 
 type Meld = [usize; 3];
 
