@@ -89,9 +89,7 @@ impl PruningDfsMjaiManueGo {
             }
         }
 
-        let first_sequence = min_meld_id.saturating_sub(NUM_TILE_TYPES);
-        for sequence_id in first_sequence..NUM_SEQUENCE_TYPES {
-            let meld_id = NUM_TILE_TYPES + sequence_id;
+        for meld_id in min_meld_id.max(NUM_TILE_TYPES)..NUM_MELD_TYPES {
             let [first, second, third] = MELDS[meld_id];
             if target[first] >= 4 || target[second] >= 4 || target[third] >= 4 {
                 continue;
