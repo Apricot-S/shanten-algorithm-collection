@@ -70,7 +70,7 @@ search(hand, target, current_shanten, melds_left, first_meld, upper_bound):
         skip if the same triplet cannot be added legally
         distance = marginal distance of adding the triplet
         new_shanten = current_shanten + distance
-        if distance < 3 and new_shanten <= upper_bound:
+        if distance < 3 and new_shanten < upper_bound:
             add the triplet to target
             upper_bound = min(upper_bound, search(
                 hand,
@@ -86,7 +86,7 @@ search(hand, target, current_shanten, melds_left, first_meld, upper_bound):
         skip if the sequence cannot be added legally
         distance = marginal distance of adding the sequence
         new_shanten = current_shanten + distance
-        if distance < 3 and new_shanten <= upper_bound:
+        if distance < 3 and new_shanten < upper_bound:
             add the sequence to target
             upper_bound = min(upper_bound, search(
                 hand,
@@ -162,8 +162,8 @@ reachable. Trying every legal pair after the required melds have been selected
 completes each target.
 
 The accumulated meld increments equal the change in missing-tile distance. Adding
-another block cannot reduce $D(h, g)$ or $S(h, g)$, so a branch above the upper bound
-cannot later improve it.
+another block cannot reduce $D(h, g)$ or $S(h, g)$, so a branch that reaches or
+exceeds the upper bound cannot later improve it.
 
 The zero-overlap rule discards a meld only when its marginal distance is three. It
 uses the nearest-target lemma inherited from the Go implementation: an optimal
@@ -208,17 +208,16 @@ tile counts to update a partial target's distance. It mutates only the affected
 counts and carries the accumulated score into the recursive call.
 
 The upstream comparison uses `new_shanten <= upper_bound` because equal-score paths
-can contribute additional `Goal` values. This derivative retains that condition
-even though it returns only the scalar minimum, so it may enter branches that
-cannot improve the result.
+can contribute additional `Goal` values. This derivative returns only the scalar
+minimum, so it uses `new_shanten < upper_bound` and discards branches that can only
+tie the current result.
 
 ## Correctness and limitations
 
 - Exactness: theoretically exact because canonical enumeration is complete and the
   distance and zero-overlap pruning preserve the minimum; passes the shared
   exactness suite without a known-failure profile or ignored cases.
-- Performance limitation: retains equal-to-upper-bound branches from the upstream
-  Goal enumeration and performs no memoization.
+- Performance limitation: performs no memoization.
 
 ## Origin and references
 
@@ -239,6 +238,8 @@ identical tiles.
   bound of eight.
 - Removes the slice growth, copying, filtering, and allocation associated with Goal
   enumeration from benchmark measurements.
+- Uses a strict upper-bound comparison because equal-score targets do not need to
+  be retained after Goal enumeration is removed.
 - Replaces the Go package variables and block objects with a compile-time,
   fixed-size table of tile IDs.
 
