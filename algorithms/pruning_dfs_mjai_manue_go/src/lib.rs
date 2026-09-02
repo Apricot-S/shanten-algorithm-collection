@@ -46,6 +46,7 @@ impl PruningDfsMjaiManueGo {
                 if target[tile] > 2 {
                     continue;
                 }
+
                 let pair_distance = (target[tile] + 2)
                     .saturating_sub(current[tile])
                     .cast_signed();
@@ -72,8 +73,8 @@ impl PruningDfsMjaiManueGo {
             } else {
                 3
             };
-
             let new_shanten = current_shanten + distance;
+
             if distance < 3 && new_shanten < upper_bound {
                 target[tile] += 3;
                 upper_bound = Self::search(
@@ -99,8 +100,8 @@ impl PruningDfsMjaiManueGo {
             let distance = i8::from(current[first] <= target[first])
                 + i8::from(current[second] <= target[second])
                 + i8::from(current[third] <= target[third]);
-
             let new_shanten = current_shanten + distance;
+
             if distance < 3 && new_shanten < upper_bound {
                 target[first] += 1;
                 target[second] += 1;
