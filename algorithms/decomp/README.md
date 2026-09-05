@@ -148,11 +148,14 @@ meld decomposition launches a separate candidate search over the remaining tiles
 The dominant cost is this nested enumeration of competing block decompositions;
 its search space grows combinatorially with the available extractions.
 
-Every extraction removes at least two tiles, and every advance increases the
-current phase's index. A recursion path therefore has depth $O(T+n)$. Branching
-is bounded by a constant, giving a loose exponential time bound in $T+n$ per head
-choice. The fixed tile universe, limited hand size, available tile counts, and
-four-block cap constrain the actual search. There is no
+An extraction recurses at the same tile index, but it removes at least two tiles,
+so the number of consecutive extraction calls along one path is $O(n)$. An advance
+call increases the index, and each of the two phases advances through at most $T$
+indices. A recursion path therefore has depth $O(2T+n)=O(T+n)$. This is a bound
+on stack depth, not on the total number of visited branches. Branching is bounded
+by a constant, giving a loose exponential time bound in $T+n$ per head choice.
+The fixed tile universe, limited hand size, available tile counts, and four-block
+cap constrain the actual search. There is no
 memoization or score-bound pruning to avoid repeated subproblems.
 
 Auxiliary space is $O(T+n)$ for the copied hand and recursion stack. No tables are
