@@ -200,12 +200,10 @@ The isolated-tile limitation is examined in
 
 ### Differences from the source
 
-This Rust implementation uses the source's head-first, meld-then-candidate
-decomposition approach and retains its isolated-tile limitation. It derives the
-number of calls from the input tile count and implements backtracking with a
-fixed-size tile-count array. The repository does not pin an upstream source file
-or revision beyond the archived site reference, so source-level fidelity is not
-established.
+- This implementation infers the number of called melds from the number of tiles
+  in the input hand and includes it in `num_meld`. The original code declares
+  `fuurosuu` but never uses it, so called melds do not contribute to its shanten
+  formula.
 
 ## License
 
