@@ -26,8 +26,8 @@ shanten number.
 The search carries:
 
 - `hand`, a mutable copy of the remaining tile counts;
-- `num_meld`, the number of extracted melds plus the inferred number of calls;
-- `num_meld_cand`, the number of extracted two-tile meld candidates;
+- `melds`, the number of extracted melds plus the inferred number of calls;
+- `meld_candidates`, the number of extracted two-tile meld candidates;
 - `pairs`, either zero or one, recording the reserved head;
 - `i`, the lowest tile index still eligible for extraction in the current phase;
 - `min_shanten`, the lowest formula value found so far.
@@ -42,7 +42,7 @@ to the later phase. Meld-candidate enumeration restarts at index zero for every
 meld decomposition.
 
 The head is counted separately from meld candidates. The search maintains
-`num_meld + num_meld_cand <= 4`; meld extraction respects this through the number
+`melds + meld_candidates <= 4`; meld extraction respects this through the number
 of available tiles, while candidate extraction checks the limit explicitly.
 
 ## Algorithm
@@ -117,7 +117,7 @@ S = 8 - 2(m+c) - t - p,
 
 Equivalently, with $k = 4-c$, the score is $2k - 2m - t - p$. Each complete meld
 supplies two units of progress, each candidate supplies one, and the head supplies
-one. The implementation stores $m+c$ together in `num_meld` and returns the minimum
+one. The implementation stores $m+c$ together in `melds` and returns the minimum
 score over the enumerated decompositions.
 
 ## Why it works
@@ -193,7 +193,7 @@ baseline behavior for comparison with the pruned variants.
 ### Differences from the source
 
 - This implementation infers the number of called melds from the number of tiles
-  in the input hand and includes it in `num_meld`. The original code declares
+  in the input hand and includes it in `melds`. The original code declares
   `fuurosuu` but never uses it, so called melds do not contribute to its shanten
   formula.
 
