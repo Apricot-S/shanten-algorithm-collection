@@ -177,22 +177,11 @@ baseline behavior for comparison with the pruned variants.
 - Exactness: not theoretically exact and does not pass the shared exactness suite
   without ignored cases. It uses the `shanten_tests!` profile
   `legacy_decomposition`, preserving the historical behavior for benchmarking
-  against corrected implementations. The shared suite has 16 passing tests and
-  16 ignored known failures; explicitly running the ignored tests reproduces all
-  16 failures.
-- Known incorrect cases include insufficient usable isolated tiles, fifth-copy
-  waits, and incomplete hands containing all required melds but no head. Examples
-  from the shared suite are:
-
-| Hand               | Expected | Actual | Limitation                                                      |
-| ------------------ | -------: | -----: | --------------------------------------------------------------- |
-| `1111z`            |        1 |      0 | The leftover honor cannot form a legal head.                    |
-| `1111222333444z`   |        1 |      0 | Four melds leave only an unusable fourth honor.                 |
-| `11m111122223333z` |        2 |      1 | The block score assumes more usable isolated tiles than exist.  |
-| `234p567s`         |        1 |      0 | All required melds are present, but no tile remains for a head. |
-
-The isolated-tile limitation is examined in
-[ブロック分解方式向聴数計算アルゴリズムの精度の検証](https://zenn.dev/tomohxx/articles/aecace4e3a3bc1).
+  against corrected implementations. When the algorithm returns an incorrect
+  result, the returned shanten number is one less than the correct value.
+- Known incorrect cases: hands with insufficient isolated tiles. This limitation
+  is examined in
+  [ブロック分解方式向聴数計算アルゴリズムの精度の検証](https://zenn.dev/tomohxx/articles/aecace4e3a3bc1).
 
 ## Origin and references
 
