@@ -115,10 +115,9 @@ S = 8 - 2(m+c) - t - p,
 \qquad m+c+t \leq 4
 ```
 
-Equivalently, with $k = 4-c$, the score is $2k - 2m - t - p$. Each complete meld
-supplies two units of progress, each candidate supplies one, and the head supplies
-one. The implementation stores $m+c$ together in `melds` and returns the minimum
-score over the enumerated decompositions.
+Each complete meld supplies two units of progress, each candidate supplies one,
+and the head supplies one. The implementation stores $m+c$ together in `melds`
+and returns the minimum score over the enumerated decompositions.
 
 ## Why it works
 
@@ -185,7 +184,7 @@ baseline behavior for comparison with the pruned variants.
 
 ## Origin and references
 
-- Algorithm source credited by this crate:
+- Primary source:
   [麻雀C言語プログラム集, archived June 16, 2019](https://web.archive.org/web/20190616213620/http://cmj3.web.fc2.com/).
 - Additional reference:
   [ブロック分解方式向聴数計算アルゴリズムの精度の検証](https://zenn.dev/tomohxx/articles/aecace4e3a3bc1).
