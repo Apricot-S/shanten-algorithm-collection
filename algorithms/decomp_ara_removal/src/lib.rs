@@ -31,71 +31,71 @@ fn remove_isolated_tiles(single_color_hand: &[TileCount]) -> [TileCount; 9] {
     result
 }
 
-fn formula(mut num_meld: i8, mut num_meld_cand: i8, has_pair: bool) -> i8 {
+fn calculate_shanten_from_counts(mut melds: i8, mut meld_candidates: i8, has_pair: bool) -> i8 {
     // Adjust for excess melds
-    if num_meld > 4 {
-        num_meld_cand += num_meld - 4;
-        num_meld = 4;
+    if melds > 4 {
+        meld_candidates += melds - 4;
+        melds = 4;
     }
     // Adjust for excess meld candidates
-    if num_meld + num_meld_cand > 4 {
-        num_meld_cand = 4 - num_meld;
+    if melds + meld_candidates > 4 {
+        meld_candidates = 4 - melds;
     }
     // Count the pair as a meld candidate if it exists
     if has_pair {
-        num_meld_cand += 1;
+        meld_candidates += 1;
     }
-    MAX_SHANTEN - num_meld * 2 - num_meld_cand
+    MAX_SHANTEN - melds * 2 - meld_candidates
 }
 
-struct NumBlocks {
-    num_meld: i8,
-    num_meld_cand: i8,
+struct BlockCounts {
+    melds: i8,
+    meld_candidates: i8,
 }
 
-struct NumBlocksPattern {
+struct BlockCountPatterns {
     /// Pattern with the minimum number of isolated tiles
-    a: NumBlocks,
+    a: BlockCounts,
     /// Pattern with the maximum number of melds
-    b: NumBlocks,
+    b: BlockCounts,
 }
 
-impl NumBlocks {
-    fn is_a_better_than(&self, other: &NumBlocks) -> bool {
-        self.num_meld * 2 + self.num_meld_cand > other.num_meld * 2 + other.num_meld_cand
+impl BlockCounts {
+    fn is_a_better_than(&self, other: &BlockCounts) -> bool {
+        self.melds * 2 + self.meld_candidates > other.melds * 2 + other.meld_candidates
     }
 
-    fn is_b_better_than(&self, other: &NumBlocks) -> bool {
-        self.num_meld * 10 + self.num_meld_cand > other.num_meld * 10 + other.num_meld_cand
+    fn is_b_better_than(&self, other: &BlockCounts) -> bool {
+        self.melds * 10 + self.meld_candidates > other.melds * 10 + other.meld_candidates
     }
 }
 
-fn count_num_meld_cand(single_color_hand: &mut [TileCount], n: usize) -> NumBlocksPattern {
+fn count_meld_candidates(single_color_hand: &mut [TileCount], n: usize) -> BlockCountPatterns {
     if n >= 9 {
-        return NumBlocksPattern {
-            a: NumBlocks {
-                num_meld: 0,
-                num_meld_cand: 0,
+        return BlockCountPatterns {
+            a: BlockCounts {
+                melds: 0,
+                meld_candidates: 0,
             },
-            b: NumBlocks {
-                num_meld: 0,
-                num_meld_cand: 0,
+            b: BlockCounts {
+                melds: 0,
+                meld_candidates: 0,
             },
         };
     }
 
-    let mut max = count_num_meld_cand(single_color_hand, n + 1);
+    let mut max = count_meld_candidates(single_color_hand, n + 1);
 
     // edge joint or open joint
     if n < 8 && single_color_hand[n] > 0 && single_color_hand[n + 1] > 0 {
         single_color_hand[n] -= 1;
         single_color_hand[n + 1] -= 1;
-        let mut r = count_num_meld_cand(single_color_hand, n);
+        let mut r = count_meld_candidates(single_color_hand, n);
         single_color_hand[n + 1] += 1;
         single_color_hand[n] += 1;
 
-        r.a.num_meld_cand += 1;
-        r.b.num_meld_cand += 1;
+        r.a.meld_candidates += 1;
+        r.b.meld_candidates += 1;
         if r.a.is_a_better_than(&max.a) {
             max.a = r.a;
         }
@@ -108,12 +108,12 @@ fn count_num_meld_cand(single_color_hand: &mut [TileCount], n: usize) -> NumBloc
     if n < 7 && single_color_hand[n] > 0 && single_color_hand[n + 2] > 0 {
         single_color_hand[n] -= 1;
         single_color_hand[n + 2] -= 1;
-        let mut r = count_num_meld_cand(single_color_hand, n);
+        let mut r = count_meld_candidates(single_color_hand, n);
         single_color_hand[n + 2] += 1;
         single_color_hand[n] += 1;
 
-        r.a.num_meld_cand += 1;
-        r.b.num_meld_cand += 1;
+        r.a.meld_candidates += 1;
+        r.b.meld_candidates += 1;
         if r.a.is_a_better_than(&max.a) {
             max.a = r.a;
         }
@@ -125,11 +125,11 @@ fn count_num_meld_cand(single_color_hand: &mut [TileCount], n: usize) -> NumBloc
     // pair (triplet candidate)
     if single_color_hand[n] == 2 {
         single_color_hand[n] -= 2;
-        let mut r = count_num_meld_cand(single_color_hand, n);
+        let mut r = count_meld_candidates(single_color_hand, n);
         single_color_hand[n] += 2;
 
-        r.a.num_meld_cand += 1;
-        r.b.num_meld_cand += 1;
+        r.a.meld_candidates += 1;
+        r.b.meld_candidates += 1;
         if r.a.is_a_better_than(&max.a) {
             max.a = r.a;
         }
@@ -141,12 +141,12 @@ fn count_num_meld_cand(single_color_hand: &mut [TileCount], n: usize) -> NumBloc
     max
 }
 
-fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBlocksPattern {
+fn count_suit_blocks(single_color_hand: &mut [TileCount], n: usize) -> BlockCountPatterns {
     if n >= 9 {
-        return count_num_meld_cand(single_color_hand, 0);
+        return count_meld_candidates(single_color_hand, 0);
     }
 
-    let mut max = count_suit_num_blocks(single_color_hand, n + 1);
+    let mut max = count_suit_blocks(single_color_hand, n + 1);
 
     // sequence
     if n < 7
@@ -157,13 +157,13 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
         single_color_hand[n] -= 1;
         single_color_hand[n + 1] -= 1;
         single_color_hand[n + 2] -= 1;
-        let mut r = count_suit_num_blocks(single_color_hand, n);
+        let mut r = count_suit_blocks(single_color_hand, n);
         single_color_hand[n + 2] += 1;
         single_color_hand[n + 1] += 1;
         single_color_hand[n] += 1;
 
-        r.a.num_meld += 1;
-        r.b.num_meld += 1;
+        r.a.melds += 1;
+        r.b.melds += 1;
         if r.a.is_a_better_than(&max.a) {
             max.a = r.a;
         }
@@ -175,11 +175,11 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
     // triplet
     if single_color_hand[n] >= 3 {
         single_color_hand[n] -= 3;
-        let mut r = count_suit_num_blocks(single_color_hand, n);
+        let mut r = count_suit_blocks(single_color_hand, n);
         single_color_hand[n] += 3;
 
-        r.a.num_meld += 1;
-        r.b.num_meld += 1;
+        r.a.melds += 1;
+        r.b.melds += 1;
         if r.a.is_a_better_than(&max.a) {
             max.a = r.a;
         }
@@ -191,43 +191,43 @@ fn count_suit_num_blocks(single_color_hand: &mut [TileCount], n: usize) -> NumBl
     max
 }
 
-fn count_honor_num_blocks(honor_hand: &[TileCount]) -> NumBlocks {
-    let mut num_meld = 0;
-    let mut num_meld_cand = 0;
+fn count_honor_blocks(honor_hand: &[TileCount]) -> BlockCounts {
+    let mut melds = 0;
+    let mut meld_candidates = 0;
 
     for c in honor_hand {
         match c {
-            3.. => num_meld += 1,
-            2 => num_meld_cand += 1,
+            3.. => melds += 1,
+            2 => meld_candidates += 1,
             0 | 1 => (),
         }
     }
 
-    NumBlocks {
-        num_meld,
-        num_meld_cand,
+    BlockCounts {
+        melds,
+        meld_candidates,
     }
 }
 
-fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, num_call: i8) -> i8 {
+fn calculate_shanten_impl(hand: &mut TileCounts, has_pair: bool, called_melds: i8) -> i8 {
     let mut hand_no_isolated_m = remove_isolated_tiles(&hand[0..9]);
     let mut hand_no_isolated_p = remove_isolated_tiles(&hand[9..18]);
     let mut hand_no_isolated_s = remove_isolated_tiles(&hand[18..27]);
 
-    let num_blocks_m = count_suit_num_blocks(&mut hand_no_isolated_m, 0);
-    let num_blocks_p = count_suit_num_blocks(&mut hand_no_isolated_p, 0);
-    let num_blocks_s = count_suit_num_blocks(&mut hand_no_isolated_s, 0);
-    let z = count_honor_num_blocks(&hand[27..34]);
+    let manzu_counts = count_suit_blocks(&mut hand_no_isolated_m, 0);
+    let pinzu_counts = count_suit_blocks(&mut hand_no_isolated_p, 0);
+    let souzu_counts = count_suit_blocks(&mut hand_no_isolated_s, 0);
+    let z = count_honor_blocks(&hand[27..34]);
 
     let mut min = MAX_SHANTEN;
 
-    for m in [&num_blocks_m.a, &num_blocks_m.b] {
-        for p in [&num_blocks_p.a, &num_blocks_p.b] {
-            for s in [&num_blocks_s.a, &num_blocks_s.b] {
-                let num_meld = num_call + m.num_meld + p.num_meld + s.num_meld + z.num_meld;
-                let num_meld_cand =
-                    m.num_meld_cand + p.num_meld_cand + s.num_meld_cand + z.num_meld_cand;
-                let shanten = formula(num_meld, num_meld_cand, has_pair);
+    for m in [&manzu_counts.a, &manzu_counts.b] {
+        for p in [&pinzu_counts.a, &pinzu_counts.b] {
+            for s in [&souzu_counts.a, &souzu_counts.b] {
+                let melds = called_melds + m.melds + p.melds + s.melds + z.melds;
+                let meld_candidates =
+                    m.meld_candidates + p.meld_candidates + s.meld_candidates + z.meld_candidates;
+                let shanten = calculate_shanten_from_counts(melds, meld_candidates, has_pair);
                 min = min.min(shanten);
             }
         }
@@ -245,18 +245,18 @@ impl ShantenCalculator for DecompAraRemoval {
     }
 
     fn calculate_shanten(&self, hand: &TileCounts) -> i8 {
-        let required_num_meld = (hand.iter().sum::<TileCount>() / 3).cast_signed();
-        let num_call = 4 - required_num_meld;
+        let required_melds = (hand.iter().sum::<TileCount>() / 3).cast_signed();
+        let called_melds = 4 - required_melds;
         let mut hand_clone = *hand;
 
         // Calculate the shanten number without a pair
-        let mut min = calculate_shanten_impl(&mut hand_clone, false, num_call);
+        let mut min = calculate_shanten_impl(&mut hand_clone, false, called_melds);
 
         // Remove a possible pair and calculate the shanten number with a pair
         for i in 0..NUM_TILE_TYPES {
             if hand_clone[i] >= 2 {
                 hand_clone[i] -= 2;
-                let temp = calculate_shanten_impl(&mut hand_clone, true, num_call);
+                let temp = calculate_shanten_impl(&mut hand_clone, true, called_melds);
                 hand_clone[i] += 2;
                 min = min.min(temp);
             }
