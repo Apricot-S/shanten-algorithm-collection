@@ -1,4 +1,4 @@
-# Block Decomposition - Fixed and Pruned
+# Block Decomposition — tomohxx
 
 ## Devised by
 

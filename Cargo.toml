@@ -7,7 +7,7 @@ members = [
     "algorithms/dummy",
     "algorithms/decomp",
     "algorithms/decomp_pruned",
-    "algorithms/decomp_fixed_pruned",
+    "algorithms/decomp_tomohxx",
     "algorithms/decomp_ara",
     "algorithms/decomp_ara_removal",
     "algorithms/decomp_kobayashi",

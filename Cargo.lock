@@ -60,13 +60,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "decomp_fixed_pruned"
-version = "0.1.0"
-dependencies = [
- "common",
-]
-
-[[package]]
 name = "decomp_kobayashi"
 version = "0.1.0"
 dependencies = [
@@ -75,6 +68,13 @@ dependencies = [
 
 [[package]]
 name = "decomp_pruned"
+version = "0.1.0"
+dependencies = [
+ "common",
+]
+
+[[package]]
+name = "decomp_tomohxx"
 version = "0.1.0"
 dependencies = [
  "common",

@@ -243,9 +243,9 @@ fn cut_isolated_tile_for_pair_and_meld(
 }
 
 /// Corrected block-decomposition algorithm with lower-bound pruning.
-pub struct DecompFixedPruned;
+pub struct DecompTomohxx;
 
-impl ShantenCalculator for DecompFixedPruned {
+impl ShantenCalculator for DecompTomohxx {
     fn new() -> Self {
         Self
     }
@@ -294,4 +294,4 @@ impl ShantenCalculator for DecompFixedPruned {
     }
 }
 
-common::shanten_tests!(DecompFixedPruned);
+common::shanten_tests!(DecompTomohxx);
