@@ -228,5 +228,5 @@ collections.
 ## License
 
 The upstream `tomohxx/shanten-test` implementation is distributed under the
-[MIT License](https://github.com/tomohxx/shanten-test/blob/8dd8d41f1179997a5ce7f979a616b551ec40c868/LICENSE)
-and was authored by [tomohxx](https://github.com/tomohxx).
+[MIT License](https://github.com/tomohxx/shanten-test/blob/8dd8d41f1179997a5ce7f979a616b551ec40c868/LICENSE).
+Copyright (c) 2025 [tomohxx](https://github.com/tomohxx).
