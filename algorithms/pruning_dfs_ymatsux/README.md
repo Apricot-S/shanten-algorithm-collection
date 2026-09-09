@@ -166,4 +166,5 @@ becomes the next call's entry bound.
 
 ## License
 
-The original MjaiClients source declares the New BSD License and names Yoshitake Matsumoto as its author.
+The original MjaiClients source declares the New BSD License and names
+[Yoshitake Matsumoto](https://github.com/ymatsux) as its author.

@@ -245,4 +245,6 @@ identical tiles.
 
 ## License
 
-The original `mjai-manue-go` implementation is distributed under the BSD 3-Clause License and is Copyright 2024 Apricot S.
+The original `mjai-manue-go` implementation is distributed under the
+[BSD 3-Clause License](https://github.com/Apricot-S/mjai-manue-go/blob/1ead84275f75d1b4aafe68a6c6c6867e107379cb/LICENSE).
+Copyright (c) 2024 [Apricot S.](https://github.com/Apricot-S).
