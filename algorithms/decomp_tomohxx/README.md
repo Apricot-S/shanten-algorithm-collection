@@ -1,8 +1,8 @@
 # Block Decomposition — tomohxx
 
 This algorithm corrects the block-decomposition method for hands with insufficient
-isolated tiles and adds lower-bound pruning to the meld-candidate search. It counts
-isolated tiles only for the few terminal block patterns where the ordinary shanten
+blocks and adds lower-bound pruning to the meld-candidate search. It examines the
+remaining tiles only for the few terminal block patterns where the ordinary shanten
 formula can underestimate the result.
 
 ## Core idea
@@ -11,15 +11,18 @@ The algorithm starts from the same exhaustive decomposition as [`decomp`](../dec
 it reserves each possible head, extracts complete melds, and then extracts two-tile
 meld candidates. It makes three changes to that method.
 
+A hand has insufficient blocks when fewer than five blocks can be taken from it,
+counting isolated tiles as blocks for this definition.
+
 First, after reserving a head, the remaining two copies of the same tile type cannot
 also be extracted as a pair-shaped meld candidate. This prevents a four-copy group
 from being credited as both the head and a pair wait.
 
-Second, the ordinary block formula assumes that enough remaining isolated tiles can
-supply the missing head or meld. That assumption can fail only for three terminal
-block-count patterns. The algorithm checks isolated-tile availability for those
-patterns and adds one to the candidate score when the required tiles are absent.
-Other patterns use the ordinary formula without scanning the remaining tiles.
+Second, the ordinary block formula assumes that the decomposition can supply all
+required blocks. That assumption can fail only for three terminal block-count
+patterns. The algorithm checks whether the remaining tiles can supply the missing
+head or meld and adds one to the candidate score when they cannot. Other patterns
+use the ordinary formula without scanning the remaining tiles.
 
 Third, once meld extraction finishes, the selected meld and head counts determine
 the best score that any continuation of the meld-candidate search could attain. If
@@ -31,7 +34,7 @@ candidate search for that meld decomposition is skipped.
 The search carries:
 
 - `hand`, the tile counts remaining after the current extractions;
-- `original`, the unchanged input counts used by the isolated-tile checks;
+- `original`, the unchanged input counts used by the block-deficiency checks;
 - `melds`, the number of extracted melds plus the inferred number of calls;
 - `meld_candidates`, the number of extracted two-tile meld candidates;
 - `pairs`, either zero or one, recording the reserved head;
@@ -110,7 +113,7 @@ cut_candidate(pair_index, i, lower_bound):
 ```
 
 At a terminal decomposition, let $(m,t,p)$ denote `(melds, meld_candidates,
-pairs)`. Isolated tiles are examined only in these cases:
+pairs)`. Remaining tiles are examined only in these cases:
 
 | Block counts $(m,t,p)$ | Required remaining tiles                                    |
 | ---------------------- | ----------------------------------------------------------- |
@@ -134,8 +137,8 @@ S = 8 - 2m - t - p,
 \qquad m+t \leq 4
 ```
 
-For one of the three isolated-tile patterns, let $q$ be one when the required
-isolated tiles are unavailable and zero otherwise. Its corrected score is
+For one of the three insufficient-block patterns, let $q$ be one when the required
+remaining tiles are unavailable and zero otherwise. Its corrected score is
 
 ```math
 S_{\mathrm{corrected}} = 8 - 2m - t - p + q
@@ -150,8 +153,8 @@ L = 8 - 2m - (4-m) - p = 4 - m - p
 ```
 
 Thus, if `min_shanten <= L`, no continuation can lower `min_shanten` and the subtree
-can be pruned. The isolated-tile correction can only add one, so it cannot invalidate
-this lower bound.
+can be pruned. The block-deficiency correction can only add one, so it cannot
+invalidate this lower bound.
 
 ## Why it works
 
@@ -161,12 +164,12 @@ duplicates. Excluding `pair_index` from pair-shaped candidates rejects a score t
 would require the same four-copy group to serve as both the head and an additional
 pair wait.
 
-The isolated-tile analysis cited below classifies every insufficient-isolated-tile
-hand into the three terminal patterns checked by this implementation. For those
+The block-deficiency analysis cited below classifies every hand with insufficient
+blocks into the three terminal patterns checked by this implementation. For those
 patterns, the base formula is one too low exactly when the required eligible tiles
 are absent, so adding one corrects the result. No correction is needed outside
 those patterns. The pruning rule follows directly from $L$: every descendant has a
-score at least $L$, including any isolated-tile adjustment.
+score at least $L$, including any block-deficiency adjustment.
 
 The source does not provide a theoretical proof of the complete algorithm. Its
 claim is supported instead by exhaustive comparison of every 13-tile and 14-tile
@@ -182,7 +185,7 @@ the loose exponential worst-case time bound in $T+n$.
 
 An extraction recurses at the same index but removes at least two tiles. Advance
 calls traverse at most $T$ indices in each of the two phases. A recursion path has
-depth $O(T+n)$. Each isolated-tile correction scans $T$ counts, but only the three
+depth $O(T+n)$. Each block-deficiency correction scans $T$ counts, but only the three
 listed terminal patterns trigger that scan.
 
 Auxiliary space is $O(T+n)$ for the copied hand and recursion stack. The algorithm
@@ -196,8 +199,9 @@ depends on both its remaining and original counts. `BlockCounts` and shanten val
 use `i8`.
 
 [`cut_meld_cand`](src/lib.rs) checks the lower bound before inspecting the current
-index, so a pruned subtree performs no further candidate enumeration. The isolated-
-tile helpers scan the fixed-size count arrays directly and allocate no collections.
+index, so a pruned subtree performs no further candidate enumeration. The
+block-deficiency helpers scan the fixed-size count arrays directly and allocate no
+collections.
 
 ## Correctness and limitations
 
