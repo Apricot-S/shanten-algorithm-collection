@@ -32,10 +32,12 @@ The search carries:
 
 - `hand`, the tile counts remaining after the current extractions;
 - `original`, the unchanged input counts used by the isolated-tile checks;
-- `BlockCounts { melds, meld_candidates, pairs }`, where `melds` includes called
-  melds and `pairs` is zero or one;
+- `melds`, the number of extracted melds plus the inferred number of calls;
+- `meld_candidates`, the number of extracted two-tile meld candidates;
+- `pairs`, either zero or one, recording the reserved head;
 - `pair_index`, the tile type reserved as the head, or a sentinel when no head was
   reserved;
+- `i`, the lowest tile index still eligible for extraction in the current phase;
 - `min_shanten`, the lowest score found so far;
 - `lower_bound`, the minimum score attainable from the current meld decomposition.
 
@@ -59,33 +61,31 @@ this value, tries each possible head, and also searches without a head.
 calculate(input):
     hand = copy of input
     original = input
-    counts = {
-        melds = called_melds,
-        meld_candidates = 0,
-        pairs = 0,
-    }
+    melds = 4 - floor(sum(input) / 3)
+    meld_candidates = 0
+    pairs = 0
     best = 8
 
     for each tile type t with hand[t] >= 2:
-        remove (t, t); counts.pairs = 1
+        remove (t, t); pairs = 1
         cut_meld(pair_index = t, i = 0)
-        restore (t, t); counts.pairs = 0
+        restore (t, t); pairs = 0
 
     cut_meld(pair_index = none, i = 0)
     return best
 
 cut_meld(pair_index, i):
     if i == 34:
-        lower_bound = 4 - counts.melds - counts.pairs
+        lower_bound = 4 - melds - pairs
         cut_candidate(pair_index, i = 0, lower_bound)
         return
 
     for each available meld starting at i, in this order:
         triplet (i, i, i)
         sequence (i, i+1, i+2)
-        remove meld; counts.melds += 1
+        remove meld; melds += 1
         cut_meld(pair_index, i)
-        restore meld; counts.melds -= 1
+        restore meld; melds -= 1
 
     cut_meld(pair_index, i + 1)
 
@@ -97,14 +97,14 @@ cut_candidate(pair_index, i, lower_bound):
         evaluate_terminal_decomposition()
         return
 
-    if counts.melds + counts.meld_candidates < 4:
+    if melds + meld_candidates < 4:
         for each available candidate starting at i, in this order:
             pair (i, i), only when hand[i] == 2 and i != pair_index
             adjacent-tile candidate (i, i+1)
             gapped-tile candidate (i, i+2)
-            remove candidate; counts.meld_candidates += 1
+            remove candidate; meld_candidates += 1
             cut_candidate(pair_index, i, lower_bound)
-            restore candidate; counts.meld_candidates -= 1
+            restore candidate; meld_candidates -= 1
 
     cut_candidate(pair_index, i + 1, lower_bound)
 ```
@@ -220,7 +220,6 @@ tile helpers scan the fixed-size count arrays directly and allocate no collectio
 
 - This implementation infers the number of called melds from the input tile count.
   The C++ interface receives that number as an explicit argument.
-- The remaining search, correction, and pruning behavior is preserved in the Rust port.
 
 ## License
 
