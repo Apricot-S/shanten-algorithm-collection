@@ -131,7 +131,9 @@ and delete this subsection.
 ## License
 
 <!--
-State the license of incorporated or derived code and identify its copyright
-holder. Link to the relevant entry in `THIRD-PARTY-NOTICES.md` when applicable.
-For an original implementation, state that it uses the workspace license.
+State only the upstream license of incorporated or derived code and identify its
+copyright holder. Link to the relevant entry in `THIRD-PARTY-NOTICES.md` when
+applicable. Do not describe the license of this repository's port or implementation,
+or repeat the workspace license. Delete this section if there is no upstream
+license information to document.
 -->
