@@ -204,8 +204,8 @@ and retaining uncorrected scores.
 ## Correctness and limitations
 
 - Exactness: not theoretically exact and does not pass the shared exactness suite
-  without ignored cases. It uses the `shanten_tests!` profile
-  `legacy_decomposition`, preserving the historical behavior to study pruning
+  without ignored cases. It uses the `shanten_tests!` ignore reasons
+  `"insufficient_isolated_tiles"` and `"incomplete_hand"`, preserving the historical behavior to study pruning
   separately from the correctness fixes.
 - Known incorrect cases: hands with insufficient blocks. A hand has insufficient
   blocks when fewer than five blocks can be taken from it, counting isolated tiles

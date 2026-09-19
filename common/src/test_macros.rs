@@ -28,31 +28,42 @@
 /// common::shanten_tests!(Dummy);
 /// ```
 ///
-/// Historical implementations may select one of the supported known-failure profiles:
+/// Historical implementations may select multiple known-failure reasons:
 ///
-/// - `legacy_decomposition` ignores every known failure of the historical decomposition variants.
-/// - `legacy_decomposition_with_incomplete_hand_support` additionally requires the incomplete-hand
-///   case to pass.
+/// - `"insufficient_isolated_tiles"` ignores cases requiring correction for insufficient isolated tiles.
+/// - `"incomplete_hand"` ignores the incomplete-hand case with four melds and no pair.
+///
+/// Use `shanten_tests!(Type, ignore = ["insufficient_isolated_tiles", "incomplete_hand"])`.
+/// Omitted reasons remain required to pass. Ignore messages are fixed by the macro.
 ///
 /// Exact implementations must use the single-argument form so every case is required to pass.
 #[macro_export]
 macro_rules! shanten_tests {
-    ($calculator_type:ty) => {
+    ($calculator_type:ty $(,)?) => {
         $crate::shanten_tests!(@generate $calculator_type, [], []);
     };
-    (
-        $calculator_type:ty,
-        profile = legacy_decomposition,
-        reason = $reason:literal $(,)?
-    ) => {
-        $crate::shanten_tests!(@generate $calculator_type, [#[ignore = $reason]], [#[ignore = $reason]]);
+    ($calculator_type:ty, ignore = [$($reason:tt),* $(,)?] $(,)?) => {
+        $crate::shanten_tests!(@reasons $calculator_type, [], []; $($reason,)*);
     };
-    (
-        $calculator_type:ty,
-        profile = legacy_decomposition_with_incomplete_hand_support,
-        reason = $reason:literal $(,)?
-    ) => {
-        $crate::shanten_tests!(@generate $calculator_type, [#[ignore = $reason]], []);
+    (@reasons $calculator_type:ty, [$($known_failure_attr:tt)*], [$($incomplete_hand_attr:tt)*];) => {
+        $crate::shanten_tests!(@generate $calculator_type, [$($known_failure_attr)*], [$($incomplete_hand_attr)*]);
+    };
+    (@reasons $calculator_type:ty, [$($known_failure_attr:tt)*], [$($incomplete_hand_attr:tt)*];
+        "insufficient_isolated_tiles", $($rest:tt)*) => {
+        $crate::shanten_tests!(@reasons $calculator_type,
+            [#[ignore = "the original algorithm does not correct for insufficient isolated tiles"]],
+            [$($incomplete_hand_attr)*]; $($rest)*);
+    };
+    (@reasons $calculator_type:ty, [$($known_failure_attr:tt)*], [$($incomplete_hand_attr:tt)*];
+        "incomplete_hand", $($rest:tt)*) => {
+        $crate::shanten_tests!(@reasons $calculator_type,
+            [$($known_failure_attr)*],
+            [#[ignore = "the original algorithm does not support incomplete hands with four melds and no pair"]];
+            $($rest)*);
+    };
+    (@reasons $calculator_type:ty, [$($known_failure_attr:tt)*], [$($incomplete_hand_attr:tt)*];
+        $unknown:tt, $($rest:tt)*) => {
+        compile_error!(concat!("unsupported shanten test ignore reason: ", stringify!($unknown)));
     };
     (@generate $calculator_type:ty, [$($known_failure_attr:tt)*], [$($incomplete_hand_attr:tt)*]) => {
         #[cfg(test)]

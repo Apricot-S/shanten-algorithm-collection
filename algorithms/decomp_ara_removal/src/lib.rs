@@ -268,6 +268,5 @@ impl ShantenCalculator for DecompAraRemoval {
 
 common::shanten_tests!(
     DecompAraRemoval,
-    profile = legacy_decomposition,
-    reason = "the original algorithm does not correct for insufficient isolated tiles"
+    ignore = ["insufficient_isolated_tiles", "incomplete_hand"]
 );

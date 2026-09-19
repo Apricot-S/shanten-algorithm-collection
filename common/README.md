@@ -50,21 +50,22 @@ common::shanten_tests!(MyCalculator);
 An exact implementation should use the single-argument form shown above so that all
 shared cases must pass.
 
-Historical decomposition algorithms with documented limitations can select a
-known-failure profile instead:
+Historical decomposition algorithms with documented limitations can select multiple
+known-failure reasons instead:
 
 ```rust
 common::shanten_tests!(
     MyCalculator,
-    profile = legacy_decomposition,
-    reason = "preserves the known limitations of the original algorithm",
+    ignore = ["insufficient_isolated_tiles", "incomplete_hand"],
 );
 ```
 
-`legacy_decomposition` ignores all known historical decomposition failures.
-`legacy_decomposition_with_incomplete_hand_support` requires the incomplete-hand case
-to pass while ignoring the other known failures. These profiles are intended only for
-faithful ports whose limitations are explained in their crate documentation.
+`"insufficient_isolated_tiles"` ignores cases requiring correction for insufficient
+isolated tiles. `"incomplete_hand"` ignores the incomplete-hand case with four melds
+and no pair. Select only the reasons that apply; omitted reasons remain required to
+pass. An empty list ignores nothing. Unknown reasons are compile errors. These reasons are
+intended only for faithful ports whose limitations are explained in their crate
+documentation.
 
 For tests and utilities, a hand can be written in Tenhou notation:
 

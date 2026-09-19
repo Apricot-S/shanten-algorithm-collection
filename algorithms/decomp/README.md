@@ -174,8 +174,8 @@ baseline behavior for comparison with the pruned variants.
 ## Correctness and limitations
 
 - Exactness: not theoretically exact and does not pass the shared exactness suite
-  without ignored cases. It uses the `shanten_tests!` profile
-  `legacy_decomposition`, preserving the historical behavior for benchmarking
+  without ignored cases. It uses the `shanten_tests!` ignore reasons
+  `"insufficient_isolated_tiles"` and `"incomplete_hand"`, preserving the historical behavior for benchmarking
   against corrected implementations. When the algorithm returns an incorrect
   result, the returned shanten number is one less than the correct value.
 - Known incorrect cases: hands with insufficient blocks. A hand has insufficient

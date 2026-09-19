@@ -212,8 +212,4 @@ impl ShantenCalculator for DecompKobayashi {
     }
 }
 
-common::shanten_tests!(
-    DecompKobayashi,
-    profile = legacy_decomposition_with_incomplete_hand_support,
-    reason = "the original algorithm does not correct for insufficient isolated tiles"
-);
+common::shanten_tests!(DecompKobayashi, ignore = ["insufficient_isolated_tiles"]);

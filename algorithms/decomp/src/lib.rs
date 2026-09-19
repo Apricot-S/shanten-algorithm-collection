@@ -136,6 +136,5 @@ impl ShantenCalculator for Decomp {
 
 common::shanten_tests!(
     Decomp,
-    profile = legacy_decomposition,
-    reason = "the original algorithm does not correct for insufficient isolated tiles"
+    ignore = ["insufficient_isolated_tiles", "incomplete_hand"]
 );

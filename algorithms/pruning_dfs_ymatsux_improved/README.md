@@ -155,8 +155,7 @@ visible without changing the behavior of the source-aligned implementation.
 ## Correctness and limitations
 
 - Exactness: theoretically exact because target enumeration is complete and pruning
-  preserves the minimum; passes the shared exactness suite without a known-failure
-  profile or ignored cases.
+  preserves the minimum; passes the shared exactness suite without ignored cases.
 - Performance limitation: the search does not memoize repeated tile-count targets
   and rescans all 34 counts for each legality and distance check.
 

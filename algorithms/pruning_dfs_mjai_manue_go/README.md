@@ -216,7 +216,7 @@ tie the current result.
 
 - Exactness: theoretically exact because canonical enumeration is complete and the
   distance and zero-overlap pruning preserve the minimum; passes the shared
-  exactness suite without a known-failure profile or ignored cases.
+  exactness suite without ignored cases.
 - Performance limitation: performs no memoization.
 
 ## Origin and references

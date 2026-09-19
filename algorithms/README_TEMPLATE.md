@@ -98,7 +98,7 @@ Do not turn this section into an inventory of files or functions.
 State the theoretical exactness claim and whether the implementation passes the
 shared exactness suite without ignored cases. Keep the detailed justification in
 "Why it works." List only algorithm-specific limitations and known incorrect
-cases. For a retained historical limitation, name the `shanten_tests!` profile and
+cases. For a retained historical limitation, name the `shanten_tests!` ignore reasons and
 explain why preserving the behavior is useful.
 -->
 
