@@ -8,17 +8,20 @@ It intentionally retains known shanten underestimates.
 
 ## Core idea
 
-The search reserves a possible head pair, extracts complete melds, and then extracts
-two-tile meld candidates. It also tries no head and alternative block extractions.
-A meld candidate is a pair intended to become a triplet, or two suited tiles one
-or two ranks apart that can become a sequence. A complete meld contributes two
-units of progress, a candidate one, and a head one; at most four melds and
-candidates combined contribute to the score.
+A complete meld contributes two units of progress toward a winning hand, a
+two-tile meld candidate contributes one, and a head pair contributes one. A meld
+candidate is a pair intended to become a triplet, or two suited tiles separated
+by one or two ranks that can become a sequence.
 
-Once meld extraction ends, the meld and head counts are fixed for the candidate
-subtree. Filling every remaining meld slot with a candidate gives a lower bound
-on its score. If the best score already found is no greater than that bound,
-further candidate extraction cannot improve it and is skipped.
+The search first reserves a head pair, also considering the absence of a head.
+It then removes complete melds and finally meld candidates. Trying alternative
+extractions accounts for tiles that could participate in different blocks. At
+most four melds and meld candidates combined contribute to the score.
+
+Once meld extraction finishes, the selected meld and head counts determine
+the best score that any continuation of the meld-candidate search could attain. If
+the best score already found is no greater than this lower bound, the entire
+candidate search for that meld decomposition is skipped.
 
 The score does not check whether the required completion tiles exist within the
 four-copy limit or whether leftover tiles can supply missing blocks. Pruning
@@ -29,47 +32,56 @@ preserves this score's minimum, including its known errors.
 The search carries:
 
 - `hand`, a mutable copy of the remaining tile counts;
-- `melds`, the extracted meld count plus the inferred number of calls;
-- `meld_candidates`, the extracted two-tile candidate count;
-- `pairs`, zero or one, recording the reserved head;
-- `i`, the lowest tile index eligible for extraction in the current phase;
-- `min_shanten`, the best score found across all head choices;
-- `lower_bound`, computed when entering a candidate subtree.
+- `melds`, the number of extracted melds plus the inferred number of calls;
+- `meld_candidates`, the number of extracted two-tile meld candidates;
+- `pairs`, either zero or one, recording the reserved head;
+- `i`, the lowest tile index still eligible for extraction in the current phase;
+- `min_shanten`, the lowest score found so far;
+- `lower_bound`, a lower bound on the score from the current meld decomposition.
 
-Each extraction consumes available tiles and is undone before returning.
-Starting indices are nondecreasing within each phase; recursion at the same index
-allows repeated blocks, while advancing leaves unused tiles for the later phase.
-Candidate enumeration restarts at zero for each meld decomposition and maintains
-`melds + meld_candidates <= 4`.
+Each extraction consumes only available tiles, updates its block counter, and
+restores both counts and counter after recursion.
 
-The meld and head counts, and therefore the lower bound, remain constant throughout
-one candidate subtree. The search does not retain the original counts or the head's
-tile index: two remaining copies of the head's tile type may become a candidate.
+Within each phase, starting tile indices are nondecreasing. After an extraction,
+the same index remains eligible, allowing repeated sequences and multiple blocks
+starting at one tile. Advancing the index leaves any remaining copies available
+to the later phase. Meld-candidate enumeration restarts at index zero for every
+meld decomposition.
+
+The head is counted separately from meld candidates. The search maintains
+`melds + meld_candidates <= 4`; meld extraction respects this through the number
+of available tiles, while candidate extraction checks the limit explicitly.
+
+The lower bound is calculated once when the search moves from meld extraction to
+meld-candidate extraction and remains valid throughout that candidate subtree.
+The search does not retain the original counts or the head's tile index: two
+remaining copies of the head's tile type may become a pair-shaped meld candidate.
 
 ## Algorithm
 
-Let `calls = 4 - floor(sum(hand) / 3)`. These calls are included in the meld
-counter from the start.
+Let `called_melds = 4 - floor(sum(hand) / 3)`. The search initializes `melds` with
+this value, tries each possible head, and also searches without a head.
 
 ```text
 calculate(input):
     hand = copy of input
     melds = 4 - floor(sum(input) / 3)
-    candidates = 0
-    head = 0
+    meld_candidates = 0
+    pairs = 0
     best = 8
 
     for each tile type t with hand[t] >= 2:
-        remove (t, t); head = 1
+        remove (t, t); pairs = 1
         cut_meld(0)
-        restore (t, t); head = 0
+        restore (t, t); pairs = 0
 
     cut_meld(0)
     return best
 
 cut_meld(i):
     if i == 34:
-        cut_candidate(0, lower_bound = 4 - melds - head)
+        lower_bound = 4 - melds - pairs
+        cut_candidate(i = 0, lower_bound)
         return
 
     for each available meld starting at i, in this order:
@@ -86,38 +98,40 @@ cut_candidate(i, lower_bound):
         return
 
     if i == 34:
-        best = min(best, 8 - 2*melds - candidates - head)
+        best = min(best, 8 - 2*melds - meld_candidates - pairs)
         return
 
-    if melds + candidates < 4:
+    if melds + meld_candidates < 4:
         for each available candidate starting at i, in this order:
             pair (i, i), only when hand[i] == 2
             adjacent-tile candidate (i, i+1)
             gapped-tile candidate (i, i+2)
-            remove candidate; candidates += 1
+            remove candidate; meld_candidates += 1
             cut_candidate(i, lower_bound)
-            restore candidate; candidates -= 1
+            restore candidate; meld_candidates -= 1
 
     cut_candidate(i + 1, lower_bound)
 ```
 
-The hand, counters, and best score are shared between recursive calls.
-Both phases include the advance branch even when an extraction is possible.
-The candidate-pair check is exactly `hand[i] == 2`, including when those copies
-share the head's tile type.
+The pseudocode shares the mutable hand, counters, and best score between calls.
+The candidate-pair condition is exactly `hand[i] == 2`, unlike the initial head
+selection's `hand[i] >= 2`. Both phases always include the branch that advances
+without extracting a block. A pair-shaped meld candidate may have the same tile
+index as the reserved head.
 
 The bound check runs on every candidate call, so finding a sufficiently low score
-also prunes later siblings in that subtree. Reaching the four-block cap disables
-extractions but does not itself return: the index scan continues to the terminal
-score evaluation unless the bound check prunes it.
+also prunes later siblings in that subtree. Reaching the four-block limit disables
+further candidate extraction but does not stop the index scan unless the bound
+check prunes it.
 
 ### Shanten formula
 
-Let $m$ be the meld count including calls, $t$ the candidate count, and
-$p \in \{0,1\}$ the reserved head count. The score is
+For a decomposition with $m$ melds including calls, $t$ meld candidates, and
+$p \in \{0,1\}$ reserved heads, the ordinary candidate score is
 
 ```math
-S = 8 - 2m - t - p, \qquad m+t \leq 4
+S = 8 - 2m - t - p,
+\qquad m+t \leq 4
 ```
 
 The algorithm returns the minimum score without any correction. Since
@@ -127,43 +141,58 @@ $t \leq 4-m$, every descendant of a fixed meld decomposition satisfies
 S \geq 8 - 2m - (4-m) - p = 4 - m - p = L
 ```
 
-Thus `min_shanten <= L` means no descendant can improve the current minimum.
-The bound need not be attainable to justify pruning.
+Thus, if `min_shanten <= L`, no continuation can lower `min_shanten` and the subtree
+can be pruned. The bound need not be attainable to justify pruning.
 
 ## Why it works
 
-The head loop and the two extraction phases retain the block choices of the
-unpruned decomposition search. Nondecreasing indices avoid permutations of the
-same extraction order. The bound discards only subtrees whose scores cannot beat
-the current minimum, so it preserves the result of `decomp`.
+The head loop, meld search, and candidate search retain the exhaustive block choices
+of the base decomposition. Nondecreasing indices remove only extraction-order
+duplicates. The pruning rule follows directly from $L$: every descendant has a
+score at least $L$, so pruning preserves the result of `decomp`.
 
-This establishes preservation of the uncorrected score, not exact shanten
-calculation. For a small counterexample, consider `1111z`, for which three calls
-are inferred. Extracting a triplet gives four melds and no head, so the formula
-returns zero. Turning the leftover honor into a head would require a fifth copy;
-the correct shanten number is one. Reserving a head instead also permits the other
-two copies to be counted as a triplet candidate, again relying on a fifth copy.
-The removed fixes address these invalid completion assumptions.
+These properties explain the search for a minimum block score, but they do not
+prove exact shanten calculation. A physically available decomposition need not
+admit the completion assumed by its score: the algorithm never checks the tiles
+needed to complete a target or whether a leftover tile can form its head.
+
+For a small counterexample, consider `1111z`. The algorithm infers three calls,
+extracts a triplet, and leaves one copy of the same honor. With four melds and no
+head, the formula gives zero. Completing that leftover tile into a pair would
+require a fifth copy of the honor, so the actual shanten number is one. Exhaustive
+block search cannot repair this missing legality condition.
+
+Reserving a head instead also permits the other two copies to be counted as a
+pair-shaped meld candidate, again relying on a fifth copy. The removed fixes address
+these invalid completion assumptions.
 
 ## Complexity
 
-Let $T=34$ be the tile-type count and $n$ the input tile count. There are at most
-$T+1$ head choices, each enumerating meld decompositions and their candidate
-subtrees. This nested search is combinatorial, with a loose exponential time
-bound in $T+n$ per head choice. Lower-bound pruning reduces the number of visited
-branches but does not improve that worst-case bound.
+Let $T=34$ be the number of tile types and $n$ the number of input tiles. There are
+at most $T+1$ head choices. For each choice, the algorithm enumerates competing meld
+decompositions and, unless pruned, their meld-candidate decompositions. The search
+space is combinatorial; the lower bound reduces practical work but does not improve
+the loose exponential worst-case time bound in $T+n$.
 
-An extraction removes at least two tiles and each phase advances through at most
-$T$ indices, giving recursion depth $O(T+n)$. Auxiliary space is $O(T+n)$ for the
-hand copy and recursion stack. Each bound check and terminal score evaluation is
-constant time; there is no table construction or memoization.
+An extraction recurses at the same index but removes at least two tiles. Advance
+calls traverse at most $T$ indices in each of the two phases. A recursion path has
+depth $O(T+n)$. Each bound check and terminal score evaluation is constant time.
+
+Auxiliary space is $O(T+n)$ for the copied hand and recursion stack. The algorithm
+uses no lookup table, cache, or per-branch heap allocation.
 
 ## Implementation notes
 
-[`cut_meld` and `cut_meld_cand`](src/lib.rs) mutate one hand copy and backtrack
-without per-branch heap allocation. Counters and scores use `i8`; the calculator
-has no persistent state or cache. Melds are tried as triplets before sequences;
-candidates are tried as pairs, adjacent tiles, then gapped tiles. This order affects
+[`cut_meld` and `cut_meld_cand`](src/lib.rs) implement separate recursive phases
+over one shared mutable hand. They update counts in place and backtrack instead
+of allocating a new hand for every branch. Block counters and scores use `i8`.
+
+The calculator is a unit struct with no persistent state or cache. It copies the
+input once per calculation. `cut_meld_cand` checks the lower bound before inspecting
+the current index, so a pruned subtree performs no further candidate enumeration.
+
+Melds are tried as triplets before sequences; candidates are tried as pairs,
+adjacent tiles, then gapped tiles. This order affects
 when a good score is found and therefore how much work the bound eliminates.
 
 Unlike the corrected variant, terminal evaluation does not scan remaining tiles,
@@ -174,14 +203,14 @@ and retaining uncorrected scores.
 
 ## Correctness and limitations
 
-- Exactness: intentionally inexact. It uses the `shanten_tests!` profile
-  `legacy_decomposition` and does not pass the shared exactness suite without
-  ignored cases. These failures are retained to study pruning separately from the
-  correctness fixes.
-- Known incorrect cases: insufficient-block hands and decompositions that assume
-  an unavailable fifth copy can produce underestimates. For `1111z`, the expected
-  value is one and this implementation returns zero. A hand has insufficient blocks
-  when fewer than five blocks can be extracted, counting isolated tiles as blocks.
+- Exactness: not theoretically exact and does not pass the shared exactness suite
+  without ignored cases. It uses the `shanten_tests!` profile
+  `legacy_decomposition`, preserving the historical behavior to study pruning
+  separately from the correctness fixes.
+- Known incorrect cases: hands with insufficient blocks. A hand has insufficient
+  blocks when fewer than five blocks can be taken from it, counting isolated tiles
+  as blocks for this definition. For `1111z`, the expected value is one and this
+  implementation returns zero.
 
 ## Origin and references
 
