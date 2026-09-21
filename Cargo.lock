@@ -53,13 +53,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "decomp_ara_removal"
-version = "0.1.0"
-dependencies = [
- "common",
-]
-
-[[package]]
 name = "decomp_kobayashi"
 version = "0.1.0"
 dependencies = [

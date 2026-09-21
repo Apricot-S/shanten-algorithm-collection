@@ -25,7 +25,7 @@ The historical decomposition variants preserve their source algorithms. Their kn
 - `test_shanten_4_honors_*`
 - `test_shanten_lack_isolated_tile_*`
 
-`decomp`, `decomp_pruned`, `decomp_ara`, and `decomp_ara_removal` also ignore `test_shanten_incomplete_hand_4_melds_without_a_pair`; `decomp_kobayashi` passes that case.
+`decomp`, `decomp_pruned`, and `decomp_ara` also ignore `test_shanten_incomplete_hand_4_melds_without_a_pair`; `decomp_kobayashi` passes that case.
 
 ## Tests and benchmarks
 
