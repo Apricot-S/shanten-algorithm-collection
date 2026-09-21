@@ -72,7 +72,7 @@ fn count_meld_candidates(single_color_hand: &[TileCount]) -> BlockCountPatterns 
     let mut isolated_tiles = 0;
 
     for i in 0..9 {
-        tiles += single_color_hand[i].cast_signed();
+        tiles += single_color_hand[i];
         if i < 7 && single_color_hand[i + 1] == 0 && single_color_hand[i + 2] == 0 {
             meld_candidates += tiles / 2;
             isolated_tiles += tiles % 2;
@@ -82,6 +82,9 @@ fn count_meld_candidates(single_color_hand: &[TileCount]) -> BlockCountPatterns 
 
     meld_candidates += tiles / 2;
     isolated_tiles += tiles % 2;
+
+    let meld_candidates = meld_candidates.cast_signed();
+    let isolated_tiles = isolated_tiles.cast_signed();
 
     BlockCountPatterns {
         a: BlockCounts {
