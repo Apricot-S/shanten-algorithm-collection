@@ -1,4 +1,4 @@
-# Block Decomposition - Ara
+# Block Decomposition — Ara
 
 This algorithm estimates shanten number by reserving a possible head pair and
 decomposing each suit independently into melds and two-tile meld candidates. It
@@ -13,7 +13,9 @@ or two ranks apart that can become a sequence. A complete meld contributes two
 units of progress, a candidate contributes one, and a reserved head contributes
 one. Only four meld slots can contribute to the score.
 
-For each suit, the search keeps two patterns, each storing meld count $m$ and
+The search reserves each possible head and also considers the absence of a head.
+For each suit, it extracts complete melds and then meld candidates, as in
+[`decomp`](../decomp). It keeps two patterns, each storing meld count $m$ and
 candidate count $t$:
 
 - A maximizes $2m+t$, favoring progress before the four-slot limit is applied.
@@ -28,15 +30,25 @@ scores all $2^3$ choices of A or B across the suits for every head choice.
 
 ## State and invariants
 
-- A mutable copy of the hand holds the remaining tiles. Every recursive
-  extraction restores its tiles before returning.
-- `BlockCountPatterns` stores A and B as `(melds, meld_candidates)` counts;
-  it does not retain tile identities or isolated-tile counts.
-- Each recursive phase carries a rank index. Indices never decrease within a
-  phase; extraction recurses at the same rank so repeated blocks remain possible.
-  Candidate enumeration restarts at rank zero after meld enumeration.
-- The reserved head is separate from suit candidates. Calls are inferred once,
-  before removing any head, and added when scoring.
+The search carries:
+
+- `hand`, a mutable copy of the remaining tile counts;
+- `has_pair`, recording whether a head has been reserved;
+- `called_melds`, the inferred number of calls;
+- `n`, the lowest rank still eligible for extraction in the current suit and phase;
+- `BlockCountPatterns`, the A and B summaries, each holding `melds` and
+  `meld_candidates`;
+- `min`, the lowest formula value found across the combined patterns or head choices.
+
+Every extraction consumes available tiles and restores them before returning.
+Starting ranks are nondecreasing within each phase. Extraction recurses at the
+same rank, allowing repeated sequences and multiple blocks starting at one tile.
+Advancing leaves remaining copies available to the later phase. Candidate
+enumeration restarts at rank zero for every meld decomposition.
+
+Calls are inferred before removing a head and remain unchanged throughout the
+calculation. The head is counted separately from candidates. Suit summaries retain
+only block counts, not tile identities or isolated-tile counts.
 
 Suit searches do not enforce the four-slot limit. It is applied only after
 combining the suit and honor counts. A and B are updated independently using
@@ -44,33 +56,42 @@ strict improvement, so ties retain the first pattern encountered.
 
 ## Algorithm
 
+Let `calls = 4 - floor(sum(hand) / 3)`. Calls are added to the meld count when
+combining the three suit summaries with the honor counts.
+
 ```text
 calculate(input):
     hand = copy of input
     calls = 4 - floor(sum(input) / 3)
     best = evaluate(hand, head=0, calls)
+
     for each tile type with at least two copies:
         remove two copies
         best = min(best, evaluate(hand, head=1, calls))
         restore two copies
+
     return best
 
 evaluate(hand, head, calls):
     for each suit:
         patterns[suit] = melds(suit, 0)
+
     honor_melds = number of honor types with at least three copies
     honor_candidates = number of honor types with exactly two copies
     best = 8
+
     for each of the eight combinations of suit patterns A or B:
         M = calls + honor_melds + sum(selected suit meld counts)
         T = honor_candidates + sum(selected suit candidate counts)
         best = min(best, score(M, T, head))
+
     return best
 
 melds(suit, rank):
     if rank == 9:
         return candidates(suit, 0)
     best = melds(suit, rank + 1)
+
     for each available block starting at rank, in this order:
         sequence (rank, rank+1, rank+2)
         triplet (rank, rank, rank)
@@ -79,12 +100,14 @@ melds(suit, rank):
         restore block
         add one meld to both patterns in result
         merge(best, result)
+
     return best
 
 candidates(suit, rank):
     if rank == 9:
         return A=(0, 0), B=(0, 0)
     best = candidates(suit, rank + 1)
+
     for each available block starting at rank, in this order:
         adjacent tiles (rank, rank+1)
         gapped tiles (rank, rank+2)
@@ -94,6 +117,7 @@ candidates(suit, rank):
         restore block
         add one candidate to both patterns in result
         merge(best, result)
+
     return best
 
 merge(best, result):
@@ -110,18 +134,22 @@ and no memoization.
 
 ### Shanten formula
 
-Let $M$ include extracted melds and inferred calls, $T$ be the combined candidate
-count, and $p\in\{0,1\}$ indicate a reserved head. The implementation applies:
+For a combined pattern with $m$ melds including calls, $t$ meld candidates, and
+$p\in\{0,1\}$ reserved heads, the candidate score is
 
 ```math
-M' = \min(M,4), \qquad
-T' = \min\bigl(T + \max(M-4,0),\;4-M'\bigr),
-\qquad S = 8 - 2M' - T' - p
+S = 8 - 2m - \min(t,4-m) - p,
+\qquad m \leq 4
 ```
 
-This mirrors the excess-meld adjustment followed by the candidate cap. With
-$M\leq4$, it reduces to capping $T$ at $4-M$. The head credit is added after this
-cap, so it does not consume a meld slot.
+The candidate cap prevents crediting more than four meld slots. It is applied
+after combining suits, rather than during candidate extraction as in `decomp`.
+The head credit is added separately and does not consume a meld slot. The minimum
+score is taken over all eight combinations and every head choice.
+
+The scoring helper also handles $m>4$ by adding $m-4$ to the candidate count and
+setting $m=4$ before applying the cap. Available tiles and the inferred call count
+keep $m\leq4$ for the supported inputs.
 
 ## Why it works
 
@@ -144,8 +172,8 @@ both A and B cannot correct this missing legality condition.
 
 ## Complexity
 
-Let $H$ be the number of head choices, including no head, $R=9$ the ranks per
-suit, and $n$ the input tile count. Each head choice launches three independent
+Let $T=34$ be the number of tile types, $R=9$ the ranks per suit, and $n$ the
+input tile count. There are at most $T+1$ head choices. Each launches three independent
 suit searches. Every terminal meld decomposition launches a candidate search
 over its remaining tiles. This nested enumeration is the dominant cost; keeping
 two summaries limits combination work, not the number of recursive branches.
@@ -153,11 +181,11 @@ two summaries limits combination work, not the number of recursive branches.
 Each path advances through at most $2R$ ranks across the two phases, and each
 extraction removes at least two tiles. Stack depth is therefore $O(R+n)$.
 Constant branching gives a loose exponential time bound in $R+n$ per suit per
-head choice, repeated for $H$ choices. Honor counting and the eight combinations
-take fixed work. The fixed tile universe and limited hand size constrain the
-practical search space.
+head choice. Honor counting scans seven types, and combining suit summaries
+evaluates eight patterns. The fixed tile universe and limited hand size constrain
+the practical search space. There is no memoization or score-bound pruning.
 
-Auxiliary space is $O(34+R+n)$ for the copied hand and recursion stack. There is
+Auxiliary space is $O(T+R+n)$ for the copied hand and recursion stack. There is
 no table construction, heap allocation, or persistent cache.
 
 ## Implementation notes
@@ -174,27 +202,29 @@ no pre-calculated suit tables are used.
 ## Correctness and limitations
 
 - Exactness: not theoretically exact and does not pass the shared exactness
-  suite without ignored cases. `cargo test -p decomp_ara --offline` passes 16
-  tests with 16 ignored. The `shanten_tests!` ignore reasons are
-  `"insufficient_isolated_tiles"` and `"incomplete_hand"`. Retaining this behavior
-  provides a baseline for comparison with corrected implementations.
-- Known incorrect cases: `1111z` returns zero instead of one because the score
-  assumes a head can be completed from the leftover tile. The incomplete-hand
-  case `234p567s` also returns zero instead of one: the inferred calls and two
-  sequences fill four meld slots, but no tile remains for a head.
+  suite without ignored cases. It uses the `shanten_tests!` ignore reasons
+  `"insufficient_isolated_tiles"` and `"incomplete_hand"`, preserving the historical
+  behavior for benchmarking against corrected implementations.
+- Known incorrect cases: hands with insufficient blocks. A hand has insufficient
+  blocks when fewer than five blocks can be taken from it, counting isolated tiles
+  as blocks for this definition. For example, `1111z` returns zero instead of one.
+  The incomplete-hand case `234p567s` also returns zero instead of one because no
+  tile remains for a head. The block-deficiency limitation is examined in
+  [ブロック分解方式向聴数計算アルゴリズムの精度の検証](https://zenn.dev/tomohxx/articles/aecace4e3a3bc1).
 
 ## Origin and references
 
 - Devised by: [Ara](https://mahjong.ara.black/intro/selfintro.htm).
 - Primary source:
-  [向聴数を求めるアルゴリズム - あらの（一人）麻雀研究所](https://mahjong.ara.black/etc/shanten/index.htm),
-  an explanatory article series rather than a versioned upstream code dependency.
+  [向聴数を求めるアルゴリズム - あらの（一人）麻雀研究所](https://mahjong.ara.black/etc/shanten/index.htm).
 - Additional reference:
   [ブロック分解方式向聴数計算アルゴリズムの精度の検証](https://zenn.dev/tomohxx/articles/aecace4e3a3bc1).
 
 ### Differences from the source
 
-This is a partial implementation of Ara's method. It retains per-suit A/B
-selection but omits isolated-tile removal and pre-calculated tables, performing
-recursive suit searches for each head choice instead. It should not be treated
-as a complete reproduction of all optimizations in the article series.
+This is a partial implementation of Ara's method, retaining per-suit A/B selection
+with these omissions:
+
+- Isolated-tile removal is omitted, leaving those tiles in the recursive suit search.
+- Pre-calculated tables are omitted, so suit patterns are recomputed recursively
+  for each head choice rather than looked up.
