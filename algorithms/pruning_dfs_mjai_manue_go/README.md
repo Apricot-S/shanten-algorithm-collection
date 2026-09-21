@@ -221,8 +221,8 @@ tie the current result.
 
 ## Origin and references
 
-- Derived from: [`mjai-manue-go` v0.3.0-beta.5, commit `1ead84275f75d1b4aafe68a6c6c6867e107379cb`](https://github.com/Apricot-S/mjai-manue-go/tree/1ead84275f75d1b4aafe68a6c6c6867e107379cb)
-- Primary source: [`shanten.go` at the pinned commit](https://github.com/Apricot-S/mjai-manue-go/blob/1ead84275f75d1b4aafe68a6c6c6867e107379cb/internal/domain/game/round/service/shanten.go)
+- Derived from: [`mjai-manue-go` v0.3.0](https://github.com/Apricot-S/mjai-manue-go/tree/v0.3.0)
+- Primary source: [`shanten.go` at v0.3.0](https://github.com/Apricot-S/mjai-manue-go/blob/v0.3.0/internal/domain/game/round/service/shanten.go)
 - Earlier implementation: [Gimite's `mjai-manue`](https://github.com/gimite/mjai-manue)
 
 The lineage is Gimite's original `mjai-manue`, the corrected and optimized Go port,
@@ -246,5 +246,5 @@ identical tiles.
 ## License
 
 The original `mjai-manue-go` implementation is distributed under the
-[BSD 3-Clause License](https://github.com/Apricot-S/mjai-manue-go/blob/1ead84275f75d1b4aafe68a6c6c6867e107379cb/LICENSE).
+[BSD 3-Clause License](https://github.com/Apricot-S/mjai-manue-go/blob/v0.3.0/LICENSE).
 Copyright (c) 2024 [Apricot S.](https://github.com/Apricot-S).
