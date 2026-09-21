@@ -43,6 +43,17 @@ struct BlockCountPatterns {
     b: BlockCounts,
 }
 
+impl BlockCountPatterns {
+    fn update(&mut self, other: Self) {
+        if other.a.is_a_better_than(&self.a) {
+            self.a = other.a;
+        }
+        if other.b.is_b_better_than(&self.b) {
+            self.b = other.b;
+        }
+    }
+}
+
 impl BlockCounts {
     fn is_a_better_than(&self, other: &BlockCounts) -> bool {
         self.isolated < other.isolated
@@ -109,12 +120,7 @@ fn count_suit_blocks(single_color_hand: &mut [TileCount], n: usize) -> BlockCoun
 
         r.a.melds += 1;
         r.b.melds += 1;
-        if r.a.is_a_better_than(&max.a) {
-            max.a = r.a;
-        }
-        if r.b.is_b_better_than(&max.b) {
-            max.b = r.b;
-        }
+        max.update(r);
     }
 
     // triplet
@@ -125,12 +131,7 @@ fn count_suit_blocks(single_color_hand: &mut [TileCount], n: usize) -> BlockCoun
 
         r.a.melds += 1;
         r.b.melds += 1;
-        if r.a.is_a_better_than(&max.a) {
-            max.a = r.a;
-        }
-        if r.b.is_b_better_than(&max.b) {
-            max.b = r.b;
-        }
+        max.update(r);
     }
 
     max
