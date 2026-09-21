@@ -207,9 +207,7 @@ no pre-calculated suit tables are used.
   behavior for benchmarking against corrected implementations.
 - Known incorrect cases: hands with insufficient blocks. A hand has insufficient
   blocks when fewer than five blocks can be taken from it, counting isolated tiles
-  as blocks for this definition. For example, `1111z` returns zero instead of one.
-  The incomplete-hand case `234p567s` also returns zero instead of one because no
-  tile remains for a head. The block-deficiency limitation is examined in
+  as blocks for this definition. This limitation is examined in
   [ブロック分解方式向聴数計算アルゴリズムの精度の検証](https://zenn.dev/tomohxx/articles/aecace4e3a3bc1).
 
 ## Origin and references
