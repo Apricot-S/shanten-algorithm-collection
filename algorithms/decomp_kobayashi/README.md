@@ -225,8 +225,7 @@ combinations.
 
 - Devised by: [Satoshi Kobayashi](https://github.com/kobalab).
 - Primary source:
-  [kobalab/majiang-core, `lib/xiangting.js`](https://github.com/kobalab/majiang-core/blob/master/lib/xiangting.js).
-  The original port's upstream version or commit is not recorded in this crate.
+  [`lib/xiangting.js` from `kobalab/majiang-core` v1.4.1](https://github.com/kobalab/majiang-core/blob/v1.4.1/lib/xiangting.js).
 - Additional reference:
   [対戦型麻雀ゲームAIのアルゴリズムと実装](https://www.amazon.co.jp/dp/4798067881).
 - Additional reference:
