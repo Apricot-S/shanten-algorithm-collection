@@ -1,7 +1,5 @@
 # Dummy
 
-## Purpose
-
 This crate is the minimal reference implementation for integrating an algorithm with
 the shared interface and benchmark harness.
 

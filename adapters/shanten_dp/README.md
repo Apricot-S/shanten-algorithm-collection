@@ -1,7 +1,5 @@
 # shanten-dp Adapter
 
-## Purpose
-
 This crate adapts `shanten-dp` to the shared benchmark harness.
 
 ## Upstream and pinned version

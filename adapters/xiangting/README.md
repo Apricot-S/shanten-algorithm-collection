@@ -1,7 +1,5 @@
 # xiangting Adapter
 
-## Purpose
-
 This crate adapts `xiangting` to the shared benchmark harness.
 
 ## Upstream and pinned version
