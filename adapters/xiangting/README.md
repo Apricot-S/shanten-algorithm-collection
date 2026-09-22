@@ -28,10 +28,5 @@ Upstream input validation is enabled by the public API. Benchmark inputs are exp
 
 ## Result meaning
 
-The upstream replacement number is converted to the conventional shanten number by subtracting one. Because special hand forms and validation are included, timings are not a same-mode comparison with the general-only `shanten-dp` adapter.
-
-## Commands
-
-```sh
-cargo bench --package sac_xiangting --features benchmark
-```
+The upstream replacement number is converted to the conventional shanten number by subtracting one.
+Because special hand forms and validation are included, benchmark timings also include their overhead.

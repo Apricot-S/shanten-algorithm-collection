@@ -31,10 +31,3 @@ Argument validation is disabled with `check_hand = false`.
 ## Result meaning
 
 The adapter returns the upstream general-form shanten number directly and runs the shared correctness suite.
-
-## Commands
-
-```sh
-cargo test --package sac_shanten_dp
-cargo bench --package sac_shanten_dp --features benchmark
-```
