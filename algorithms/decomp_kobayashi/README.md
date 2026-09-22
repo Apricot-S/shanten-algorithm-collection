@@ -236,3 +236,9 @@ combinations.
 - Calls are inferred from the input tile count instead of an explicit meld list.
 - The upstream game-state check that changes a winning score to zero during a
   call before the discard is omitted; the calculator has no corresponding state.
+
+## License
+
+The upstream `kobalab/majiang-core` implementation is distributed under the
+[MIT License](https://github.com/kobalab/majiang-core/blob/v1.4.1/LICENSE).
+Copyright (c) 2021 [Satoshi Kobayashi](https://github.com/kobalab).
