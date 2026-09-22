@@ -7,7 +7,7 @@ This crate adapts `xiangting` to the shared benchmark harness.
 ## Upstream and pinned version
 
 - Source: <https://github.com/Apricot-S/xiangting>
-- Version: exactly 6.0.1
+- Version: exactly 6.0.2
 
 ## License
 
