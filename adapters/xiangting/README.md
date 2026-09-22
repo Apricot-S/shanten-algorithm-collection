@@ -11,7 +11,7 @@ This crate adapts `xiangting` to the shared benchmark harness.
 
 ## License
 
-MIT. See the workspace `THIRD-PARTY-NOTICES.md`.
+MIT License. See the workspace `THIRD-PARTY-NOTICES.md`.
 
 ## Adapter configuration
 
@@ -33,6 +33,5 @@ The upstream replacement number is converted to the conventional shanten number 
 ## Commands
 
 ```sh
-cargo test --package sac_xiangting
 cargo bench --package sac_xiangting --features benchmark
 ```

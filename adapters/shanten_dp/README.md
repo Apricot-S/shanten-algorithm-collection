@@ -11,7 +11,7 @@ This crate adapts `shanten-dp` to the shared benchmark harness.
 
 ## License
 
-MIT. See the workspace `THIRD-PARTY-NOTICES.md`.
+MIT License. See the workspace `THIRD-PARTY-NOTICES.md`.
 
 ## Adapter configuration
 
@@ -22,7 +22,7 @@ MIT. See the workspace `THIRD-PARTY-NOTICES.md`.
 
 ## Calculation scope
 
-Only the general-form shanten number is calculated. This differs from the `xiangting` adapter, which also considers Seven Pairs and Thirteen Orphans.
+Only the general-form shanten number is calculated.
 
 ## Validation
 
