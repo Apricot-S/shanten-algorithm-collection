@@ -5,7 +5,7 @@ This crate adapts `xiangting` to the shared benchmark harness.
 ## Upstream and pinned version
 
 - Source: <https://github.com/Apricot-S/xiangting>
-- Version: exactly 6.0.2
+- Version: 6.0.2
 
 ## License
 
@@ -18,11 +18,12 @@ MIT License. See the workspace `THIRD-PARTY-NOTICES.md`.
 
 ## Calculation scope
 
-The result is the minimum over the general form, Seven Pairs, and Thirteen Orphans. The public upstream function cannot be restricted to the general form.
+The result is the minimum over the general form, Seven Pairs, and Thirteen Orphans.
+The public upstream function cannot be restricted to the general form.
 
 ## Validation
 
-Upstream input validation is enabled by the public API. Benchmark inputs are expected to be valid four-player hands.
+Upstream input validation is enabled by the public API.
 
 ## Result meaning
 

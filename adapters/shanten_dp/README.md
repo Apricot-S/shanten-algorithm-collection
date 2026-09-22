@@ -5,7 +5,7 @@ This crate adapts `shanten-dp` to the shared benchmark harness.
 ## Upstream and pinned version
 
 - Source: <https://github.com/tomohxx/shanten-dp-rust>
-- Version: exactly 0.3.2
+- Version: 0.3.2
 
 ## License
 
